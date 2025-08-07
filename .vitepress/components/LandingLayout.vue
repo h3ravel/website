@@ -44,7 +44,7 @@
       <p>
         {{
           frontmatter.heroTitle ??
-          "A modern TypeScript runtime-agnostic web framework built on top of H3."
+          'A modern TypeScript runtime-agnostic web framework built on top of H3.'
         }}
       </p>
       <div class="cta-buttons">
@@ -52,7 +52,7 @@
           :href="frontmatter.herorLink ?? '/guide/installation'"
           class="btn btn-primary"
         >
-          {{ frontmatter.heroLinkTitle ?? "Get Started" }}
+          {{ frontmatter.heroLinkTitle ?? 'Get Started' }}
         </a>
         <a
           href="https://github.com/h3ravel"
@@ -120,7 +120,7 @@
   <footer class="footer">
     <div class="footer-content">
       <div class="footer-links">
-        <a href="/guide/installation">Docs</a>
+        <a href="/introduction">Docs</a>
         <a href="https://github.com/h3ravel" target="_blank">GitHub</a>
         <a href="https://discord.gg/hsG2A8PuGb">Community</a>
       </div>
@@ -132,10 +132,10 @@
 </template>
 
 <script setup lang="ts">
-import "vitepress/dist/client/theme-default/styles/icons.css";
-import "../theme/landing.scss";
-import { useData } from "vitepress";
-import DarkToggle from "./DarkToggle.vue";
+import 'vitepress/dist/client/theme-default/styles/icons.css';
+import '../theme/landing.scss';
+import { useData } from 'vitepress';
+import DarkToggle from './DarkToggle.vue';
 
 const { theme, site, frontmatter } = useData();
 </script>
