@@ -122,6 +122,7 @@
       <div class="footer-links">
         <a href="/introduction">Docs</a>
         <a href="https://github.com/h3ravel" target="_blank">GitHub</a>
+        <a href="/contributing" target="_blank">Contributing</a>
         <a href="https://discord.gg/hsG2A8PuGb">Community</a>
       </div>
       <div class="footer-copyright">
