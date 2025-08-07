@@ -3,6 +3,7 @@ import { defineConfig } from 'vitepress'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "H3ravel",
+  cleanUrls: true,
   description: "Modern TypeScript runtime-agnostic web framework built on top of H3.",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
