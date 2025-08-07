@@ -61,5 +61,17 @@ export default defineConfig({
       'script',
       { crossorigin: 'anonymous', src: 'https://kit.fontawesome.com/c62c7da348.js' }
     ],
+    [
+      'script',
+      { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=G-ZFZEMNDJTV' }
+    ],
+    [
+      'script',
+      {},
+      `window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-ZFZEMNDJTV');`
+    ]
   ],
 })
