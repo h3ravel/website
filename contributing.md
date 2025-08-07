@@ -12,12 +12,6 @@ While a working knowlege of Serverside programing and JavaScript is enough to co
 
 Understanding the fundamentals of dependency injection, middleware pipelines, and modern service container patterns will be a big plus.
 
-## Community
-
-- [Join the conversation](https://github.com/orgs/h3ravel/discussions)
-- [Lend your ideas](https://github.com/orgs/h3ravel/discussions/11)
-- [Join the Community on Discord](https://discord.gg/hsG2A8PuGb)
-
 ## AI Contribution
 
 We recognize that AI has come to stay and is gradually becoming a permanent part of our development landscape, this changes our approach to work and the way we collaborate. We have 100% tollerance for AI generated contributions provided they meet the following criteria:
@@ -117,6 +111,12 @@ Write concise, meaningful commit messages to clarify changes for collaborators.
 ### Why It Matters
 
 A clear commit history streamlines code reviews, collaboration, and debugging, maintaining project organization and quality.
+
+## Join the Community
+
+- [General Discussions](https://github.com/orgs/h3ravel/discussions/10)
+- [Lend your ideas](https://github.com/orgs/h3ravel/discussions/11)
+- [Discord Server](https://discord.gg/hsG2A8PuGb)
 
 ### Thank You for Contributing
 
