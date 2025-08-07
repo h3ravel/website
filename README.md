@@ -64,16 +64,16 @@ h3ravel/
 
 ## Roadmap
 
-- <i class="fas fa-square-check"></i> Application container with service providers
-- <i class="fas fa-square-check"></i> Middleware pipeline and HTTP kernel
-- <i class="fas fa-square-check"></i> Routing system
-- <i class="fas fa-square-check"></i> Config management and environment handling
-- <i class="fas fa-square"></i> Community Building
-- <i class="fas fa-square"></i> Musket CLI (artisan-like commands)
-- <i class="fas fa-square"></i> Cache Management
-- <i class="fas fa-square"></i> Queues, Mail, Events, Broadcasting
-- <i class="fas fa-square"></i> H3loquent ORM with relationships (Eloquent-style)
-- <i class="fas fa-square"></i> First-class runtime adapters (Node, Bun, Deno)
+- [x] Application container with service providers
+- [x] Middleware pipeline and HTTP kernel
+- [x] Routing system
+- [x] Config management and environment handling
+- [ ] Community Building
+- [ ] Musket CLI (artisan-like commands)
+- [ ] Cache Management
+- [ ] Queues, Mail, Events, Broadcasting
+- [ ] H3loquent ORM with relationships (Eloquent-style)
+- [ ] First-class runtime adapters (Node, Bun, Deno)
 
 ## Security Vulnerabilities
 
