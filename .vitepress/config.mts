@@ -40,6 +40,7 @@ export default defineConfig({
               { text: 'Views', link: '/guide/views' }
             ]
           },
+          { text: 'Contributing', link: '/contributing' },
         ]
       }
     ],

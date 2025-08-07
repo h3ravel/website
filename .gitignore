@@ -1,5 +1,6 @@
 /.vitepress/dist
 /.vitepress/cache
+.DS_Store
 
 # Dependency directories
 node_modules/
