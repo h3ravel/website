@@ -1,0 +1,6 @@
+/.vitepress/dist
+/.vitepress/cache
+
+# Dependency directories
+node_modules/
+jspm_packages/
