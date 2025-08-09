@@ -75,6 +75,19 @@ h3ravel/
 - <icon name="fas fa-square" /> H3loquent ORM with relationships (Eloquent-style)
 - <icon name="fas fa-square" /> First-class runtime adapters (Node, Bun, Deno)
 
+## Alpha Warning!
+
+This project is currently under development.
+There may still be major changes.
+
+If you have any issues or questions or just want to give us feedback, join our [Discord](https://discord.gg/hsG2A8PuGb).
+
+## State of the Docs
+
+This documentation is a work in progress.
+We are constantly working on improving it.
+If you have any questions or suggestions, feel free to use our [Discord](https://discord.gg/hsG2A8PuGb) or create an issue or improving PR in the Docs repo.
+
 ## Security Vulnerabilities
 
 If you discover a security vulnerability within H3ravel, please send an e-mail to Legacy via hamzas.legacy@toneflix.net. All security vulnerabilities will be promptly addressed.

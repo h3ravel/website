@@ -52,7 +52,8 @@ export default defineConfig({
     },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/h3ravel' }
+      { icon: 'github', link: 'https://github.com/h3ravel' },
+      { icon: 'discord', link: 'https://discord.gg/hsG2A8PuGb' }
     ]
   },
 
