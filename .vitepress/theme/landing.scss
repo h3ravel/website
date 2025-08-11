@@ -105,6 +105,9 @@ html.dark {
       place-items: center;
       gap: 5;
       margin-right: -8px;
+      button {
+        margin: 0.5rem 0.3rem;
+      }
       a {
         display: flex;
         justify-content: center;
@@ -120,9 +123,6 @@ html.dark {
           &:after {
             display: none;
           }
-        }
-        button {
-          margin: 0.5rem 0.3rem;
         }
       }
       a > svg,
