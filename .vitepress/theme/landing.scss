@@ -44,7 +44,7 @@ html.dark {
   }
 
   body {
-    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
       sans-serif;
     line-height: 1.6;
     color: var(--text-primary);
@@ -113,9 +113,16 @@ html.dark {
         // height: 36px;
         color: var(--vp-c-text-2);
         transition: color 0.5s;
+        &:hover {
+          background: transparent;
+          transform: none;
+          &:after {
+            display: none;
+          }
+        }
       }
       a > svg,
-      a > [class^="vpi-social-"] {
+      a > [class^='vpi-social-'] {
         width: 20px;
         height: 20px;
         fill: currentColor;
@@ -139,7 +146,7 @@ html.dark {
   }
 
   .nav-links a::after {
-    content: "";
+    content: '';
     position: absolute;
     bottom: -4px;
     left: 50%;
@@ -184,7 +191,7 @@ html.dark {
   }
 
   .hero::before {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
@@ -240,7 +247,7 @@ html.dark {
   }
 
   .btn::before {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     left: -100%;
@@ -326,7 +333,7 @@ html.dark {
   }
 
   .feature-card::before {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
