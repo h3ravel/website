@@ -38,7 +38,8 @@ export default defineConfig({
               { text: 'Requests', link: '/guide/requests' },
               { text: 'Responses', link: '/guide/responses' },
               { text: 'API Resource & Collections', link: '/guide/api-resources' },
-              { text: 'Views', link: '/guide/views' }
+              { text: 'Views', link: '/guide/views' },
+              { text: 'Mail', link: '/guide/mail' },
             ]
           },
           { text: 'Contributing', link: '/contributing' },
