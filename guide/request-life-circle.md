@@ -53,11 +53,12 @@ Services such as `config`, `view` (Edge), and `HTTP` are registered here.
 
 ```ts
 const kernel = new Kernel(
-  (event) => ({
-    app,
-    request: new Request(event, app),
-    response: new Response(event, app),
-  }),
+  (event) =>
+    HttpContext.init({
+      app,
+      request: new Request(event, app),
+      response: new Response(event, app),
+    }),
   [new LogRequests()]
 );
 ```
@@ -77,8 +78,8 @@ The `Kernel.handle()` method converts `H3Event` into the `HttpContext`, dynamica
 ```ts
 const ctx = this.context(event);
 
-app.bind("view", () => async (template, params) => {
-  const edge = app.make("edge");
+app.bind('view', () => async (template, params) => {
+  const edge = app.make('edge');
   return ctx.response.html(await edge.render(template, params));
 });
 ```
