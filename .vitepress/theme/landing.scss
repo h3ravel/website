@@ -113,12 +113,16 @@ html.dark {
         // height: 36px;
         color: var(--vp-c-text-2);
         transition: color 0.5s;
+        padding: 0.5rem 0.3rem;
         &:hover {
           background: transparent;
           transform: none;
           &:after {
             display: none;
           }
+        }
+        button {
+          margin: 0.5rem 0.3rem;
         }
       }
       a > svg,
