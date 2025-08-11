@@ -23,9 +23,9 @@ export default defineConfig({
             text: 'Architecture',
             collapsed: true,
             items: [
-              { text: 'Service Providers', link: '/guide/providers' },
-              { text: 'Request Life Circle', link: '/guide/request-life-circle' },
-              { text: 'Service Container', link: '/guide/container' },
+              { text: 'Service Providers', link: '/guide/architecture/providers' },
+              { text: 'Request Life Circle', link: '/guide/architecture/request-life-circle' },
+              { text: 'Service Container', link: '/guide/architecture/container' },
             ]
           },
           {
@@ -39,7 +39,13 @@ export default defineConfig({
               { text: 'Responses', link: '/guide/responses' },
               { text: 'API Resource & Collections', link: '/guide/api-resources' },
               { text: 'Views', link: '/guide/views' },
-              { text: 'Mail', link: '/guide/mail' },
+            ]
+          },
+          {
+            text: 'Advanced',
+            collapsed: true,
+            items: [
+              { text: 'Mail', link: '/guide/deeper/mail' },
             ]
           },
           { text: 'Contributing', link: '/contributing' },
