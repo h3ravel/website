@@ -8,8 +8,8 @@ H3ravel is a modern TypeScript runtime-agnostic web framework built on top of [H
 - Clean Routing – Dedicated routes directory with web and api route files
 - Controllers with decorators – Class-based controllers like Laravel
 - HTTP Kernel – Centralized middleware and request lifecycle handling
-- Eloquent-like ORM – Fluent, model-based database interactions (planned)
-- Musket CLI, our Powerful Artisan-like command-line tool for generating code and running tasks
+- Arquebus ORM (CS) – Fluent, model-based database interactions
+- Musket CLI (CS) - Our Powerful Artisan-like command-line tool for generating code and running tasks
 - Modular Services – Mail, Queue, Cache, Broadcasting support
 - Runtime Agnostic – Works seamlessly across Node.js, Bun, and Deno
 - Type-safe everything – Fully written in TypeScript
@@ -61,6 +61,7 @@ h3ravel/
 - Minimal, yet scalable – Built on H3’s tiny but powerful HTTP handling, keeping your app fast and maintainable.
 - Runtime Freedom – Designed to run on Node.js, Bun, and Deno without code changes.
 - Convention over configuration – Opinionated structure for faster development.
+- DRY - We take the DRY priciple very seriously and reuse anything and everything we can find in the open, maybe slightly repurposed, but yeah! We do.
 
 ## Roadmap
 
@@ -72,7 +73,7 @@ h3ravel/
 - <icon name="fas fa-square" /> Musket CLI (artisan-like commands)
 - <icon name="fas fa-square" /> Cache Management
 - <icon name="fas fa-square" /> Queues, Mail, Events, Broadcasting
-- <icon name="fas fa-square" /> H3loquent ORM with relationships (Eloquent-style)
+- <icon name="fas fa-square" /> Arquebus ORM with relationships (Eloquent-style)
 - <icon name="fas fa-square" /> First-class runtime adapters (Node, Bun, Deno)
 
 ## Alpha Warning!

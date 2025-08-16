@@ -19,9 +19,9 @@ features:
     details: Intuitive and expressive routing system that makes defining your application's endpoints a breeze.
   - title: HTTP Kernel
     details: Powerful HTTP kernel for handling requests, responses, and middleware pipeline execution.
-  - title: Eloquent-like ORM (Planned)
+  - title: Arquebus ORM (CS)
     details: Beautiful, expressive ORM inspired by Laravel's Eloquent, designed for TypeScript applications.
-  - title: Musket CLI
+  - title: Musket CLI (CS)
     details: Comprehensive command-line interface for scaffolding, development, and deployment tasks.
   - title: Modular Services
     details: Clean service architecture with dependency injection and modular design patterns.
@@ -35,7 +35,7 @@ reasons:
     details: Brings the beautiful syntax and developer experience of Laravel to the TypeScript world, maintaining the elegance and simplicity that developers love.
   - icon: ts
     title: TypeScript-First
-    color: "#1976d2"
+    color: '#1976d2'
     details: Built from the ground up with TypeScript, providing excellent type safety, IntelliSense, and modern development tooling out of the box.
   - icon: h3
     title: Built on H3
