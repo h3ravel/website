@@ -13,19 +13,19 @@ You may customize the initial project output using CLI flags but you can skip al
 ::: code-group
 
 ```sh [npm]
-npm init h3ravel@latest
+$ npm init h3ravel@latest
 ```
 
 ```sh [pnpm]
-pnpm create h3ravel@latest
+$ pnpm create h3ravel@latest
 ```
 
 ```sh [yarn]
-yarn create h3ravel@latest
+$ yarn create h3ravel@latest
 ```
 
 ```sh [bun]
-bun create h3ravel@latest
+$ bun create h3ravel@latest
 ```
 
 :::
@@ -39,19 +39,19 @@ You can pass the target installation directory with `location` as the first argu
 ::: code-group
 
 ```sh [npm]
-npm init h3ravel@latest my-app
+$ npm init h3ravel@latest my-app
 ```
 
 ```sh [pnpm]
-pnpm create h3ravel@latest my-app
+$ pnpm create h3ravel@latest my-app
 ```
 
 ```sh [yarn]
-yarn create h3ravel@latest my-app
+$ yarn create h3ravel@latest my-app
 ```
 
 ```sh [bun]
-bun create h3ravel@latest my-app
+$ bun create h3ravel@latest my-app
 ```
 
 :::
@@ -68,58 +68,58 @@ You can also use your own starter kit hosted on Github, Gitlab, or Bitbucket, us
 
 ```sh [npm]
 # Download from GitHub
-npm init h3ravel -- --kit="github:github_user/repo"
+$ npm init h3ravel -- --kit="github:github_user/repo"
 
 # Github is the default provider, so if not specified, it will be assumed as github
-npm init h3ravel -- --kit="github_user/repo"
+$ npm init h3ravel -- --kit="github_user/repo"
 
 # Download from GitLab
-npm init h3ravel -- --kit="gitlab:user/repo"
+$ npm init h3ravel -- --kit="gitlab:user/repo"
 
 # Download from BitBucket
-npm init h3ravel -- --kit="bitbucket:user/repo"
+$ npm init h3ravel -- --kit="bitbucket:user/repo"
 ```
 
 ```sh [pnpm]
 # Download from GitHub
-pnpm create h3ravel -- --kit="github:github_user/repo"
+$ pnpm create h3ravel -- --kit="github:github_user/repo"
 
 # Github is the default provider, so if not specified, it will be assumed as github
-pnpm create h3ravel -- --kit="github_user/repo"
+$ pnpm create h3ravel -- --kit="github_user/repo"
 
 # Download from GitLab
-pnpm create h3ravel -- --kit="gitlab:user/repo"
+$ pnpm create h3ravel -- --kit="gitlab:user/repo"
 
 # Download from BitBucket
-pnpm create h3ravel -- --kit="bitbucket:user/repo"
+$ pnpm create h3ravel -- --kit="bitbucket:user/repo"
 ```
 
 ```sh [yarn]
 # Download from GitHub
-yarn create h3ravel -- --kit="github:github_user/repo"
+$ yarn create h3ravel -- --kit="github:github_user/repo"
 
 # Github is the default provider, so if not specified, it will be assumed as github
-yarn create h3ravel -- --kit="github_user/repo"
+$ yarn create h3ravel -- --kit="github_user/repo"
 
 # Download from GitLab
-yarn create h3ravel -- --kit="gitlab:user/repo"
+$ yarn create h3ravel -- --kit="gitlab:user/repo"
 
 # Download from BitBucket
-yarn create h3ravel -- --kit="bitbucket:user/repo"
+$ yarn create h3ravel -- --kit="bitbucket:user/repo"
 ```
 
 ```sh [bun]
 # Download from GitHub
-bun create h3ravel -- --kit="github:github_user/repo"
+$ bun create h3ravel -- --kit="github:github_user/repo"
 
 # Github is the default provider, so if not specified, it will be assumed as github
-bun create h3ravel -- --kit="github_user/repo"
+$ bun create h3ravel -- --kit="github_user/repo"
 
 # Download from GitLab
-bun create h3ravel -- --kit="gitlab:user/repo"
+$ bun create h3ravel -- --kit="gitlab:user/repo"
 
 # Download from BitBucket
-bun create h3ravel -- --kit="bitbucket:user/repo"
+$ bun create h3ravel -- --kit="bitbucket:user/repo"
 ```
 
 :::
@@ -130,34 +130,34 @@ You can also pass the branch or tag name as follows:
 
 ```sh [npm]
 # Branch name
-npm init h3ravel -- --kit="github:github_user/repo#branch-name"
+$ npm init h3ravel -- --kit="github:github_user/repo#branch-name"
 
 # Tag name
-npm init h3ravel -- --kit="github:github_user/repo#v1.0.0"
+$ npm init h3ravel -- --kit="github:github_user/repo#v1.0.0"
 ```
 
 ```sh [pnpm]
 # Branch name
-pnpm create h3ravel -- --kit="github:github_user/repo#branch-name"
+$ pnpm create h3ravel -- --kit="github:github_user/repo#branch-name"
 
 # Tag name
-pnpm create h3ravel -- --kit="github:github_user/repo#v1.0.0"
+$ pnpm create h3ravel -- --kit="github:github_user/repo#v1.0.0"
 ```
 
 ```sh [yarn]
 # Branch name
-yarn create h3ravel -- --kit="github:github_user/repo#branch-name"
+$ yarn create h3ravel -- --kit="github:github_user/repo#branch-name"
 
 # Tag name
-yarn create h3ravel -- --kit="github:github_user/repo#v1.0.0"
+$ yarn create h3ravel -- --kit="github:github_user/repo#v1.0.0"
 ```
 
 ```sh [bun]
 # Branch name
-bun create h3ravel -- --kit="github:github_user/repo#branch-name"
+$ bun create h3ravel -- --kit="github:github_user/repo#branch-name"
 
 # Tag name
-bun create h3ravel -- --kit="github:github_user/repo#v1.0.0"
+$ bun create h3ravel -- --kit="github:github_user/repo#v1.0.0"
 ```
 
 :::
@@ -169,19 +169,19 @@ If you are using a custom starter kit hosted on a private repository, then you c
 ::: code-group
 
 ```sh [npm]
-npm init h3ravel -- --kit="github:github_user/repo" --token="github_token"
+$ npm init h3ravel -- --kit="github:github_user/repo" --token="github_token"
 ```
 
 ```sh [pnpm]
-pnpm create h3ravel -- --kit="github:github_user/repo" --token="github_token"
+$ pnpm create h3ravel -- --kit="github:github_user/repo" --token="github_token"
 ```
 
 ```sh [yarn]
-yarn create h3ravel -- --kit="github:github_user/repo" --token="github_token"
+$ yarn create h3ravel -- --kit="github:github_user/repo" --token="github_token"
 ```
 
 ```sh [bun]
-bun create h3ravel -- --kit="github:github_user/repo" --token="github_token"
+$ bun create h3ravel -- --kit="github:github_user/repo" --token="github_token"
 ```
 
 :::

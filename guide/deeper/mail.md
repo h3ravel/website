@@ -12,19 +12,19 @@ To begin sending mails, make sure the `@h3ravel/mail` package has been installed
 ::: code-group
 
 ```sh [npm]
-npm install @h3ravel/mail
+$ npm install @h3ravel/mail
 ```
 
 ```sh [pnpm]
-pnpm install @h3ravel/mail
+$ pnpm install @h3ravel/mail
 ```
 
 ```sh [yarn]
-yarn add @h3ravel/mail
+$ yarn add @h3ravel/mail
 ```
 
 ```sh [bun]
-bun install @h3ravel/mail
+$ bun install @h3ravel/mail
 ```
 
 :::

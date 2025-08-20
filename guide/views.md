@@ -19,10 +19,10 @@ View stored in `src/resources/views/greeting.edge`
 Since this view is stored at `src/resources/views/greeting.edge`, we may return it using the view binding like so:
 
 ```ts
-Route.get("/", function ({ app }) {
-  const view = app.make("view");
+Route.get('/', function ({ app }) {
+  const view = app.make('view');
 
-  return view("greeting", { name: "Legacy" });
+  return view('greeting', { name: 'Legacy' });
 });
 ```
 
@@ -37,19 +37,19 @@ To create a view, simply add a file with the `.edge` extension to your applicati
 ::: code-group
 
 ```sh [npm]
-npm run musket make:view greeting
+$ npm run musket make:view greeting
 ```
 
 ```sh [pnpm]
-pnpm musket make:view greeting
+$ pnpm musket make:view greeting
 ```
 
 ```sh [yarn]
-yarn musket make:view greeting
+$ yarn musket make:view greeting
 ```
 
 ```sh [bun]
-bun run musket make:view greeting
+$ bun run musket make:view greeting
 ```
 
 :::
@@ -59,10 +59,10 @@ The `.edge` extension tells the framework that the file contains an Edge templat
 After creating a view, you can return it from any of your application’s routes or controllers using the `view` binding:
 
 ```ts
-Route.get("/", function ({ app }) {
-  const view = app.make("view");
+Route.get('/', function ({ app }) {
+  const view = app.make('view');
 
-  return view("greeting", { name: "Legacy" });
+  return view('greeting', { name: 'Legacy' });
 });
 ```
 
@@ -71,7 +71,7 @@ Route.get("/", function ({ app }) {
 As demonstrated in earlier examples, you can pass data to views by providing an object, making the data accessible within the view:
 
 ```ts
-return view("greetings", { name: "Victoria" });
+return view('greetings', { name: 'Victoria' });
 ```
 
 Once the data is passed to the view, you can access each value using its corresponding key, for example, {{ name }} within the view.

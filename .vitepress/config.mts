@@ -48,6 +48,40 @@ export default defineConfig({
               { text: 'Mail', link: '/guide/deeper/mail' },
             ]
           },
+          {
+            text: 'Arquebus ORM',
+            collapsed: true,
+            items: [
+              {
+                text: 'Introduction', items: [
+                  { text: 'Getting Started', link: '/arquebus/' },
+                  { text: 'Installation', link: '/arquebus/installation' },
+                ]
+              },
+              {
+                text: 'Basics', items: [
+                  { text: 'Query Builder', link: '/arquebus/query-builder' },
+                  { text: 'Models', link: '/arquebus/models' },
+                  { text: 'Pagination', link: '/arquebus/pagination' },
+                  { text: 'Relationships', link: '/arquebus/relationships' },
+                  { text: 'Collections', link: '/arquebus/collections' },
+                  { text: 'Mutators', link: '/arquebus/mutators' },
+                  { text: 'Serialization', link: '/arquebus/serialization' },
+                  { text: 'Transactions', link: '/arquebus/transactions' },
+                  { text: 'Migrations', link: '/arquebus/migrations' },
+                  { text: 'Hooks', link: '/arquebus/hooks' },
+                  { text: 'Typescript', link: '/arquebus/typescript' },
+                  { text: 'Browser', link: '/arquebus/browser' },
+                ]
+              },
+              {
+                text: 'Plugins', items: [
+                  { text: 'Introduction', link: '/arquebus/plugin' },
+                  { text: 'Plugin List', link: '/arquebus/plugin-list' },
+                ]
+              },
+            ]
+          },
           { text: 'Contributing', link: '/contributing' },
         ]
       }
