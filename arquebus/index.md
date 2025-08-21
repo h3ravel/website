@@ -10,6 +10,7 @@ The name "Arquebus" is derived from the form of long gun that appeared in Europe
 
 ## Features
 
+- Framework-Agnostic – Arquebus ORM can be used on frameworks other than H3ravel.
 - Support Or Multiple Database – MySQL, PostgreSQL, SQLite, MariaDB and others.
 - Query Builder – A convenient, fluent interface to creating and running database queries.
 - Transactions – Easy To Use Transactions
