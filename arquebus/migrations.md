@@ -28,7 +28,7 @@ This will generate a `arquebus.config.js` file in the project directory, which i
 ```ts
 // Update with your config settings.
 
-module.exports = {
+export default {
   client: 'mysql2',
   connection: {
     host: 'localhost',
@@ -77,7 +77,7 @@ In both methods, you can use Schema builders to expressively create and modify t
 ```ts
 import { Migration } from '@h3ravel/arquebus';
 
-module.exports = class extends Migration {
+export default class extends Migration {
   /**
    * Run the migrations.
    */
@@ -96,7 +96,7 @@ module.exports = class extends Migration {
   async down(schema) {
     await schema.dropTableIfExists('flights');
   }
-};
+}
 ```
 
 ### Migration Connection
@@ -104,7 +104,7 @@ module.exports = class extends Migration {
 If your migration interacts with a database connection other than the default database connection of the application, you should set the `connection` property of the migration to specify the database connection to use.
 
 ```ts
-module.exports = class extends Migration {
+export default class extends Migration {
   connection = 'pgsql';
 
   /**
@@ -113,7 +113,7 @@ module.exports = class extends Migration {
   async up(schema) {
     // ...
   }
-};
+}
 ```
 
 ### Execute migration
@@ -153,7 +153,7 @@ Next we will create a new data table using the `createTable` method. `createTabl
 ```ts
 import { Migration } from '@h3ravel/arquebus';
 
-module.exports = class extends Migration {
+export default class extends Migration {
   /**
    * Run the migrations.
    */
@@ -172,7 +172,7 @@ module.exports = class extends Migration {
   async down(schema) {
     await schema.dropTableIfExists('users');
   }
-};
+}
 ```
 
 When you create a table, you can use the Database Structure Builder's columns method to define the table's columns.

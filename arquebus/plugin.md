@@ -50,7 +50,7 @@ It is recommended to create and export it in a separate file to ensure better ma
 // plugins/arquebus-slug.js
 import _ from 'lodash';
 
-const HasSlug = (Model) => {
+export const HasSlug = (Model) => {
   return class extends Model {
     static booted() {
       // Execute booted of the parent class
@@ -66,8 +66,6 @@ const HasSlug = (Model) => {
     }
   };
 };
-
-module.exports = HasSlug;
 ```
 
 This example uses [hooks](/arquebus/hooks). After completion, you can use the plug-in like this:
