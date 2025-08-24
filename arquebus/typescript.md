@@ -7,7 +7,7 @@ Despite the fact that Arquebus ORM is billed as a TypesScript rewrite (which it 
 Here are some basic examples:
 
 ```typescript
-import { Model } from 'arquebus';
+import { Model } from '@h3ravel/arquebus';
 
 // Define a basic model
 class User extends Model {
