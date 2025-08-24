@@ -48,7 +48,7 @@ It is recommended to create and export it in a separate file to ensure better ma
 
 ```ts
 // plugins/arquebus-slug.js
-import _express_ from 'lodash';
+import _ from 'lodash';
 
 const HasSlug = (Model) => {
   return class extends Model {
