@@ -40,6 +40,30 @@ $ pnpm add @h3ravel/arquebus mysql2
 
 :::
 
+## Initialize
+
+After installation run the following command to initialize arquebus:
+
+::: code-group
+
+```sh [npm]
+$ npm run arquebus init
+```
+
+```sh [yarn]
+$ yarn arquebus init
+```
+
+```sh [pnpm]
+$ pnpm arquebus init
+```
+
+This will create the `arquebus.config.[js|ts]` file at the root directory of your project.
+
+You can pass the `--type ts` flag to generate a typscript config instead.
+
+:::
+
 ### Connect
 
 If you use Arquebus ORM within H3ravel, use the [Database Connection Manager](/guide/database/connections) to setup your database connection.
@@ -86,4 +110,25 @@ await arquebus.schema().createTable('users', (table) => {
 // Using The ORM
 class User extends Model {}
 const users = await User.query().where('votes', '>', 100).get();
+```
+
+### Autoloading the configuration file
+
+Because the configuration files requires asynchronous loading, we do not auto load it by default, if you want skip using the `arquebus.addConnection` and allow the system to autommatically create a connection using the generated configuraiton file instead, you can call the asynchronous `arquebus.addConnection` method before calling `arquebus.connection`
+
+```ts
+import { arquebus, Model } from '@h3ravel/arquebus';
+
+const init = async () => {
+  const config = await arquebus.autoLoad();
+
+  return arquebus.connection(config.client);
+};
+
+const db = await init();
+
+// Now you can use the query builder and other methods
+const users = await arquebus.table('users').where('votes', '>', 100).get();
+// or
+const users = await db.table('users').where('votes', '>', 100).get();
 ```
