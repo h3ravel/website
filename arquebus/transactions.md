@@ -5,7 +5,7 @@ You may use the `transaction` method provided by the Arquebus ORM connection to 
 ```ts
 import { arquebus } from '@h3ravel/arquebus';
 
-const db = arquebus.connection();
+const db = arquebus.fire();
 
 await db.transaction(async (trx) => {
   await User.query().transacting(trx).create(/* ... */);
@@ -28,7 +28,7 @@ If you would like to begin a transaction manually and have complete control over
 ```ts
 import { arquebus } from '@h3ravel/arquebus';
 
-const db = arquebus.connection();
+const db = arquebus.fire();
 const trx = await db.beginTransaction();
 ```
 
@@ -49,7 +49,7 @@ Here is a complete example:
 ```ts
 import { arquebus } from '@h3ravel/arquebus';
 
-const db = arquebus.connection();
+const db = arquebus.fire();
 const trx = await db.beginTransaction();
 
 try {

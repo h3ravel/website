@@ -109,7 +109,7 @@ arquebus.addConnection(
   'another_mysql'
 );
 
-const db = arquebus.connection('another_mysql');
+const db = arquebus.fire('another_mysql');
 ```
 
 The connection options are passed directly to the appropriate database client to create the connection, and may be either an object, a connection string, or a function returning an object:

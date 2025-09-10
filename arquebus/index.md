@@ -93,7 +93,7 @@ In the following example, we select all the posts from the users table.
 ```ts
 import { arquebus, Model } from '@h3ravel/arquebus';
 
-const db = arquebus.connection();
+const db = arquebus.fire();
 
 // Using The Query Builder
 const users = await arquebus.table('users').where('votes', '>', 100).get();
@@ -114,7 +114,7 @@ const users = await User.query().where('votes', '>', 100).get();
 
 ### Autoloading the configuration file
 
-Because the configuration files requires asynchronous loading, we do not auto load it by default, if you want skip using the `arquebus.addConnection` and allow the system to autommatically create a connection using the generated configuraiton file instead, you can call the asynchronous `arquebus.addConnection` method before calling `arquebus.connection`
+Because the configuration files requires asynchronous loading, we do not auto load it by default, if you want skip using the `arquebus.addConnection` and allow the system to autommatically create a connection using the generated configuraiton file instead, you can call the asynchronous `arquebus.addConnection` method before calling `arquebus.fire`
 
 ```ts
 import { arquebus, Model } from '@h3ravel/arquebus';
@@ -122,7 +122,7 @@ import { arquebus, Model } from '@h3ravel/arquebus';
 const init = async () => {
   const config = await arquebus.autoLoad();
 
-  return arquebus.connection(config.client);
+  return arquebus.fire(config.client);
 };
 
 const db = await init();
