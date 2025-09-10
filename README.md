@@ -33,26 +33,26 @@ This combination delivers the productivity of Laravel while leveraging the moder
 ```
 h3ravel/
 └── src/
-│   └── config/            # Configuration files
+│   └── config/                # Configuration files
 │   ├── app/
 │   │   ├── http/
 │   │   │   ├── controllers/   # Controllers
 │   │   │   ├── middleware/    # Middleware
 |   |   └── Providers/         # Service Providers
 │   ├── resources/
-│   │   ├── views/         # Edge view files
-│   ├── routes/            # Route definitions
-│   │   ├── web.ts         # Web routes
-│   │   └── api.ts         # API routes
-│   ├── database/          # ORM, migrations, seeds
-│   ├── console/           # CLI commands
-│   ├── services/          # Mail, Queue, Cache
-│   ├── support/           # Helpers, utilities
-│   └── index.ts           # Main entry point
+│   │   ├── views/             # Edge view files
+│   ├── routes/                # Route definitions
+│   │   ├── web.ts             # Web routes
+│   │   └── api.ts             # API routes
+│   ├── database/              # ORM, migrations, seeds
+│   ├── console/               # CLI commands
+│   ├── services/              # Mail, Queue, Cache
+│   ├── support/               # Helpers, utilities
+│   └── index.ts               # Main entry point
 ├── storage
 │   └── app
-│       └── public         # default uploads directory
-└── public                 # public directory for public assets
+│       └── public             # default uploads directory
+└── public                     # public directory for public assets
 ```
 
 ## Philosophy
