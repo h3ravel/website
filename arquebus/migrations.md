@@ -120,56 +120,120 @@ export default class extends Migration {
 
 Execute the `migrate:run` command to run all unexecuted migrations:
 
-```bash
+::: code-group
+
+```bash [arquebus]
 $ npx arquebus migrate:run
 ```
 
+```bash [musket]
+$ npx musket migrate:run
+```
+
+:::
+
 If you want to see which migrations have been performed so far, you can use the `migrate:status` command:
 
-```bash
+::: code-group
+
+```bash [arquebus]
 $ npx arquebus migrate:status
 ```
+
+```bash [musket]
+$ npx musket migrate:status
+```
+
+:::
 
 ### Rollback migration
 
 If you want to roll back the last migration operation, you can use `migrate:rollback`. This command will roll back the last "batch" of migrations, which may include multiple migration files:
 
-```bash
+::: code-group
+
+```bash [arquebus]
 $ npx arquebus migrate:rollback
 ```
 
+```bash [musket]
+$ npx musket migrate:rollback
+```
+
+:::
+
 You can roll back a specified number of migrations by adding the `step` parameter to the `rollback` command. For example, the following command will roll back the last five migrations:
 
-```bash
+::: code-group
+
+```bash [arquebus]
 $ npx arquebus migrate:rollback --step=5
 ```
 
+```bash [musket]
+$ npx musket migrate:rollback --step=5
+```
+
+:::
+
 The `migrate:reset` command will roll back all of your application's migrations:
 
-```bash
+::: code-group
+
+```bash [arquebus]
 $ npx arquebus migrate:reset
 ```
+
+```bash [musket]
+$ npx musket migrate:reset
+```
+
+:::
 
 Roll Back and Migrate Using a Single Command
 The `migrate:refresh` command will roll back all of your migrations and then execute the migrate command. This command effectively re-creates your entire database:
 
-```bash
+::: code-group
+
+```bash [arquebus]
 $ npx arquebus migrate:refresh
 ```
 
+```bash [musket]
+$ npx musket migrate:refresh
+```
+
+:::
+
 You may roll back and re-migrate a limited number of migrations by providing the step option to the refresh command. For example, the following command will roll back and re-migrate the last five migrations:
 
-```bash
+::: code-group
+
+```bash [arquebus]
 $ npx arquebus migrate:refresh --step=5
 ```
+
+```bash [musket]
+$ npx musket migrate:refresh --step=5
+```
+
+:::
 
 #### Drop All Tables and Migrate
 
 The `migrate:fresh` command will drop all tables from the database and then execute the migrate command:
 
-```bash
+::: code-group
+
+```bash [arquebus]
 $ npx arquebus migrate:fresh
 ```
+
+```bash [musket]
+$ npx musket migrate:fresh
+```
+
+:::
 
 > The `migrate:fresh` command will drop all database tables regardless of their prefix. This command should be used with caution when developing on a database that is shared with other applications.
 
