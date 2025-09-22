@@ -144,6 +144,35 @@ You can roll back a specified number of migrations by adding the `step` paramete
 $ npx arquebus migrate:rollback --step=5
 ```
 
+The `migrate:reset` command will roll back all of your application's migrations:
+
+```bash
+$ npx arquebus migrate:reset
+```
+
+Roll Back and Migrate Using a Single Command
+The `migrate:refresh` command will roll back all of your migrations and then execute the migrate command. This command effectively re-creates your entire database:
+
+```bash
+$ npx arquebus migrate:refresh
+```
+
+You may roll back and re-migrate a limited number of migrations by providing the step option to the refresh command. For example, the following command will roll back and re-migrate the last five migrations:
+
+```bash
+$ npx arquebus migrate:refresh --step=5
+```
+
+#### Drop All Tables and Migrate
+
+The `migrate:fresh` command will drop all tables from the database and then execute the migrate command:
+
+```bash
+$ npx arquebus migrate:fresh
+```
+
+> The `migrate:fresh` command will drop all database tables regardless of their prefix. This command should be used with caution when developing on a database that is shared with other applications.
+
 ## Tables
 
 ### Create tables
