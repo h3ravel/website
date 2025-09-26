@@ -19,9 +19,9 @@ features:
     details: Intuitive and expressive routing system that makes defining your application's endpoints a breeze.
   - title: HTTP Kernel
     details: Powerful HTTP kernel for handling requests, responses, and middleware pipeline execution.
-  - title: Arquebus ORM (CS)
+  - title: Arquebus ORM
     details: Beautiful, expressive ORM inspired by Laravel's Eloquent, designed for TypeScript applications.
-  - title: Musket CLI (CS)
+  - title: Musket CLI
     details: Comprehensive command-line interface for scaffolding, development, and deployment tasks.
   - title: Modular Services
     details: Clean service architecture with dependency injection and modular design patterns.

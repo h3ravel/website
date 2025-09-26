@@ -1,16 +1,22 @@
-# Installation
+# Get Started
+
+## Installation
 
 Before creating a new application, make sure Node.js and npm are installed on your machine. h3ravel requires Node.js version 20 or higher.
 
 You can install Node.js using the official installer or via Volta, a cross-platform tool that lets you manage and run multiple Node.js versions on your system.
 
-## Project Scaffolding
+### Project Scaffolding
 
 These commands will download the create-h3ravel initializer package and begin the installation process.
 
 You may customize the initial project output using CLI flags but you can skip all that and just go ahead and install.
 
 ::: code-group
+
+```sh [npx]
+$ npx create h3ravel
+```
 
 ```sh [npm]
 $ npm init h3ravel@latest
@@ -30,9 +36,9 @@ $ bun create h3ravel@latest
 
 :::
 
-## Options and Arguments
+### Options and Arguments
 
-### `location`
+#### `location`
 
 You can pass the target installation directory with `location` as the first argument to the command. For example:
 
@@ -60,7 +66,7 @@ This argument is optional and the command will prompt you to enter the installat
 
 > **Note** - The target location directory must be empty or the command will fail.
 
-### `--kit` | `-k`
+#### `--kit` | `-k`
 
 You can also use your own starter kit hosted on Github, Gitlab, or Bitbucket, use the `--kit` flag to define the repo URL, if not provided, you will be prompted to choose from a list of available options.
 
@@ -162,7 +168,7 @@ $ bun create h3ravel -- --kit="github:github_user/repo#v1.0.0"
 
 :::
 
-### `--token` | `-t`
+#### `--token` | `-t`
 
 If you are using a custom starter kit hosted on a private repository, then you can pass the authentication token with the `--token` options:
 
@@ -185,3 +191,33 @@ $ bun create h3ravel -- --kit="github:github_user/repo" --token="github_token"
 ```
 
 :::
+
+## Start Developing
+
+Navigate into the newly created project folder and run the Musket CLI command to start the dev server.
+
+::: code-group
+
+```sh [npx]
+$ npx musket fire"
+```
+
+```sh [npm]
+$ npm musket fire"
+```
+
+```sh [pnpm]
+$ pnpm musket fire"
+```
+
+```sh [yarn]
+$ yarn musket fire"
+```
+
+```sh [bun]
+$ bun musket fire"
+```
+
+:::
+
+You’ll see the dev server compiling your new application and once it is finished, you'll get a link to open up your new app in your browser. That’s it! You can now develop your app with your favorite IDE / Code Editor.

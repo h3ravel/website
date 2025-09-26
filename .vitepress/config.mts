@@ -10,7 +10,7 @@ export default defineConfig({
     siteTitle: false,
     logo: '/logo-full.svg',
     nav: [
-      { text: 'Get Started', link: '/introduction' }
+      { text: 'Get Started', link: '/guide/get-started' }
     ],
 
     sidebar: [
@@ -18,7 +18,7 @@ export default defineConfig({
         text: 'Documentation',
         items: [
           { text: 'Introduction', link: '/introduction' },
-          { text: 'Installation', link: '/guide/installation' },
+          { text: 'Get Started', link: '/guide/get-started' },
           {
             text: 'Architecture',
             collapsed: true,

@@ -34,25 +34,9 @@ Want to dive deeper into writing Edge templates? Check out the full [Edge.js doc
 
 To create a view, simply add a file with the `.edge` extension to your application’s `src/resources/views` directory, or generate one using the `make:view` Musket command.
 
-::: code-group
-
-```sh [npm]
-$ npm run musket make:view greeting
+```sh
+$ npx musket make:view greeting
 ```
-
-```sh [pnpm]
-$ pnpm musket make:view greeting
-```
-
-```sh [yarn]
-$ yarn musket make:view greeting
-```
-
-```sh [bun]
-$ bun run musket make:view greeting
-```
-
-:::
 
 The `.edge` extension tells the framework that the file contains an Edge template, which can include plain HTML along with Edge directives for rendering values, handling conditionals, looping through data, and more.
 

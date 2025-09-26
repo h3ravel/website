@@ -49,7 +49,7 @@
       </p>
       <div class="cta-buttons">
         <a
-          :href="frontmatter.herorLink ?? '/guide/installation'"
+          :href="frontmatter.herorLink ?? '/guide/get-started'"
           class="btn btn-primary"
         >
           {{ frontmatter.heroLinkTitle ?? 'Get Started' }}
