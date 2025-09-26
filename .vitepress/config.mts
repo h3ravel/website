@@ -84,6 +84,7 @@ export default defineConfig({
             ]
           },
           { text: 'Contributing', link: '/contributing' },
+          { text: 'Changelogs', link: '/changelog' },
         ]
       }
     ],

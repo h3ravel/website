@@ -2,22 +2,15 @@
 
 All changes and features will be documented here.
 
-## 1.9.0
+## 1.11.0
 
-- refactor: move `musket fire` command to the http package
-- refactor: move `musket migrate` command to the database package
-- feat: add `list` musket command and move base command to core class.
-- feat: create filesystem package
-- feat: implement `make:view` command.
-- feat: bind the `view` method to the global variable space.
+- feat: allow the getPakageInstallCommand to also check general installs.
+- feat: add postinstall to script
 
-## 1.9.1
+## 1.10.0
 
-feat: improve Musket command and improve Make command structure.
-feat: implement make:view command.
-feat: bind the view method to the global variable space.
-fix: correct model creation bug on MakeCommand
-fix: general bug fixes
+- feat: add build command, fix bugs and update package versions.
+- feat: add a spawn script to quickly build the project and ensure consistency.
 
 ## 1.9.6
 
@@ -30,12 +23,19 @@ fix: general bug fixes
 - create the storage:link musket command.
 - fix: ensure that providers table can display conrrectly.
 
-## 1.10.0
+## 1.9.1
 
-- feat: add build command, fix bugs and update package versions.
-- feat: add a spawn script to quickly build the project and ensure consistency.
+feat: improve Musket command and improve Make command structure.
+feat: implement make:view command.
+feat: bind the view method to the global variable space.
+fix: correct model creation bug on MakeCommand
+fix: general bug fixes
 
-## 1.11.0
+## 1.9.0
 
-- feat: allow the getPakageInstallCommand to also check general installs.
-- feat: add postinstall to script
+- refactor: move `musket fire` command to the http package
+- refactor: move `musket migrate` command to the database package
+- feat: add `list` musket command and move base command to core class.
+- feat: create filesystem package
+- feat: implement `make:view` command.
+- feat: bind the `view` method to the global variable space.
