@@ -102,6 +102,16 @@ export default defineConfig({
 
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:url', content: 'https://h3ravel.toneflix.com' }],
+    ['meta', { property: 'og:title', content: 'The web framework that masks your fears' }],
+    ['meta', { property: 'og:image', content: 'https://h3ravel.toneflix.net/banner-small.jpg' }],
+    ['meta', { property: 'og:description', content: 'Modern TypeScript runtime-agnostic web framework built on top of H3 with Laravel\'s Elegance and TypeScript\'s Power' }],
+    ['meta', { property: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { property: 'twitter:url', content: 'https://h3ravel.toneflix.com' }],
+    ['meta', { property: 'twitter:title', content: 'The web framework that masks your fears' }],
+    ['meta', { property: 'twitter:image', content: 'https://h3ravel.toneflix.net/banner-small.jpg' }],
+    ['meta', { property: 'twitter:description', content: 'Modern TypeScript runtime-agnostic web framework built on top of H3 with Laravel\'s Elegance and TypeScript\'s Power' }],
     [
       'script',
       { crossorigin: 'anonymous', src: 'https://kit.fontawesome.com/c62c7da348.js' }
