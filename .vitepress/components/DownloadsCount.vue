@@ -1,9 +1,9 @@
 <script lang="ts">
-import { h, onBeforeMount } from 'vue';
+import { h, onBeforeMount, ref } from 'vue';
 
 export default {
   setup() {
-    let data = { count: 0, version: '0.0.0', time: '-' };
+    let data = ref({ count: 0, version: '0.0.0', time: '-' });
     const d = async () => {
       try {
         const [{ downloads }, { 'dist-tags': distTags, time }] =
@@ -18,9 +18,9 @@ export default {
             ),
           ]);
 
-        data.time = time.modified;
-        data.count = downloads;
-        data.version = distTags.latest;
+        data.value.time = time.modified;
+        data.value.count = downloads;
+        data.value.version = distTags.latest;
       } catch {}
     };
 
@@ -32,19 +32,19 @@ export default {
         {
           class: 'cta-buttons',
         },
-        data.count > 0
+        data.value.count > 0
           ? [
               h('div', {
                 class: 'downloads-counter',
-                innerHTML: `v${data.version}`,
+                innerHTML: `v${data.value.version}`,
               }),
               h('div', {
                 class: 'downloads-counter',
-                innerHTML: `${data.count} Downloads`,
+                innerHTML: `${data.value.count} Downloads`,
               }),
               h('div', {
                 class: 'downloads-counter',
-                innerHTML: `Last Updated ${data.time}`,
+                innerHTML: `Last Updated ${data.value.time}`,
               }),
             ]
           : []
