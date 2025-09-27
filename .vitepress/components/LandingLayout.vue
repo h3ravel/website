@@ -126,7 +126,9 @@
         <a href="https://discord.gg/hsG2A8PuGb" target="_blank">Community</a>
       </div>
       <div class="footer-copyright">
+        <DownloadsCount />
         <p>{{ theme.footer.copyright }}</p>
+        <p v-html="theme.footer.message"></p>
       </div>
     </div>
   </footer>
@@ -137,6 +139,7 @@ import 'vitepress/dist/client/theme-default/styles/icons.css';
 import '../theme/landing.scss';
 import { useData } from 'vitepress';
 import DarkToggle from './DarkToggle.vue';
+import DownloadsCount from './DownloadsCount.vue';
 
 const { theme, site, frontmatter } = useData();
 </script>

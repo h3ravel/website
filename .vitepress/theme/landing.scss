@@ -234,6 +234,15 @@ html.dark {
     gap: 1.5rem;
     justify-content: center;
     flex-wrap: wrap;
+    &:has(.downloads-counter) {
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+  }
+
+  .downloads-counter {
+    border: solid 1px;
+    padding: 0.5px 5px;
   }
 
   .btn {

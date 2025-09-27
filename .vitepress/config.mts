@@ -91,7 +91,7 @@ export default defineConfig({
 
     footer: {
       message: 'Released under the <a href="https://github.com/h3ravel/framework/blob/main/LICENSE">MIT License</a>.',
-      copyright: `© ${new Date().getFullYear()} H3ravel. All rights reserved.`
+      copyright: `© ${new Date().getFullYear()} H3ravel Framework. All rights reserved.`
     },
 
     socialLinks: [
