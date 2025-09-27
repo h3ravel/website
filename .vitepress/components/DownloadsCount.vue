@@ -1,22 +1,31 @@
 <script lang="ts">
-import { h } from 'vue';
-let data = { count: 0, version: '0.0.0', time: '-' };
-try {
-  const [{ downloads }, { 'dist-tags': distTags, time }] = await Promise.all([
-    fetch(
-      `https://api.npmjs.org/downloads/point/2025-06-01:${new Date().getFullYear()}-${
-        new Date().getMonth() + 1
-      }-${new Date().getDate()}/@h3ravel/core`
-    ).then((e) => e.json()),
-    fetch(`https://registry.npmjs.org/@h3ravel/core`).then((e) => e.json()),
-  ]);
-  data.time = time.modified;
-  data.count = downloads;
-  data.version = distTags.latest;
-} catch {}
+import { h, onBeforeMount } from 'vue';
 
 export default {
   setup() {
+    let data = { count: 0, version: '0.0.0', time: '-' };
+    const d = async () => {
+      try {
+        const [{ downloads }, { 'dist-tags': distTags, time }] =
+          await Promise.all([
+            fetch(
+              `https://api.npmjs.org/downloads/point/2025-06-01:${new Date().getFullYear()}-${
+                new Date().getMonth() + 1
+              }-${new Date().getDate()}/@h3ravel/core`
+            ).then((e) => e.json()),
+            fetch(`https://registry.npmjs.org/@h3ravel/core`).then((e) =>
+              e.json()
+            ),
+          ]);
+
+        data.time = time.modified;
+        data.count = downloads;
+        data.version = distTags.latest;
+      } catch {}
+    };
+
+    onBeforeMount(d);
+
     return () =>
       h(
         'div',
