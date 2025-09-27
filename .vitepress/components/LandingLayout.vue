@@ -126,7 +126,9 @@
         <a href="https://discord.gg/hsG2A8PuGb" target="_blank">Community</a>
       </div>
       <div class="footer-copyright">
-        <DownloadsCount />
+        <Suspense>
+          <DownloadsCount />
+        </Suspense>
         <p>{{ theme.footer.copyright }}</p>
         <p v-html="theme.footer.message"></p>
       </div>
