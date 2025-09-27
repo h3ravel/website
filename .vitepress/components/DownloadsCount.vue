@@ -4,7 +4,8 @@ import { h, onBeforeMount, ref } from 'vue';
 export default {
   setup() {
     let data = ref({ count: 0, version: '0.0.0', time: '-' });
-    const d = async () => {
+
+    onBeforeMount(async () => {
       try {
         const [{ downloads }, { 'dist-tags': distTags, time }] =
           await Promise.all([
@@ -22,9 +23,7 @@ export default {
         data.value.count = downloads;
         data.value.version = distTags.latest;
       } catch {}
-    };
-
-    onBeforeMount(d);
+    });
 
     return () =>
       h(
