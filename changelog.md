@@ -2,6 +2,18 @@
 
 All changes and features will be documented here.
 
+## @h3ravel/view - 0.1.0
+
+- feat: extract view system into separate @h3ravel/view package
+
+## @h3ravel/core - v1.12.0
+
+- feat: move all view logic out of core.
+
+## @h3ravel/support - v0.11.0
+
+- feat: implement common helpers library
+
 ## @h3ravel/router - v1.10.0
 
 - feat: add route:list musket command
