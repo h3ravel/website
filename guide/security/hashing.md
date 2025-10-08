@@ -68,7 +68,7 @@ export default defineConfig({
 You may hash a password by calling the make method on the `Hash` class if you use H3ravel or the `HashManager` class for fine grained control and off H3ravel use from the `@h3ravel/hashing` package:
 
 ```ts
-import { Controller, Injectable } from '@h3ravel/core';
+import { Controller } from '@h3ravel/core';
 import { Request } from '@h3ravel/http';
 import { Hash } from '@h3ravel/hashing';
 import { DB } from '@h3ravel/database';
