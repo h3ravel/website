@@ -31,22 +31,25 @@ export default {
         {
           class: 'cta-buttons',
         },
-        data.value.count > 0
-          ? [
-              h('div', {
-                class: 'downloads-counter',
-                innerHTML: `v${data.value.version}`,
-              }),
-              h('div', {
-                class: 'downloads-counter',
-                innerHTML: `${data.value.count} Downloads`,
-              }),
-              h('div', {
-                class: 'downloads-counter',
-                innerHTML: `Last Updated ${data.value.time}`,
-              }),
-            ]
-          : []
+        [
+          h('div', {
+            class: 'downloads-counter',
+            innerHTML: `v${data.value.version}`,
+          }),
+          h('div', {
+            class: 'downloads-counter',
+            innerHTML: `${data.value.count} Downloads`,
+          }),
+          h('div', {
+            class: 'downloads-counter',
+            innerHTML: `Last Updated ${data.value.time?.split('T').at(0)}`,
+          }),
+          h('a', {
+            href: '/changelog',
+            class: 'downloads-counter',
+            innerHTML: `Changelog`,
+          }),
+        ]
       );
   },
 };

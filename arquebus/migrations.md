@@ -58,15 +58,15 @@ export default {
 };
 ```
 
-You can then use the `migrate:make` command to generate database migrations. New migration files are placed in your `migrations` directory by default. Each migration file name contains a timestamp to allow Arquebus ORM to determine the order of migrations:
+You can then use the `make:migration` command to generate database migrations. New migration files are placed in your `migrations` directory by default. Each migration file name contains a timestamp to allow Arquebus ORM to determine the order of migrations:
 
 ```bash
-$ npx arquebus migrate:make create_flights_table
+$ npx arquebus make:migration create_flights_table
 ```
 
 Arquebus ORM will use the name of the migration file to guess the table name and whether the migration will create a new table. If Arquebus ORM is able to determine the name of the table from the name of the migration file, it will prepopulate the specified table in the generated migration file, or you can manually specify the table name directly in the migration file.
 
-If you want to specify a custom path for the generated migrations, you can use the `--path` option when executing the `migrate:make` command. The given path should be relative to the path where the command is executed.
+If you want to specify a custom path for the generated migrations, you can use the `--path` option when executing the `make:migration` command. The given path should be relative to the path where the command is executed.
 
 ### Migration structure
 

@@ -42,6 +42,11 @@ export default defineConfig({
             ]
           },
           {
+            text: 'Security', items: [
+              { text: 'Hashing', link: '/guide/security/hashing' },
+            ]
+          },
+          {
             text: 'Advanced',
             collapsed: true,
             items: [
@@ -50,7 +55,7 @@ export default defineConfig({
             ]
           },
           {
-            text: 'Arquebus ORM',
+            text: 'Database & Arquebus ORM',
             collapsed: true,
             items: [
               {
@@ -70,6 +75,7 @@ export default defineConfig({
                   { text: 'Serialization', link: '/arquebus/serialization' },
                   { text: 'Transactions', link: '/arquebus/transactions' },
                   { text: 'Migrations', link: '/arquebus/migrations' },
+                  { text: 'Seeding', link: '/arquebus/seeding' },
                   { text: 'Hooks', link: '/arquebus/hooks' },
                   { text: 'Typescript', link: '/arquebus/typescript' },
                   { text: 'Browser', link: '/arquebus/browser' },
@@ -96,7 +102,8 @@ export default defineConfig({
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/h3ravel' },
-      { icon: 'discord', link: 'https://discord.gg/hsG2A8PuGb' }
+      { icon: 'discord', link: 'https://discord.gg/hsG2A8PuGb' },
+      { icon: 'telegram', link: 'https://t.me/h3ravel' }
     ]
   },
 

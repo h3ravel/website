@@ -68,7 +68,6 @@
   <section style="margin-bottom: 15px"></section>
 
   <!-- Features Section -->
-
   <section id="features" class="section features" v-if="frontmatter.features">
     <div class="container">
       <h2 class="section-title">Features</h2>
