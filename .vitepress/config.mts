@@ -42,7 +42,9 @@ export default defineConfig({
             ]
           },
           {
-            text: 'Security', items: [
+            text: 'Security',
+            collapsed: true,
+            items: [
               { text: 'Hashing', link: '/guide/security/hashing' },
             ]
           },
