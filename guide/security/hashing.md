@@ -117,7 +117,7 @@ const Hash = new HashManager(config).init(basePath);
 
 ### Adjusting The Bcrypt Work Factor
 
-If you are using the Bcrypt algorithm, the `make` method allows you to manage the work factor of the algorithm using the rounds option; however, the default work factor managed by Laravel is acceptable for most applications:
+If you are using the Bcrypt algorithm, the `make` method allows you to manage the work factor of the algorithm using the rounds option; however, the default work factor managed by H3ravel is acceptable for most applications:
 
 ```ts
 const hashed = Hash.make('password', {
@@ -159,7 +159,7 @@ if (Hash.needsRehash(hashed)) {
 
 ### Hash Algorithm Verification
 
-To prevent hash algorithm manipulation, Laravel's `Hash.check` method will first verify the given hash was generated using the application's selected hashing algorithm. If the algorithms are different, a `RuntimeException` exception will be thrown.
+To prevent hash algorithm manipulation, H3ravel's `Hash.check` method will first verify the given hash was generated using the application's selected hashing algorithm. If the algorithms are different, a `RuntimeException` exception will be thrown.
 
 This is the expected behavior for most applications, where the hashing algorithm is not expected to change and different algorithms can be an indication of a malicious attack. However, if you need to support multiple hashing algorithms within your application, such as when migrating from one algorithm to another, you can disable hash algorithm verification by setting the `HASH_VERIFY` environment variable to `false`:
 
