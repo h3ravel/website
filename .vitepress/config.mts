@@ -54,6 +54,7 @@ export default defineConfig({
             items: [
               { text: 'Mail', link: '/guide/deeper/mail' },
               { text: 'Storage', link: '/guide/deeper/filesystem' },
+              { text: 'Musket CLI', link: '/guide/deeper/musket' },
             ]
           },
           {
