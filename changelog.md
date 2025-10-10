@@ -2,6 +2,14 @@
 
 All changes and features will be documented here.
 
+## @h3ravel/core - 1.16.1
+
+feat(core): allow musket verbose generic option to support v and vv as value so we can do -vvv
+
+## @h3ravel/console - 11.9.1
+
+feat(core): add v and vv as allowed values verbose flag so we can do -vvv
+
 ## @h3ravel/cache - 11.0.7
 
 - feat(cache): support service provider auto registration.
