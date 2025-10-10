@@ -12,13 +12,13 @@ Migration is database version control, which helps developers complete table str
 
 First, generate a configuration file.
 
-```bash
+```sh
 $ npx arquebus init
 ```
 
 If you want to install Arquebus ORM's command line tool globally, you can use the following command:
 
-```bash
+```sh
 $ npm install -g @h3ravel/arquebus
 $ arquebus init
 ```
@@ -60,7 +60,7 @@ export default {
 
 You can then use the `make:migration` command to generate database migrations. New migration files are placed in your `migrations` directory by default. Each migration file name contains a timestamp to allow Arquebus ORM to determine the order of migrations:
 
-```bash
+```sh
 $ npx arquebus make:migration create_flights_table
 ```
 
@@ -122,11 +122,11 @@ Execute the `migrate:run` command to run all unexecuted migrations:
 
 ::: code-group
 
-```bash [arquebus]
+```sh [arquebus]
 $ npx arquebus migrate:run
 ```
 
-```bash [musket]
+```sh [musket]
 $ npx musket migrate:run
 ```
 
@@ -136,11 +136,11 @@ If you want to see which migrations have been performed so far, you can use the 
 
 ::: code-group
 
-```bash [arquebus]
+```sh [arquebus]
 $ npx arquebus migrate:status
 ```
 
-```bash [musket]
+```sh [musket]
 $ npx musket migrate:status
 ```
 
@@ -152,11 +152,11 @@ If you want to roll back the last migration operation, you can use `migrate:roll
 
 ::: code-group
 
-```bash [arquebus]
+```sh [arquebus]
 $ npx arquebus migrate:rollback
 ```
 
-```bash [musket]
+```sh [musket]
 $ npx musket migrate:rollback
 ```
 
@@ -166,11 +166,11 @@ You can roll back a specified number of migrations by adding the `step` paramete
 
 ::: code-group
 
-```bash [arquebus]
+```sh [arquebus]
 $ npx arquebus migrate:rollback --step=5
 ```
 
-```bash [musket]
+```sh [musket]
 $ npx musket migrate:rollback --step=5
 ```
 
@@ -180,11 +180,11 @@ The `migrate:reset` command will roll back all of your application's migrations:
 
 ::: code-group
 
-```bash [arquebus]
+```sh [arquebus]
 $ npx arquebus migrate:reset
 ```
 
-```bash [musket]
+```sh [musket]
 $ npx musket migrate:reset
 ```
 
@@ -195,11 +195,11 @@ The `migrate:refresh` command will roll back all of your migrations and then exe
 
 ::: code-group
 
-```bash [arquebus]
+```sh [arquebus]
 $ npx arquebus migrate:refresh
 ```
 
-```bash [musket]
+```sh [musket]
 $ npx musket migrate:refresh
 ```
 
@@ -209,11 +209,11 @@ You may roll back and re-migrate a limited number of migrations by providing the
 
 ::: code-group
 
-```bash [arquebus]
+```sh [arquebus]
 $ npx arquebus migrate:refresh --step=5
 ```
 
-```bash [musket]
+```sh [musket]
 $ npx musket migrate:refresh --step=5
 ```
 
@@ -225,11 +225,11 @@ The `migrate:fresh` command will drop all tables from the database and then exec
 
 ::: code-group
 
-```bash [arquebus]
+```sh [arquebus]
 $ npx arquebus migrate:fresh
 ```
 
-```bash [musket]
+```sh [musket]
 $ npx musket migrate:fresh
 ```
 

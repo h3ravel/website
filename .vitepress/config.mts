@@ -39,6 +39,7 @@ export default defineConfig({
               { text: 'Responses', link: '/guide/responses' },
               { text: 'API Resource & Collections', link: '/guide/api-resources' },
               { text: 'Views', link: '/guide/views' },
+              { text: 'Url Generation', link: '/guide/urls' },
             ]
           },
           {
@@ -55,6 +56,7 @@ export default defineConfig({
               { text: 'Mail', link: '/guide/deeper/mail' },
               { text: 'Storage', link: '/guide/deeper/filesystem' },
               { text: 'Musket CLI', link: '/guide/deeper/musket' },
+              { text: 'Deployment', link: '/guide/deployment' },
             ]
           },
           {

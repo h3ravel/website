@@ -6,15 +6,55 @@
 
 By default, Musket CLI is installed with every H3ravel application. To see a list of all available commands, run:
 
-```sh
-npx musket list
+::: code-group
+
+```sh [npx]
+$ npx musket list
 ```
+
+```sh [npm]
+$ npm musket list
+```
+
+```sh [yarn]
+$ yarn musket list
+```
+
+```sh [pnpm]
+$ pnpm musket list
+```
+
+```sh [bun]
+$ bun musket list
+```
+
+:::
 
 Each command also includes a detailed **help screen** describing its available arguments and options. You can access it by prefixing the command name with `help`:
 
-```sh
-npx musket help migrate
+::: code-group
+
+```sh [npx]
+$ npx musket migrate
 ```
+
+```sh [npm]
+$ npm musket migrate
+```
+
+```sh [yarn]
+$ yarn musket migrate
+```
+
+```sh [pnpm]
+$ pnpm musket migrate
+```
+
+```sh [bun]
+$ bun musket migrate
+```
+
+:::
 
 ## Writing Commands
 
@@ -26,9 +66,29 @@ By convention, commands are stored in `src/app/Console/Commands`, though you can
 To generate a new command, use the `make:command` command. This creates a new command class in `src/app/Console/Commands`.
 If the directory doesn’t exist, it will be created automatically:
 
-```sh
-npx musket make:command SendEmails
+::: code-group
+
+```sh [npx]
+$ npx musket make:command SendEmails
 ```
+
+```sh [npm]
+$ npm musket make:command SendEmails
+```
+
+```sh [yarn]
+$ yarn musket make:command SendEmails
+```
+
+```sh [pnpm]
+$ pnpm musket make:command SendEmails
+```
+
+```sh [bun]
+$ bun musket make:command SendEmails
+```
+
+:::
 
 ### Command Structure
 
@@ -217,61 +277,108 @@ public async handle(): Promise<void> {
 
 ## Defining Input Expectations
 
-When building CLI commands, you’ll often need to collect input from users in the form of **arguments** or **options**. Musket makes it simple to define these expectations directly within your command’s `signature` property. The `signature` defines the command name, its arguments, and its options in a single, expressive, route-like syntax.
+When building CLI commands, you’ll often need to receive user input — either as **arguments** or **options**. Musket makes this process simple and expressive through the `signature` property.
+This property defines the command name, its arguments, and its options in a concise, route-like syntax.
+
+> **Tip:** The `signature` provides a declarative way to describe all expected inputs in a single place.
 
 ### Arguments
 
-User-supplied arguments and options are declared inside curly braces. For example, the command below defines one required argument named `user`:
+Arguments represent ordered values passed to the command.
+Each argument is defined within curly braces.
+
+For example, this command defines one required argument named `user`:
 
 ```ts
 protected signature = 'mail:send {user}';
 ```
 
-You can make arguments optional or even assign them default values:
+You can make arguments optional or assign default values directly in the signature:
 
 ```ts
 // Optional argument
 'mail:send {user?}';
 
-// Optional argument with default value
+// Optional argument with a default value
 'mail:send {user=foo}';
 ```
 
 ### Options
 
-Options are another way to receive input, typically prefixed by two hyphens (`--`) when passed through the command line. There are two types of options:
+Options are name-based inputs, prefixed by two hyphens (`--`) when used from the terminal.
+They come in two main types:
 
-- **Switch options** – act as boolean flags.
-- **Valued options** – expect a value.
+- **Switch options** — act as simple boolean flags.
+- **Valued options** — expect a specific value.
 
-Here’s an example of a boolean switch:
+Example of a boolean switch:
 
 ```ts
 protected signature = 'mail:send {user} {--queue}';
 ```
 
-If the `--queue` option is present, its value will be `true`; otherwise, it will be `false`:
+If `--queue` is passed, its value is `true`; otherwise, it’s `false`.
 
-```sh
-npx musket mail:send 1 --queue
+::: code-group
+
+```sh [npx]
+$ npx musket mail:send 1 --queue
 ```
+
+```sh [npm]
+$ npm musket mail:send 1 --queue
+```
+
+```sh [yarn]
+$ yarn musket mail:send 1 --queue
+```
+
+```sh [pnpm]
+$ pnpm musket mail:send 1 --queue
+```
+
+```sh [bun]
+$ bun musket mail:send 1 --queue
+```
+
+:::
 
 #### Options With Values
 
-To define an option that expects a value, append an equals sign (`=`) to the option name:
+To specify that an option expects a value, add an equals sign (`=`):
 
 ```ts
 protected signature = 'mail:send {user} {--queue=}';
 ```
 
-When executing the command:
+Example usage:
 
-```sh
-npx musket mail:send 1 --queue=default
+::: code-group
+
+```sh [npx]
+$ npx musket mail:send 1 --queue=default
 ```
 
-If no value is passed, the option defaults to `null`.
-You may also define a default value directly in the signature:
+```sh [npm]
+$ npm musket mail:send 1 --queue=default
+```
+
+```sh [yarn]
+$ yarn musket mail:send 1 --queue=default
+```
+
+```sh [pnpm]
+$ pnpm musket mail:send 1 --queue=default
+```
+
+```sh [bun]
+$ bun musket mail:send 1 --queue=default
+```
+
+:::
+
+If the option is not specified, its value defaults to `null`.
+You may also define a fallback directly in the signature:
 
 ```ts
 'mail:send {user} {--queue=default}';
@@ -279,37 +386,75 @@ You may also define a default value directly in the signature:
 
 #### Option Shortcuts
 
-You can provide a shorthand version of an option by placing it before the full option name, separated by a pipe (`|`):
+You can assign short aliases for frequently used options by separating them with a pipe (`|`):
 
 ```ts
 'mail:send {user} {--Q|queue}';
 ```
 
-This allows you to call the command using the shortcut:
+Example usage:
 
-```sh
-npx musket mail:send 1 -Qdefault
+::: code-group
+
+```sh [npx]
+$ npx musket mail:send 1 -Qdefault
 ```
+
+```sh [npm]
+$ npm musket mail:send 1 -Qdefault
+```
+
+```sh [yarn]
+$ yarn musket mail:send 1 -Qdefault
+```
+
+```sh [pnpm]
+$ pnpm musket mail:send 1 -Qdefault
+```
+
+```sh [bun]
+$ bun musket mail:send 1 -Qdefault
+```
+
+:::
 
 ### Input Arrays
 
-To accept multiple values for a single argument or option, append an asterisk (`*`) after its name.
+When you want to accept multiple values for an argument or option, use an asterisk (`*`) after the name.
 
-For example, defining a multi-value argument:
+Example of a multi-value argument:
 
 ```ts
 'mail:send {user*}';
 ```
 
-When executed:
+::: code-group
 
-```sh
-npx musket mail:send 1 2
+```sh [npx]
+$ npx musket mail:send 1 2
 ```
 
-The `user` argument will contain an array: `['1', '2']`.
+```sh [npm]
+$ npm musket mail:send 1 2
+```
 
-You can also combine the `*` with the optional marker `?` to allow zero or more values:
+```sh [yarn]
+$ yarn musket mail:send 1 2
+```
+
+```sh [pnpm]
+$ pnpm musket mail:send 1 2
+```
+
+```sh [bun]
+$ bun musket mail:send 1 2
+```
+
+:::
+
+The `user` argument will resolve as an array: `['1', '2']`.
+
+You can also combine the optional (`?`) and array (`*`) markers to allow zero or more inputs:
 
 ```ts
 'mail:send {user?*}';
@@ -317,36 +462,79 @@ You can also combine the `*` with the optional marker `?` to allow zero or more 
 
 #### Option Arrays
 
-Options can also accept multiple values using the same syntax:
+Options can also accept multiple values using the same pattern:
 
 ```ts
 'mail:send {--id=*}';
 ```
 
-Now you can pass multiple `--id` flags:
+Usage example:
 
-```sh
-npx musket mail:send --id=1 --id=2
+::: code-group
+
+```sh [npx]
+$ npx musket mail:send --id=1 --id=2
 ```
+
+```sh [npm]
+$ npm musket mail:send --id=1 --id=2
+```
+
+```sh [yarn]
+$ yarn musket mail:send --id=1 --id=2
+```
+
+```sh [pnpm]
+$ pnpm musket mail:send --id=1 --id=2
+```
+
+```sh [bun]
+$ bun musket mail:send --id=1 --id=2
+```
+
+:::
 
 ### Input Descriptions
 
-You can provide descriptions for arguments and options by separating the name from its description with a colon (`:`). You may also format long signatures across multiple lines for readability:
+You can attach short descriptions to arguments or options by separating the name and description with a colon (`:`).
+Longer signatures can be split across multiple lines for readability:
 
 ```ts
 protected signature = `mail:send
-    {user : The ID of the user}
-    {--queue : Whether the job should be queued}
+  {user : The ID of the user}
+  {--queue : Whether the job should be queued}
 `;
 ```
+
+### Input Choices
+
+You may also provide a list of allowed choices for arguments or options by separating the name and choices with a colon (`:`).
+
+```ts
+protected signature = `mail:send
+  {user : The ID of the user}
+  {--driver : The driver to send this mail with : smtp,sendgrid,ses,mailhog}
+`;
+```
+
+To use choices, a description is required, however, you may separate your options or arguments and choices with two space separatated colons (`: :`) where there is no dscription.
+
+```ts
+protected signature = `mail:send
+  {user : The ID of the user}
+  {--driver : : smtp,sendgrid,ses,mailhog}
+`;
+```
+
+For clarity, you may also define your choices using the array syntax `{--driver : : [smtp,sendgrid,ses,mailhog]}`.
 
 ## Command Input & Output
 
 ### Retrieving Input
 
-When executing a command, you’ll often need to access the arguments and options provided by the user. Musket provides simple methods for retrieving them.
+To access the user’s input during command execution, Musket provides simple helpers.
 
-You can retrieve a single argument using the `argument` method. If the argument does not exist, `null` will be returned:
+Use `argument(name)` to fetch a single argument. If it doesn’t exist, `null` is returned:
 
 ```ts
 /**
@@ -357,27 +545,29 @@ public async handle(): Promise<void> {
 }
 ```
 
-To retrieve all arguments at once, use the `arguments` method:
+To get all arguments as an object:
 
 ```ts
 const args = this.arguments();
 ```
 
-Options can be accessed in the same way using the `option` and `options` methods:
+Similarly, `option(name)` retrieves a specific option, while `options()` returns them all:
 
 ```ts
-// Retrieve a specific option
+// Retrieve one option
 const queueName = this.option('queue');
 
-// Retrieve all options as an object
+// Retrieve all options
 const opts = this.options();
 ```
 
-### Prompting for Input [WIP]
+### Prompting for Input
 
-Musket also allows you to interactively collect user input directly from the terminal.
+> **WIP:** Interactive prompts are being refined for next release.
 
-The `ask` method prompts the user with a question and returns their response:
+Musket can request live input from users during execution.
+
+To ask a question and receive a response:
 
 ```ts
 public async handle(): Promise<void> {
@@ -385,47 +575,50 @@ public async handle(): Promise<void> {
 }
 ```
 
-You may also define a default value that will be returned if the user provides no input:
+You can also specify a default fallback:
 
 ```ts
 const name = await this.ask('What is your name?', 'Legacy');
 ```
 
-For sensitive information, the `secret` method hides user input as they type — ideal for passwords or tokens:
+For sensitive information (like passwords), use `secret()`, which hides user input as they type:
 
 ```ts
 const password = await this.secret('Enter your password:');
 ```
 
-### Asking for Confirmation [WIP]
+### Asking for Confirmation
 
-When you need a simple “yes” or “no” confirmation, use the `confirm` method.
-It returns `true` if the user responds with `y` or `yes`, otherwise `false`:
+> **WIP:** Confirmation prompts are in testing.
+
+Use `confirm()` for simple yes/no decisions.
+It returns `true` if the user types “y” or “yes”:
 
 ```ts
 if (await this.confirm('Do you wish to continue?')) {
-  // Continue execution
+  // Proceed
 }
 ```
 
-You can also make `true` the default response by passing it as the second argument:
+You can also set a default `true` response:
 
 ```ts
 if (await this.confirm('Proceed with installation?', true)) {
-  // Automatically continues if no response
+  // Continues automatically if no input
 }
 ```
 
-### Auto-Completion [WIP]
+### Auto-Completion
 
-The `anticipate` method provides auto-complete suggestions as the user types.
-Users can still enter any custom input even if it’s not in the suggestion list:
+> **WIP:** Auto-complete support for command inputs is in progress.
+
+The `anticipate()` method provides suggestions as the user types:
 
 ```ts
 const name = await this.anticipate('What is your name?', ['Legacy', 'Kaylah']);
 ```
 
-You can also pass a function that dynamically generates suggestions as the user types:
+You can also supply a dynamic suggestion callback:
 
 ```ts
 const address = await this.anticipate(
@@ -439,16 +632,18 @@ const address = await this.anticipate(
 );
 ```
 
-### Multiple Choice Questions [WIP]
+### Multiple Choice Questions
 
-For predefined options, use the `choice` method.
-It allows you to specify the available options and an optional default index:
+> **WIP:** Multiple-choice inputs currently under integration.
+
+The `choice()` method restricts input to predefined options.
+You can specify a default selection by index:
 
 ```ts
 const name = await this.choice('What is your name?', ['Legacy', 'Kaylah'], 0);
 ```
 
-You can also control how many attempts are allowed and whether users can select multiple options:
+Allow multiple selections or limit attempts:
 
 ```ts
 const selected = await this.choice(
@@ -460,48 +655,48 @@ const selected = await this.choice(
 );
 ```
 
-- `ask()` returns the default or exits if none
-- `confirm()` uses its default value
-- `choice()` uses the default or first option
-- `anticipate` returns the default or exits if none
+> **Tip:** When a prompt receives no response:
+>
+> - `ask()` returns its default (or exits if none).
+> - `confirm()` uses its default choice.
+> - `choice()` returns the default option.
+> - `anticipate()` returns its default value.
 
 ### Writing Output
 
-To send output to the console, you may use the `line`,`debug`, `newLine`, `info`, `success`,`comment`, `question`, `warn`, `alert`, `error` and `fail` methods. Each of these methods will use appropriate ANSI colors for their purpose. For example, let's display some general information to the user. Typically, the `info` method will display in the console as blue colored text:
+Commands can output messages to the console using several convenience methods:
+`line`, `debug`, `newLine`, `info`, `success`, `comment`, `question`, `warn`, `alert`, `error`, and `fail`.
+Each applies context-appropriate colors and formatting automatically.
+
+For example, to display general information:
 
 ```ts
-/**
- * Execute the console command.
- */
-public handle(): void
-{
-    // ...
-
-    $this->info('The command was successful!');
-}
+this.info('The command was successful!');
 ```
 
-To display an error message, use the error method. Error message text is typically displayed in red:
+Display an error message:
 
 ```ts
-$this->error('Something went wrong!');
+this.error('Something went wrong!');
 ```
 
-You may use the line method to display plain, uncolored text:
+Output plain text without color:
 
 ```ts
-$this->line('Display this on the screen');
+this.line('Display this on the screen');
 ```
 
-You may use the newLine method to display a blank line:
+Insert blank lines for spacing:
 
 ```ts
-// Write a single blank line...
-$this->newLine();
+// One blank line
+this.newLine();
 
-// Write three blank lines...
-$this->newLine(3);
+// Three blank lines
+this.newLine(3);
 ```
+
+> **Tip:** Output methods automatically handle line breaks and ANSI colorization for a clean display across terminals.
 
 ```ts
 this.alert('Loading Interupted'); // WIP
@@ -652,38 +847,149 @@ You can run `npx musket list` to get a full list of all availabel commands
 
 ### Development
 
-```bash
-npx musket my:command
-npx musket user:create "John Doe"
-npx musket user:create "Jane" --admin --role=moderator
-npx musket serve:start --p=8080
-npx musket help user:create
+::: code-group
+
+```sh [npx]
+$ npx musket my:command
+$ npx musket user:create "John Doe"
+$ npx musket user:create "Jane" --admin --role=moderator
+$ npx musket serve:start --p=8080
+$ npx musket help user:create
 ```
+
+```sh [npm]
+$ npm musket my:command
+$ npm musket user:create "John Doe"
+$ npm musket user:create "Jane" --admin --role=moderator
+$ npm musket serve:start --p=8080
+$ npm musket help user:create
+```
+
+```sh [yarn]
+$ yarn musket my:command
+$ yarn musket user:create "John Doe"
+$ yarn musket user:create "Jane" --admin --role=moderator
+$ yarn musket serve:start --p=8080
+$ yarn musket help user:create
+```
+
+```sh [pnpm]
+$ pnpm musket my:command
+$ pnpm musket user:create "John Doe"
+$ pnpm musket user:create "Jane" --admin --role=moderator
+$ pnpm musket serve:start --p=8080
+$ pnpm musket help user:create
+```
+
+```sh [bun]
+$ bun musket my:command
+$ bun musket user:create "John Doe"
+$ bun musket user:create "Jane" --admin --role=moderator
+$ bun musket serve:start --p=8080
+$ bun musket help user:create
+```
+
+:::
 
 ### Global Options
 
 #### Verbosity
 
-```bash
+::: code-group
+
+```sh [npx]
 npx musket my:command --quiet
 npx musket my:command --silent
 npx musket my:command --verbose 3
 ```
 
+```sh [npm]
+npm musket my:command --quiet
+npm musket my:command --silent
+npm musket my:command --verbose 3
+```
+
+```sh [yarn]
+yarn musket my:command --quiet
+yarn musket my:command --silent
+yarn musket my:command --verbose 3
+```
+
+```sh [pnpm]
+pnpm musket my:command --quiet
+pnpm musket my:command --silent
+pnpm musket my:command --verbose 3
+```
+
+```sh [bun]
+bun musket my:command --quiet
+bun musket my:command --silent
+bun musket my:command --verbose 3
+```
+
+:::
+
 #### Non-Interactive
 
-```bash
+::: code-group
+
+```sh [npx]
 npx musket my:command --no-interaction
 ```
 
+```sh [npm]
+npm musket my:command --no-interaction
+```
+
+```sh [yarn]
+yarn musket my:command --no-interaction
+```
+
+```sh [pnpm]
+pnpm musket my:command --no-interaction
+```
+
+```sh [bun]
+bun musket my:command --no-interaction
+```
+
+:::
+
 #### Combined Examples
 
-```bash
+::: code-group
+
+```sh [npx]
 npx musket migrate:run --quiet --no-interaction
 npx musket cache:clear --silent
 npx musket my:command --verbose 3
 ```
 
+```sh [npm]
+npm musket migrate:run --quiet --no-interaction
+npm musket cache:clear --silent
+npm musket my:command --verbose 3
+```
+
+```sh [yarn]
+yarn musket migrate:run --quiet --no-interaction
+yarn musket cache:clear --silent
+yarn musket my:command --verbose 3
+```
+
+```sh [pnpm]
+pnpm musket migrate:run --quiet --no-interaction
+pnpm musket cache:clear --silent
+pnpm musket my:command --verbose 3
+```
+
+```sh [bun]
+bun musket migrate:run --quiet --no-interaction
+bun musket cache:clear --silent
+bun musket my:command --verbose 3
+```
+
+:::
 **Precedence:**
 
 1. `--silent` overrides all

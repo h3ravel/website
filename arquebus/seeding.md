@@ -38,6 +38,7 @@ Let's modify the default `DatabaseSeeder` class and add a database insert statem
 ```ts
 import type { QueryBuilder } from '@h3ravel/arquebus';
 import { DB, Seeder } from '@h3ravel/arquebus';
+import { Hash } from '@h3ravel/hashing';
 
 export default class DatabaseSeeder extends Seeder {
   /**
@@ -47,10 +48,81 @@ export default class DatabaseSeeder extends Seeder {
     await DB.table('users').insert({
       name: 'John Does',
       email: 'dj@x.com',
-      password: 'password',
+      password: await Hash.make('password'),
     });
   }
 }
 ```
 
-Seeders execute with the same connection setup as migrations. The CLI resolves paths from `--basePath` and `--path` and loads seeders from `.ts`/`.js` files exporting a default class with a `run` method.
+## Calling Additional Seeders
+
+Within the `DatabaseSeeder` class, you may use the `call` method to execute additional seed classes. Using the `call` method allows you to break up your database seeding into multiple files so that no single seeder class becomes too large. The `call` method accepts an array of seeder classes that should be executed:
+
+```ts
+import UserSeeder from './user_seeder';
+import PostSeeder from './post_seeder';
+import CommentSeeder from './comment_seeder';
+
+export default class DatabaseSeeder extends Seeder {
+  /**
+   * Run the database seeds.
+   */
+  async run() {
+    this.call([UserSeeder, PostSeeder, CommentSeeder]);
+  }
+}
+```
+
+## Running Seeders
+
+You may execute the `db:seed` Musket command to seed your database. By default, the `db:seed` command runs the `DatabaseSeeder` class from `database/seeders/database_seeder`, which may in turn invoke other seed classes. However, you may use the `--class` option to specify a specific seeder class to run individually:
+
+::: code-group
+
+```sh [musket]
+$ npx musket db:seed UserSeeder
+
+$ npx musket db:seed --class=UserSeeder
+```
+
+```sh [arquebus]
+$ npx arquebus db:seed UserSeeder
+
+$ npx arquebus db:seed UserSeeder --class=UserSeeder
+```
+
+:::
+
+You may also seed your database using the `migrate:fresh` command in combination with the `--seed` option, which will drop all tables and re-run all of your migrations. This command is useful for completely re-building your database. The `--seeder` option may be used to specify a specific seeder to run:
+
+::: code-group
+
+```sh [musket]
+$ npx musket migrate:fresh --seed
+
+$ npx musket migrate:fresh --seed --seeder=UserSeeder
+```
+
+```sh [arquebus]
+$ npx arquebus migrate:fresh --seed
+
+$ npx arquebus migrate:fresh --seed --seeder=UserSeeder
+```
+
+:::
+
+## Forcing Seeders to Run in Production
+
+Some seeding operations may cause you to alter or lose data. In order to protect you from running seeding commands against your production database, you will be prompted for confirmation before the seeders are executed in the `production` environment. To force the seeders to run without a prompt, use the `--force` flag:
+
+::: code-group
+
+```sh [musket]
+$ npx musket db:seed --force
+```
+
+```sh [arquebus]
+$ npx arquebus db:seed --force
+```
+
+:::
