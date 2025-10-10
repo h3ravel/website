@@ -2,6 +2,60 @@
 
 All changes and features will be documented here.
 
+## @h3ravel/cache - 11.0.7
+
+- feat(cache): support service provider auto registration.
+
+## @h3ravel/config - 1.4.5
+
+- feat(config): support service provider auto registration.
+
+## @h3ravel/filesystem - 0.4.3
+
+- feat(filesystem): support service provider auto registration.
+
+## @h3ravel/mail - 11.0.7
+
+- feat(mail): support service provider auto registration.
+
+## @h3ravel/queue - 11.0.4
+
+- feat(queue): support service provider auto registration.
+
+## @h3ravel/router - 1.11.2
+
+- feat(router): support service provider auto registration.
+
+## @h3ravel/url - 1.0.2
+
+- feat(url): support service provider auto registration.
+
+## @h3ravel/view - 0.1.3
+
+- feat(view): support service provider auto registration.
+
+## @h3ravel/database - 11.4.0
+
+- feat(database): force option to migrate command.
+- feat(database): support running seeders from applicable migration command.
+- feat(database): support service provider auto registration.
+
+## @h3ravel/console - 11.9.0
+
+- feat(console): add fail method to the base musket class
+- feat(console): add support for service container resolution in Musket command handler.
+- feat(console): support choices definition for command options in signature.
+
+## @h3ravel/core - 1.16.0
+
+- feat(core): add withCommands to Application core to allow early service provider registration.
+- refactor(core): depracate base ServiceProvider commands method replacinf with a registerCommands methods
+
+## @h3ravel/hashing - 0.1.3
+
+- feat(hashing): support HASH_VERIFY env var when config is not available.
+- feat(hashing): support HASH_DRIVER env var when config is not available.
+
 ## @h3ravel/hashing - 0.1.1 - 0.1.2
 
 - feat(hashing): support `HASH_VERIFY` env var when config is not available.
