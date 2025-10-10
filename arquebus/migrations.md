@@ -8,9 +8,9 @@ Migration is database version control, which helps developers complete table str
 
 ## Quick start
 
-### Generate migration
+### Initialization
 
-First, generate a configuration file.
+If you use Arquebus outside of H3ravel, you first have to generate a configuration file for your project before you will be able to run migrations, you may skip this step if you use Arquebus within a H3ravel project.
 
 ```sh
 $ npx arquebus init
@@ -58,11 +58,21 @@ export default {
 };
 ```
 
-You can then use the `make:migration` command to generate database migrations. New migration files are placed in your `migrations` directory by default. Each migration file name contains a timestamp to allow Arquebus ORM to determine the order of migrations:
+### Generate migrations
 
-```sh
+To generate migraion files, you can use the `make:migration` command which will create new migration files in your configured `migrations` directory or in the case of H3ravel `src/database/migrations`. Each migration file name contains a timestamp to allow Arquebus ORM to determine the order of migrations:
+
+::: code-group
+
+```sh [arquebus]
 $ npx arquebus make:migration create_flights_table
 ```
+
+```sh [musket]
+$ npx musket make:migration create_flights_table
+```
+
+:::
 
 Arquebus ORM will use the name of the migration file to guess the table name and whether the migration will create a new table. If Arquebus ORM is able to determine the name of the table from the name of the migration file, it will prepopulate the specified table in the generated migration file, or you can manually specify the table name directly in the migration file.
 
