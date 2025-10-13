@@ -1,37 +1,100 @@
-# String Helpers
+# Strings
 
-The `@h3ravel/support` package provides an extensive collection of string manipulation utilities inspired by Laravel's string helpers. These helpers make it easy to work with strings in TypeScript/JavaScript applications.
+## Introduction
 
-## Available Helpers
+H3ravel provides an extensive collection of framework agnostic string manipulation utilities inspired by Laravel's string helpers via the `@h3ravel/support` package. These helpers make it easy to work with strings in TypeScript/JavaScript applications, many of them are also used within the framework itself; however, you are free to use them in your own applications if you find them convenient.
 
-### Core Helpers
-- [`after()`](#after) - Get remainder after first occurrence
-- [`afterLast()`](#afterlast) - Get remainder after last occurrence
-- [`before()`](#before) - Get portion before first occurrence
-- [`beforeLast()`](#beforelast) - Get portion before last occurrence
-- [`capitalize()`](#capitalize) - Uppercase first character of each word
-- [`pluralize()`](#pluralize) - Get plural form of a word
-- [`singularize()`](#singularize) - Get singular form of a word
-- [`slugify()`](#slugify) - Generate URL-friendly slug
-- [`subString()`](#substring) - Get substring (alias for `substr`)
-- [`substitute()`](#substitute) - Replace placeholders with values
-- [`truncate()`](#truncate) - Limit string length (alias for `limit`)
-- [`substr()`](#substr) - Get portion of string
-- [`sub()`](#sub) - Get substring by start/stop indexes
-- [`esc()`](#esc) - Escape string for JSON encoding
-- [`padString()`](#padstring) - Pad string (see `padLeft`, `padRight`, `padBoth`)
-- [`split()`](#split) - Split string by regex or delimiter
-- [`chop()`](#chop) - Remove last character
-- [`isNumber()`](#isnumber) - Check if string is numeric
-- [`isInteger()`](#isinteger) - Check if string is an integer
-- [`rot()`](#rot) - ROT-N cipher transformation
-- [`replacePunctuation()`](#replacepunctuation) - Replace trailing punctuation
-- [`translate()`](#translate) - Array/object driven replacement
-- [`ss()`](#ss) - Strip slashes recursively
-- [`firstLines()`](#firstlines) - Get first N lines
-- [`lastLines()`](#lastlines) - Get last N lines
+To use these helpers in your application, you may install the `@h3ravel/support` package by running:
 
----
+::: code-group
+
+```sh [npm]
+$ npm install @h3ravel/support --save
+```
+
+```sh [yarn]
+$ yarn add @h3ravel/support
+```
+
+```sh [pnpm]
+$ pnpm add @h3ravel/support
+```
+
+```sh [bun]
+$ bun create @h3ravel/support
+```
+
+:::
+
+The `@h3ravel/support` is installed by default when using H3ravel
+
+## Available Methods
+
+### Strings
+
+|                               |                                               |                             |
+| ----------------------------- | --------------------------------------------- | --------------------------- |
+| [`after()`](#after)           | [`split()`](#split)                           | [`padString()`](#padstring) |
+| [`afterLast()`](#afterlast)   | [`singularize()`](#singularize)               | [`pluralize()`](#pluralize) |
+| [`before()`](#before)         | [`slugify()`](#slugify)                       | [`translate()`](#translate) |
+| [`beforeLast()`](#beforelast) | [`subString()`](#substring)                   |
+| [`capitalize()`](#capitalize) | [`substitute()`](#substitute)                 |                             |
+| [`chop()`](#chop)             | [`truncate()`](#truncate)                     |                             |
+| [`esc()`](#esc)               | [`substr()`](#substr)                         |                             |
+| [`isInteger()`](#isinteger)   | [`sub()`](#sub)                               |                             |
+| [`isNumber()`](#isnumber)     | [`ss()`](#ss)                                 |                             |
+| [`firstLines()`](#firstlines) | [`rot()`](#rot)                               |                             |
+| [`lastLines()`](#lastlines)   | [`replacePunctuation()`](#replacepunctuation) |                             |
+
+## Fluent Strings [ DOC WIP ]
+
+Use `Str.of()` for fluent chaining
+
+## Additional String Helpers
+
+The `Str` class includes many more helpers. Here's a quick reference:
+
+### Case Conversion
+
+- `camel()` - Convert to camelCase
+- `kebab()` - Convert to kebab-case
+- `snake()` - Convert to snake_case
+- `studly()` / `pascal()` - Convert to PascalCase
+- `title()` - Convert to Title Case
+- `lower()` / `upper()` - Convert case
+- `lcfirst()` / `ucfirst()` - First character case
+
+### String Manipulation
+
+- `append()` / `prepend()` - Add to start/end
+- `wrap()` / `unwrap()` - Wrap with strings
+- `trim()` / `ltrim()` / `rtrim()` - Remove whitespace
+- `replace()` / `replaceFirst()` / `replaceLast()` - Replace text
+- `remove()` - Remove occurrences
+- `reverse()` - Reverse string
+- `repeat()` - Repeat string
+
+### String Testing
+
+- `contains()` / `containsAll()` - Check if contains
+- `startsWith()` / `endsWith()` - Check start/end
+- `is()` / `isMatch()` - Pattern matching
+- `isAscii()` / `isJson()` / `isUrl()` / `isUuid()` - Type checking
+
+### String Extraction
+
+- `match()` / `matchAll()` - Extract with regex
+- `between()` / `betweenFirst()` - Extract between markers
+- `excerpt()` - Extract excerpt around phrase
+- `mask()` - Mask portion of string
+
+### Utility
+
+- `length()` - Get string length
+- `position()` - Find position of substring
+- `wordCount()` - Count words
+- `words()` - Limit word count
+- `numbers()` - Extract only numbers
 
 ## `after()`
 
@@ -55,27 +118,25 @@ Str.after(subject: string, search: string): string
 ### Examples
 
 ```typescript
-import { Str } from '@h3ravel/support'
+import { Str } from '@h3ravel/support';
 
-Str.after('user@example.com', '@')
+Str.after('user@example.com', '@');
 // "example.com"
 
-Str.after('Hello World', 'Hello ')
+Str.after('Hello World', 'Hello ');
 // "World"
 
-Str.after('path/to/file.txt', '/')
+Str.after('path/to/file.txt', '/');
 // "to/file.txt"
 
 // If search string not found, returns original string
-Str.after('Hello', 'xyz')
+Str.after('Hello', 'xyz');
 // "Hello"
 
 // Empty search returns original string
-Str.after('Hello', '')
+Str.after('Hello', '');
 // "Hello"
 ```
-
----
 
 ## `afterLast()`
 
@@ -99,23 +160,21 @@ Str.afterLast(subject: string, search: string): string
 ### Examples
 
 ```typescript
-import { Str } from '@h3ravel/support'
+import { Str } from '@h3ravel/support';
 
-Str.afterLast('path/to/file.txt', '/')
+Str.afterLast('path/to/file.txt', '/');
 // "file.txt"
 
-Str.afterLast('user@mail.example.com', '.')
+Str.afterLast('user@mail.example.com', '.');
 // "com"
 
-Str.afterLast('App\\Controllers\\HomeController', '\\')
+Str.afterLast('App\\Controllers\\HomeController', '\\');
 // "HomeController"
 
 // If not found, returns original string
-Str.afterLast('Hello', 'xyz')
+Str.afterLast('Hello', 'xyz');
 // "Hello"
 ```
-
----
 
 ## `before()`
 
@@ -139,23 +198,21 @@ Str.before(subject: string, search: string): string
 ### Examples
 
 ```typescript
-import { Str } from '@h3ravel/support'
+import { Str } from '@h3ravel/support';
 
-Str.before('user@example.com', '@')
+Str.before('user@example.com', '@');
 // "user"
 
-Str.before('Hello World', ' ')
+Str.before('Hello World', ' ');
 // "Hello"
 
-Str.before('path/to/file.txt', '/')
+Str.before('path/to/file.txt', '/');
 // "path"
 
 // If not found, returns original string
-Str.before('Hello', 'xyz')
+Str.before('Hello', 'xyz');
 // "Hello"
 ```
-
----
 
 ## `beforeLast()`
 
@@ -179,19 +236,17 @@ Str.beforeLast(subject: string, search: string): string
 ### Examples
 
 ```typescript
-import { Str } from '@h3ravel/support'
+import { Str } from '@h3ravel/support';
 
-Str.beforeLast('path/to/file.txt', '/')
+Str.beforeLast('path/to/file.txt', '/');
 // "path/to"
 
-Str.beforeLast('user@mail.example.com', '.')
+Str.beforeLast('user@mail.example.com', '.');
 // "user@mail.example"
 
-Str.beforeLast('App\\Controllers\\HomeController', '\\')
+Str.beforeLast('App\\Controllers\\HomeController', '\\');
 // "App\\Controllers"
 ```
-
----
 
 ## `capitalize()`
 
@@ -215,24 +270,22 @@ Str.capitalize(string: string, separators?: string): string
 ### Examples
 
 ```typescript
-import { Str } from '@h3ravel/support'
+import { Str } from '@h3ravel/support';
 
-Str.capitalize('hello world')
+Str.capitalize('hello world');
 // "Hello World"
 
-Str.capitalize('the quick brown fox')
+Str.capitalize('the quick brown fox');
 // "The Quick Brown Fox"
 
-Str.capitalize('john-doe', '-')
+Str.capitalize('john-doe', '-');
 // "John-Doe"
 
-Str.capitalize('user_name_here', '_')
+Str.capitalize('user_name_here', '_');
 // "User_Name_Here"
 ```
 
 **Alias:** `ucwords()` performs the same operation.
-
----
 
 ## `pluralize()`
 
@@ -256,36 +309,34 @@ Str.pluralize(value: string, count?: number | number[]): string
 ### Examples
 
 ```typescript
-import { Str } from '@h3ravel/support'
+import { Str } from '@h3ravel/support';
 
 // Basic pluralization
-Str.pluralize('car')              // "cars"
-Str.pluralize('person')           // "people"
-Str.pluralize('child')            // "children"
-Str.pluralize('tooth')            // "teeth"
-Str.pluralize('mouse')            // "mice"
+Str.pluralize('car'); // "cars"
+Str.pluralize('person'); // "people"
+Str.pluralize('child'); // "children"
+Str.pluralize('tooth'); // "teeth"
+Str.pluralize('mouse'); // "mice"
 
 // Conditional pluralization
-Str.pluralize('item', 1)          // "item" (singular)
-Str.pluralize('item', 2)          // "items" (plural)
-Str.pluralize('item', 0)          // "items" (plural)
+Str.pluralize('item', 1); // "item" (singular)
+Str.pluralize('item', 2); // "items" (plural)
+Str.pluralize('item', 0); // "items" (plural)
 
 // Complex words
-Str.pluralize('category')         // "categories"
-Str.pluralize('index')            // "indices"
-Str.pluralize('status')           // "statuses"
-Str.pluralize('bus')              // "buses"
-Str.pluralize('knife')            // "knives"
+Str.pluralize('category'); // "categories"
+Str.pluralize('index'); // "indices"
+Str.pluralize('status'); // "statuses"
+Str.pluralize('bus'); // "buses"
+Str.pluralize('knife'); // "knives"
 
 // Uncountable words
-Str.pluralize('sheep')            // "sheep"
-Str.pluralize('fish')             // "fish"
-Str.pluralize('information')      // "information"
+Str.pluralize('sheep'); // "sheep"
+Str.pluralize('fish'); // "fish"
+Str.pluralize('information'); // "information"
 ```
 
 **Alias:** `plural()` performs the same operation.
-
----
 
 ## `singularize()`
 
@@ -308,31 +359,29 @@ Str.singularize(value: string): string
 ### Examples
 
 ```typescript
-import { Str } from '@h3ravel/support'
+import { Str } from '@h3ravel/support';
 
 // Basic singularization
-Str.singularize('cars')           // "car"
-Str.singularize('people')         // "person"
-Str.singularize('children')       // "child"
-Str.singularize('teeth')          // "tooth"
-Str.singularize('mice')           // "mouse"
+Str.singularize('cars'); // "car"
+Str.singularize('people'); // "person"
+Str.singularize('children'); // "child"
+Str.singularize('teeth'); // "tooth"
+Str.singularize('mice'); // "mouse"
 
 // Complex words
-Str.singularize('categories')     // "category"
-Str.singularize('indices')        // "index"
-Str.singularize('statuses')       // "status"
-Str.singularize('buses')          // "bus"
-Str.singularize('knives')         // "knife"
+Str.singularize('categories'); // "category"
+Str.singularize('indices'); // "index"
+Str.singularize('statuses'); // "status"
+Str.singularize('buses'); // "bus"
+Str.singularize('knives'); // "knife"
 
 // Uncountable words
-Str.singularize('sheep')          // "sheep"
-Str.singularize('fish')           // "fish"
-Str.singularize('information')    // "information"
+Str.singularize('sheep'); // "sheep"
+Str.singularize('fish'); // "fish"
+Str.singularize('information'); // "information"
 ```
 
 **Alias:** `singular()` performs the same operation.
-
----
 
 ## `slugify()`
 
@@ -357,40 +406,36 @@ Str.slugify(title: string, separator?: string, dictionary?: { [key: string]: str
 ### Examples
 
 ```typescript
-import { Str } from '@h3ravel/support'
+import { Str } from '@h3ravel/support';
 
 // Basic slugification
-Str.slugify('Hello World')
+Str.slugify('Hello World');
 // "hello-world"
 
-Str.slugify('The Quick Brown Fox')
+Str.slugify('The Quick Brown Fox');
 // "the-quick-brown-fox"
 
 // Custom separator
-Str.slugify('Hello World', '_')
+Str.slugify('Hello World', '_');
 // "hello_world"
 
 // Custom dictionary
-Str.slugify('user@example.com', '-', { '@': 'at', '.': 'dot' })
+Str.slugify('user@example.com', '-', { '@': 'at', '.': 'dot' });
 // "user-at-example-dot-com"
 
 // Handles special characters
-Str.slugify('Hello & Goodbye!')
+Str.slugify('Hello & Goodbye!');
 // "hello-goodbye"
 
-Str.slugify('Price: $19.99')
+Str.slugify('Price: $19.99');
 // "price-1999"
 ```
 
 **Alias:** `slug()` performs the same operation.
 
----
-
 ## `subString()`
 
 An alias for the `substr()` method. See [`substr()`](#substr) for details.
-
----
 
 ## `substitute()`
 
@@ -415,35 +460,33 @@ Str.substitute(str: string, data?: Record<string, unknown>, def?: string): strin
 ### Examples
 
 ```typescript
-import { Str } from '@h3ravel/support'
+import { Str } from '@h3ravel/support';
 
 // Basic substitution
-Str.substitute('Hello {name}!', { name: 'John' })
+Str.substitute('Hello {name}!', { name: 'John' });
 // "Hello John!"
 
 // Dot notation support
-Str.substitute('Welcome {user.name}', { 
-  user: { name: 'Alice', age: 25 } 
-})
+Str.substitute('Welcome {user.name}', {
+  user: { name: 'Alice', age: 25 },
+});
 // "Welcome Alice"
 
 // Multiple placeholders
 Str.substitute('{greeting} {user.name}, you are {user.age} years old', {
   greeting: 'Hello',
-  user: { name: 'Bob', age: 30 }
-})
+  user: { name: 'Bob', age: 30 },
+});
 // "Hello Bob, you are 30 years old"
 
 // Default value for missing keys
-Str.substitute('Hello {name}!', {}, 'Guest')
+Str.substitute('Hello {name}!', {}, 'Guest');
 // "Hello Guest!"
 
 // Missing key without default
-Str.substitute('Hello {name}!', {})
+Str.substitute('Hello {name}!', {});
 // "Hello !"
 ```
-
----
 
 ## `truncate()`
 
@@ -469,26 +512,24 @@ Str.truncate(value: string, limit?: number, end?: string, preserveWords?: boolea
 ### Examples
 
 ```typescript
-import { Str } from '@h3ravel/support'
+import { Str } from '@h3ravel/support';
 
 // Basic truncation
-Str.truncate('The quick brown fox jumps over the lazy dog', 20)
+Str.truncate('The quick brown fox jumps over the lazy dog', 20);
 // "The quick brown fox..."
 
 // Custom ending
-Str.truncate('Hello World', 8, '---')
+Str.truncate('Hello World', 8, '---');
 // "Hello---"
 
 // Preserve words
-Str.truncate('The quick brown fox', 12, '...', true)
+Str.truncate('The quick brown fox', 12, '...', true);
 // "The quick..."
 
 // Strip HTML tags
-Str.truncate('<p>Hello <strong>World</strong></p>', 8)
+Str.truncate('<p>Hello <strong>World</strong></p>', 8);
 // "Hello Wo..."
 ```
-
----
 
 ## `substr()`
 
@@ -513,28 +554,26 @@ Str.substr(string: string, start: number, length?: number | null): string
 ### Examples
 
 ```typescript
-import { Str } from '@h3ravel/support'
+import { Str } from '@h3ravel/support';
 
 // Extract from position
-Str.substr('Hello World', 0, 5)
+Str.substr('Hello World', 0, 5);
 // "Hello"
 
-Str.substr('Hello World', 6)
+Str.substr('Hello World', 6);
 // "World"
 
 // Negative start (from end)
-Str.substr('Hello World', -5)
+Str.substr('Hello World', -5);
 // "World"
 
-Str.substr('Hello World', -5, 3)
+Str.substr('Hello World', -5, 3);
 // "Wor"
 
 // No length specified
-Str.substr('abcdef', 2)
+Str.substr('abcdef', 2);
 // "cdef"
 ```
-
----
 
 ## `sub()`
 
@@ -559,19 +598,17 @@ Str.sub(string: string, start: number, stop: number): string
 ### Examples
 
 ```typescript
-import { Str } from '@h3ravel/support'
+import { Str } from '@h3ravel/support';
 
-Str.sub('Hello World', 0, 5)
+Str.sub('Hello World', 0, 5);
 // "Hello"
 
-Str.sub('Hello World', 6, 11)
+Str.sub('Hello World', 6, 11);
 // "World"
 
-Str.sub('JavaScript', 4, 10)
+Str.sub('JavaScript', 4, 10);
 // "Script"
 ```
-
----
 
 ## `esc()`
 
@@ -594,28 +631,27 @@ Str.esc(string: string): string
 ### Examples
 
 ```typescript
-import { Str } from '@h3ravel/support'
+import { Str } from '@h3ravel/support';
 
-Str.esc('Hello "World"')
+Str.esc('Hello "World"');
 // 'Hello \\"World\\"'
 
-Str.esc("It's a test")
+Str.esc("It's a test");
 // "It's a test"
 
-Str.esc('Line 1\nLine 2')
+Str.esc('Line 1\nLine 2');
 // 'Line 1\\nLine 2'
 
-Str.esc('Path: C:\\Users\\')
+Str.esc('Path: C:\\Users\\');
 // 'Path: C:\\\\Users\\\\'
 ```
-
----
 
 ## `padString()`
 
 Pads a string. See individual methods:
+
 - [`padLeft()`](#padleft) - Pad left side
-- [`padRight()`](#padright) - Pad right side  
+- [`padRight()`](#padright) - Pad right side
 - [`padBoth()`](#padboth) - Pad both sides
 
 ### `padLeft()`
@@ -629,15 +665,15 @@ Str.padLeft(value: string, length: number, pad?: string): string
 #### Examples
 
 ```typescript
-import { Str } from '@h3ravel/support'
+import { Str } from '@h3ravel/support';
 
-Str.padLeft('5', 3, '0')
+Str.padLeft('5', 3, '0');
 // "005"
 
-Str.padLeft('test', 10)
+Str.padLeft('test', 10);
 // "      test"
 
-Str.padLeft('42', 5, '*')
+Str.padLeft('42', 5, '*');
 // "***42"
 ```
 
@@ -652,15 +688,15 @@ Str.padRight(value: string, length: number, pad?: string): string
 #### Examples
 
 ```typescript
-import { Str } from '@h3ravel/support'
+import { Str } from '@h3ravel/support';
 
-Str.padRight('5', 3, '0')
+Str.padRight('5', 3, '0');
 // "500"
 
-Str.padRight('test', 10)
+Str.padRight('test', 10);
 // "test      "
 
-Str.padRight('42', 5, '*')
+Str.padRight('42', 5, '*');
 // "42***"
 ```
 
@@ -675,19 +711,17 @@ Str.padBoth(value: string, length: number, pad?: string): string
 #### Examples
 
 ```typescript
-import { Str } from '@h3ravel/support'
+import { Str } from '@h3ravel/support';
 
-Str.padBoth('test', 10)
+Str.padBoth('test', 10);
 // "   test   "
 
-Str.padBoth('42', 6, '0')
+Str.padBoth('42', 6, '0');
 // "004200"
 
-Str.padBoth('Hi', 10, '-')
+Str.padBoth('Hi', 10, '-');
 // "----Hi----"
 ```
-
----
 
 ## `split()`
 
@@ -713,27 +747,25 @@ stringable.split(pattern: string, limit?: number): string[]
 ### Examples
 
 ```typescript
-import { Str } from '@h3ravel/support'
+import { Str } from '@h3ravel/support';
 
 // Using Stringable
-const str = Str.of('apple,banana,cherry')
+const str = Str.of('apple,banana,cherry');
 
-str.split(',')
+str.split(',');
 // ["apple", "banana", "cherry"]
 
-str.split(',', 2)
+str.split(',', 2);
 // ["apple", "banana,cherry"]
 
 // With regex pattern
-Str.of('one1two2three3').split('/\\d+/')
+Str.of('one1two2three3').split('/\\d+/');
 // ["one", "two", "three"]
 
 // Split on whitespace
-Str.of('Hello   World  Test').split('/\\s+/')
+Str.of('Hello   World  Test').split('/\\s+/');
 // ["Hello", "World", "Test"]
 ```
-
----
 
 ## `chop()`
 
@@ -756,23 +788,21 @@ Str.chop(string: string): string
 ### Examples
 
 ```typescript
-import { Str } from '@h3ravel/support'
+import { Str } from '@h3ravel/support';
 
-Str.chop('Hello')
+Str.chop('Hello');
 // "Hell"
 
-Str.chop('test!')
+Str.chop('test!');
 // "test"
 
-Str.chop('a')
+Str.chop('a');
 // ""
 
 // Common use: remove trailing punctuation
-Str.chop('filename.txt')
+Str.chop('filename.txt');
 // "filename.tx"
 ```
-
----
 
 ## `isNumber()`
 
@@ -795,19 +825,17 @@ Str.isNumber(string: string): boolean
 ### Examples
 
 ```typescript
-import { Str } from '@h3ravel/support'
+import { Str } from '@h3ravel/support';
 
-Str.isNumber('123')           // true
-Str.isNumber('45.67')         // true
-Str.isNumber('-89')           // true
-Str.isNumber('1e10')          // true
-Str.isNumber('abc')           // false
-Str.isNumber('12a')           // false
-Str.isNumber('')              // false
-Str.isNumber('  ')            // false
+Str.isNumber('123'); // true
+Str.isNumber('45.67'); // true
+Str.isNumber('-89'); // true
+Str.isNumber('1e10'); // true
+Str.isNumber('abc'); // false
+Str.isNumber('12a'); // false
+Str.isNumber(''); // false
+Str.isNumber('  '); // false
 ```
-
----
 
 ## `isInteger()`
 
@@ -830,17 +858,15 @@ Str.isInteger(string: string): boolean
 ### Examples
 
 ```typescript
-import { Str } from '@h3ravel/support'
+import { Str } from '@h3ravel/support';
 
-Str.isInteger('123')          // true
-Str.isInteger('-456')         // true
-Str.isInteger('45.67')        // false
-Str.isInteger('abc')          // false
-Str.isInteger('')             // false
-Str.isInteger('  ')           // false
+Str.isInteger('123'); // true
+Str.isInteger('-456'); // true
+Str.isInteger('45.67'); // false
+Str.isInteger('abc'); // false
+Str.isInteger(''); // false
+Str.isInteger('  '); // false
 ```
-
----
 
 ## `rot()`
 
@@ -864,28 +890,26 @@ Str.rot(string: string, n?: number): string
 ### Examples
 
 ```typescript
-import { Str } from '@h3ravel/support'
+import { Str } from '@h3ravel/support';
 
 // ROT13 (default)
-Str.rot('Hello')
+Str.rot('Hello');
 // "Uryyb"
 
-Str.rot('Uryyb')  // Decode
+Str.rot('Uryyb'); // Decode
 // "Hello"
 
 // Custom rotation
-Str.rot('abc', 1)
+Str.rot('abc', 1);
 // "bcd"
 
-Str.rot('xyz', 3)
+Str.rot('xyz', 3);
 // "abc"
 
 // Only letters are affected
-Str.rot('Hello123!', 13)
+Str.rot('Hello123!', 13);
 // "Uryyb123!"
 ```
-
----
 
 ## `replacePunctuation()`
 
@@ -909,22 +933,20 @@ Str.replacePunctuation(string: string, newFormat: string): string
 ### Examples
 
 ```typescript
-import { Str } from '@h3ravel/support'
+import { Str } from '@h3ravel/support';
 
-Str.replacePunctuation('Hello.', '!')
+Str.replacePunctuation('Hello.', '!');
 // "Hello!"
 
-Str.replacePunctuation('What???', '.')
+Str.replacePunctuation('What???', '.');
 // "What."
 
-Str.replacePunctuation('Test...', '!')
+Str.replacePunctuation('Test...', '!');
 // "Test!"
 
-Str.replacePunctuation('No punctuation', '.')
+Str.replacePunctuation('No punctuation', '.');
 // "No punctuation."
 ```
-
----
 
 ## `translate()`
 
@@ -948,26 +970,24 @@ Str.translate(string: string, replacements: Record<string, string> | Array<[stri
 ### Examples
 
 ```typescript
-import { Str } from '@h3ravel/support'
+import { Str } from '@h3ravel/support';
 
 // Object replacements
-Str.translate('Hello World', { 'Hello': 'Hi', 'World': 'There' })
+Str.translate('Hello World', { Hello: 'Hi', World: 'There' });
 // "Hi There"
 
 // Array replacements
 Str.translate('foo bar baz', [
   ['foo', 'one'],
   ['bar', 'two'],
-  ['baz', 'three']
-])
+  ['baz', 'three'],
+]);
 // "one two three"
 
 // With regex patterns
-Str.translate('test123test', { '\\d+': 'NUM' })
+Str.translate('test123test', { '\\d+': 'NUM' });
 // "testNUMtest"
 ```
-
----
 
 ## `ss()`
 
@@ -1005,8 +1025,6 @@ Str.ss('Quote: \\"text\\"')
 // 'Quote: "text"'
 ```
 
----
-
 ## `firstLines()`
 
 Gets the first N lines of a string.
@@ -1029,25 +1047,23 @@ Str.firstLines(string: string, amount?: number): string
 ### Examples
 
 ```typescript
-import { Str } from '@h3ravel/support'
+import { Str } from '@h3ravel/support';
 
-const text = 'Line 1\nLine 2\nLine 3\nLine 4'
+const text = 'Line 1\nLine 2\nLine 3\nLine 4';
 
-Str.firstLines(text)
+Str.firstLines(text);
 // "Line 1"
 
-Str.firstLines(text, 2)
+Str.firstLines(text, 2);
 // "Line 1\nLine 2"
 
-Str.firstLines(text, 3)
+Str.firstLines(text, 3);
 // "Line 1\nLine 2\nLine 3"
 
 // Get first line of file content
-Str.firstLines('# Title\n\nContent here...')
+Str.firstLines('# Title\n\nContent here...');
 // "# Title"
 ```
-
----
 
 ## `lastLines()`
 
@@ -1071,135 +1087,90 @@ Str.lastLines(string: string, amount?: number): string
 ### Examples
 
 ```typescript
-import { Str } from '@h3ravel/support'
+import { Str } from '@h3ravel/support';
 
-const text = 'Line 1\nLine 2\nLine 3\nLine 4'
+const text = 'Line 1\nLine 2\nLine 3\nLine 4';
 
-Str.lastLines(text)
+Str.lastLines(text);
 // "Line 4"
 
-Str.lastLines(text, 2)
+Str.lastLines(text, 2);
 // "Line 3\nLine 4"
 
-Str.lastLines(text, 3)
+Str.lastLines(text, 3);
 // "Line 2\nLine 3\nLine 4"
 
 // Get last line of log
-Str.lastLines('Error 1\nError 2\nError 3')
+Str.lastLines('Error 1\nError 2\nError 3');
 // "Error 3"
 ```
 
----
-
-## Additional String Helpers
-
-The `Str` class includes many more helpers. Here's a quick reference:
-
-### Case Conversion
-- `camel()` - Convert to camelCase
-- `kebab()` - Convert to kebab-case
-- `snake()` - Convert to snake_case
-- `studly()` / `pascal()` - Convert to PascalCase
-- `title()` - Convert to Title Case
-- `lower()` / `upper()` - Convert case
-- `lcfirst()` / `ucfirst()` - First character case
-
-### String Manipulation
-- `append()` / `prepend()` - Add to start/end
-- `wrap()` / `unwrap()` - Wrap with strings
-- `trim()` / `ltrim()` / `rtrim()` - Remove whitespace
-- `replace()` / `replaceFirst()` / `replaceLast()` - Replace text
-- `remove()` - Remove occurrences
-- `reverse()` - Reverse string
-- `repeat()` - Repeat string
-
-### String Testing
-- `contains()` / `containsAll()` - Check if contains
-- `startsWith()` / `endsWith()` - Check start/end
-- `is()` / `isMatch()` - Pattern matching
-- `isAscii()` / `isJson()` / `isUrl()` / `isUuid()` - Type checking
-
-### String Extraction
-- `match()` / `matchAll()` - Extract with regex
-- `between()` / `betweenFirst()` - Extract between markers
-- `excerpt()` - Extract excerpt around phrase
-- `mask()` - Mask portion of string
-
-### Utility
-- `length()` - Get string length
-- `position()` - Find position of substring
-- `wordCount()` - Count words
-- `words()` - Limit word count
-- `numbers()` - Extract only numbers
-
----
-
-## Usage Examples
+## More Usage Examples
 
 ### URL Slug Generation
 
 ```typescript
-import { Str } from '@h3ravel/support'
+import { Str } from '@h3ravel/support';
 
-const title = 'How to Learn TypeScript in 2024'
-const slug = Str.slugify(title)
+const title = 'How to Learn TypeScript in 2024';
+const slug = Str.slugify(title);
 // "how-to-learn-typescript-in-2024"
 ```
 
 ### Email Parsing
 
 ```typescript
-import { Str } from '@h3ravel/support'
+import { Str } from '@h3ravel/support';
 
-const email = 'user@example.com'
-const username = Str.before(email, '@')    // "user"
-const domain = Str.after(email, '@')       // "example.com"
-const tld = Str.afterLast(domain, '.')     // "com"
+const email = 'user@example.com';
+const username = Str.before(email, '@'); // "user"
+const domain = Str.after(email, '@'); // "example.com"
+const tld = Str.afterLast(domain, '.'); // "com"
 ```
 
 ### Template Replacement
 
 ```typescript
-import { Str } from '@h3ravel/support'
+import { Str } from '@h3ravel/support';
 
-const template = 'Hello {user.name}, you have {count} messages'
+const template = 'Hello {user.name}, you have {count} messages';
 const result = Str.substitute(template, {
   user: { name: 'Alice' },
-  count: 5
-})
+  count: 5,
+});
 // "Hello Alice, you have 5 messages"
 ```
 
 ### Text Processing
 
 ```typescript
-import { Str } from '@h3ravel/support'
+import { Str } from '@h3ravel/support';
 
-const text = 'The quick brown fox jumps over the lazy dog'
+const text = 'The quick brown fox jumps over the lazy dog';
 
 // Get excerpt
-Str.firstLines(text, 1)  // First line
-Str.truncate(text, 20)   // Truncate to 20 chars
+Str.firstLines(text, 1); // First line
+Str.truncate(text, 20); // Truncate to 20 chars
 
 // Capitalize
-Str.capitalize(text)     // Capitalize each word
+Str.capitalize(text); // Capitalize each word
 
 // Count
-Str.wordCount(text)      // Count words
+Str.wordCount(text); // Count words
 ```
 
 ### Data Validation
 
 ```typescript
-import { Str } from '@h3ravel/support'
+import { Str } from '@h3ravel/support';
 
 // Check numeric strings
-Str.isNumber('123')      // true
-Str.isInteger('45.67')   // false
+Str.isNumber('123'); // true
+Str.isInteger('45.67'); // false
 
 // Validate formats
-Str.isUrl('https://example.com')  // true
-Str.isJson('{"key": "value"}')    // true
+Str.isUrl('https://example.com'); // true
+Str.isJson('{"key": "value"}'); // true
 ```
 
 ---
@@ -1209,11 +1180,11 @@ Str.isJson('{"key": "value"}')    // true
 All String helpers are fully typed:
 
 ```typescript
-import { Str } from '@h3ravel/support'
+import { Str } from '@h3ravel/support';
 
-const result: string = Str.after('hello@world.com', '@')
-const isNumeric: boolean = Str.isNumber('123')
-const lines: string = Str.firstLines('line1\nline2', 1)
+const result: string = Str.after('hello@world.com', '@');
+const isNumeric: boolean = Str.isNumber('123');
+const lines: string = Str.firstLines('line1\nline2', 1);
 ```
 
 ---
@@ -1223,19 +1194,12 @@ const lines: string = Str.firstLines('line1\nline2', 1)
 Most helpers can also be used via the fluent `Stringable` class:
 
 ```typescript
-import { Str } from '@h3ravel/support'
+import { Str } from '@h3ravel/support';
 
-Str.of('hello world')
-  .capitalize()
-  .slugify()
-  .toString()
+Str.of('hello world').capitalize().slugify().toString();
 // "Hello-World"
 
-Str.of('  test  ')
-  .trim()
-  .upper()
-  .append('!')
-  .toString()
+Str.of('  test  ').trim().upper().append('!').toString();
 // "TEST!"
 ```
 
@@ -1243,17 +1207,20 @@ Str.of('  test  ')
 
 ## Tips
 
-1. **Chainable Operations**: Use `Str.of()` for fluent chaining
-2. **Pluralization**: Handles irregular words automatically
-3. **Template Substitution**: Supports dot notation for nested objects
-4. **ROT Cipher**: Useful for simple obfuscation (not encryption!)
-5. **Line Operations**: Useful for log processing and text previews
+1. **Pluralization**: Handles irregular words automatically
+2. **Template Substitution**: Supports dot notation for nested objects
+3. **ROT Cipher**: Useful for simple obfuscation (not encryption!)
+4. **Line Operations**: Useful for log processing and text previews
 
----
-
-## See Also
-
-- [Debug Helpers](./debug.md)
-- [Number Helpers](./number.md)
-- [Array Helpers](./array.md) (if available)
-- [Object Helpers](./object.md) (if available)
+<style>
+.vp-doc thead {
+  display: none;
+}
+.vp-doc td {
+  border: none;
+}
+.vp-doc tr {
+    border: none !important;
+    background-color: transparent !important;
+}
+</style>

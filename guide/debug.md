@@ -1,13 +1,37 @@
 # Debug Helpers
 
-The `@h3ravel/support` package provides convenient debugging helpers inspired by Laravel's debugging utilities. These helpers make it easy to inspect variables, objects, and data structures during development.
+## Introduction
+
+H3ravel provides convenient debugging helpers inspired by Laravel's debugging utilities via the `@h3ravel/support` package. These helpers make it easy to inspect variables, objects, and data structures during development, many of them are also used within the framework itself; however, you are free to use them in your own applications if you find them convenient.
+
+To use these helpers in your application, you may install the `@h3ravel/support` package by running:
+
+::: code-group
+
+```sh [npm]
+$ npm install @h3ravel/support --save
+```
+
+```sh [yarn]
+$ yarn add @h3ravel/support
+```
+
+```sh [pnpm]
+$ pnpm add @h3ravel/support
+```
+
+```sh [bun]
+$ bun create @h3ravel/support
+```
+
+:::
+
+The `@h3ravel/support` is installed by default when using H3ravel
 
 ## Available Helpers
 
 - [`dump()`](#dump) - Output values and continue execution
 - [`dd()`](#dd) - Output values and terminate execution
-
----
 
 ## `dump()`
 
@@ -40,72 +64,70 @@ dump(...args: unknown[]): void
 #### Basic Usage
 
 ```typescript
-import { dump } from '@h3ravel/support'
+import { dump } from '@h3ravel/support';
 
 const user = {
   id: 1,
   name: 'John Doe',
-  email: 'john@example.com'
-}
+  email: 'john@example.com',
+};
 
-dump(user)
+dump(user);
 // Outputs the user object and continues execution
-console.log('Program continues...')
+console.log('Program continues...');
 ```
 
 #### Dumping Multiple Values
 
 ```typescript
-import { dump } from '@h3ravel/support'
+import { dump } from '@h3ravel/support';
 
-const name = 'Alice'
-const age = 25
-const hobbies = ['reading', 'coding', 'gaming']
+const name = 'Alice';
+const age = 25;
+const hobbies = ['reading', 'coding', 'gaming'];
 
-dump(name, age, hobbies)
+dump(name, age, hobbies);
 // Outputs all three values in order
 ```
 
 #### Debugging in Functions
 
 ```typescript
-import { dump } from '@h3ravel/support'
+import { dump } from '@h3ravel/support';
 
 function processOrder(order: any) {
-  dump(order) // Inspect the order
-  
+  dump(order); // Inspect the order
+
   // Continue processing...
-  const total = order.items.reduce((sum, item) => sum + item.price, 0)
-  
-  dump(total) // Inspect the calculated total
-  
-  return total
+  const total = order.items.reduce((sum, item) => sum + item.price, 0);
+
+  dump(total); // Inspect the calculated total
+
+  return total;
 }
 ```
 
 #### Inspecting Complex Objects
 
 ```typescript
-import { dump } from '@h3ravel/support'
+import { dump } from '@h3ravel/support';
 
 const complexData = {
   user: {
     profile: {
       settings: {
         theme: 'dark',
-        notifications: true
-      }
-    }
+        notifications: true,
+      },
+    },
   },
   metadata: new Map([['key1', 'value1']]),
-  created: new Date()
-}
+  created: new Date(),
+};
 
-dump(complexData)
+dump(complexData);
 // Shows complete nested structure with all details
 ```
-
----
 
 ## `dd()`
 
@@ -138,102 +160,99 @@ dd(...args: unknown[]): never
 #### Basic Usage
 
 ```typescript
-import { dd } from '@h3ravel/support'
+import { dd } from '@h3ravel/support';
 
 const user = {
   id: 1,
   name: 'John Doe',
-  email: 'john@example.com'
-}
+  email: 'john@example.com',
+};
 
-dd(user)
+dd(user);
 // Outputs the user object and STOPS execution
-console.log('This line will NEVER execute')
+console.log('This line will NEVER execute');
 ```
 
 #### Quick Debugging in Middleware
 
 ```typescript
-import { dd } from '@h3ravel/support'
+import { dd } from '@h3ravel/support';
 
 function authenticate(request: any) {
-  const token = request.headers.authorization
-  
-  dd(token) // Inspect token and stop here
-  
+  const token = request.headers.authorization;
+
+  dd(token); // Inspect token and stop here
+
   // Nothing below this line will execute
-  return validateToken(token)
+  return validateToken(token);
 }
 ```
 
 #### Debugging API Responses
 
 ```typescript
-import { dd } from '@h3ravel/support'
+import { dd } from '@h3ravel/support';
 
 async function fetchUser(id: number) {
-  const response = await fetch(`/api/users/${id}`)
-  const data = await response.json()
-  
-  dd(data) // Inspect the response and stop
-  
-  return data // This will never be reached
+  const response = await fetch(`/api/users/${id}`);
+  const data = await response.json();
+
+  dd(data); // Inspect the response and stop
+
+  return data; // This will never be reached
 }
 ```
 
 #### Inspecting Multiple Values Before Exit
 
 ```typescript
-import { dd } from '@h3ravel/support'
+import { dd } from '@h3ravel/support';
 
 function calculateTotal(items: any[]) {
-  const subtotal = items.reduce((sum, item) => sum + item.price, 0)
-  const tax = subtotal * 0.1
-  const total = subtotal + tax
-  
-  dd(subtotal, tax, total) // Inspect all values and stop
+  const subtotal = items.reduce((sum, item) => sum + item.price, 0);
+  const tax = subtotal * 0.1;
+  const total = subtotal + tax;
+
+  dd(subtotal, tax, total); // Inspect all values and stop
 }
 ```
 
----
-
 ## Comparison: `dump()` vs `dd()`
 
-| Feature | `dump()` | `dd()` |
-|---------|----------|--------|
-| Output to console | ✅ Yes | ✅ Yes |
-| Detailed inspection | ✅ Yes | ✅ Yes |
-| Shows hidden properties | ✅ Yes | ✅ Yes |
-| Colored output | ✅ Yes | ✅ Yes |
-| Continues execution | ✅ Yes | ❌ No |
-| Terminates process | ❌ No | ✅ Yes (exit code 1) |
-| Use case | Debug without stopping | Debug and stop immediately |
-
----
+| Feature                 | `dump()`               | `dd()`                     |
+| ----------------------- | ---------------------- | -------------------------- |
+| Output to console       | ✅ Yes                 | ✅ Yes                     |
+| Detailed inspection     | ✅ Yes                 | ✅ Yes                     |
+| Shows hidden properties | ✅ Yes                 | ✅ Yes                     |
+| Colored output          | ✅ Yes                 | ✅ Yes                     |
+| Continues execution     | ✅ Yes                 | ❌ No                      |
+| Terminates process      | ❌ No                  | ✅ Yes (exit code 1)       |
+| Use case                | Debug without stopping | Debug and stop immediately |
 
 ## When to Use Each Helper
 
 ### Use `dump()` when:
+
 - You want to inspect values at multiple points in your code
 - You need your application to continue running
 - You're debugging in a loop or recurring process
 - You want to trace the flow of data through your application
 
 ### Use `dd()` when:
+
 - You want to inspect a value and stop execution immediately
 - You're debugging an issue and don't need code after that point to run
 - You want to prevent side effects from occurring after a certain point
 - You're doing quick debugging and want immediate feedback
-
----
 
 ## Tips
 
 1. **Remove before production**: Both helpers are meant for development. Remove them before deploying to production.
 
 2. **Multiple values**: Both functions accept multiple arguments, which is useful for comparing values:
+
    ```typescript
-   dd(expected, actual, difference)
+   dd(expected, actual, difference);
    ```
 
 3. **Deep inspection**: Unlike `console.log()`, these helpers show the complete structure of objects without truncation.
@@ -242,16 +261,15 @@ function calculateTotal(items: any[]) {
 
 5. **Chaining**: Since `dump()` returns `void`, you can't chain it, but you can use it inline:
    ```typescript
-   const result = someFunction()
-   dump(result)
-   return result
+   const result = someFunction();
+   dump(result);
+   return result;
    ```
-
----
 
 ## Implementation Details
 
 Both helpers use Node.js's `util.inspect()` with the following options:
+
 - `showHidden: true` - Shows non-enumerable properties
 - `depth: null` - No depth limit (shows complete structure)
 - `colors: true` - Colored output for better readability
