@@ -1,9 +1,11 @@
 # Writing Commands
 
+## H3ravel
+
 Beyond the built-in commands, Musket lets you define your own custom commands.
 By convention, commands are stored in `src/app/Console/Commands`, though you can choose a different directory and configure H3ravel to scan it for commands (**WIP**).
 
-## Generating Commands (H3ravel Only) [WIP]
+### Generating Commands (H3ravel Only) [WIP]
 
 To generate a new command, use the `make:command` command. This creates a new command class in `src/app/Console/Commands`.
 If the directory doesn’t exist, it will be created automatically:
@@ -750,7 +752,7 @@ bar.finish();
 
 ## Command Registration
 
-### Auto-Discovery
+### Auto-Discovery (H3ravel)
 
 By default, H3ravel automatically registers all commands within the `src/app/Console/Commands` directory. However, you can instruct H3ravel to scan other directories for Musket commands using the `withCommands` method in your application's `src/bootstrap/app.ts` file:
 
@@ -783,7 +785,20 @@ export class CommandServiceProvider extends ServiceProvider {
 
 When Musket CLI boots, all the commands in your application will be resolved by the service container and registered with Artisan.
 
-### Built-In Commands
+### Auto-Discovery (Custom)
+
+Musket can also automatically discover and register commands from one or more directories using glob patterns when not using the H3ravel framework, you only need to pass the glob paths to the config parameter when initializing the kernel.
+
+```ts
+await Kernel.init(app, {
+  discoveryPaths: [
+    path.join(process.cwd(), 'src/Console/Commands/*.ts'),
+    path.join(process.cwd(), 'app/Commands/*.js'),
+  ],
+});
+```
+
+### Built-In Commands (H3ravel)
 
 When used in H3ravel, Musket ships with a number of useful command utilities to help you achieve repetitive tasks
 
