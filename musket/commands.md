@@ -3,7 +3,7 @@
 Beyond the built-in commands, Musket lets you define your own custom commands.
 By convention, commands are stored in `src/app/Console/Commands`, though you can choose a different directory and configure H3ravel to scan it for commands (**WIP**).
 
-## Generating Commands [WIP]
+## Generating Commands (H3ravel Only) [WIP]
 
 To generate a new command, use the `make:command` command. This creates a new command class in `src/app/Console/Commands`.
 If the directory doesn’t exist, it will be created automatically:
@@ -34,8 +34,8 @@ $ bun musket make:command SendEmails
 
 ## Command Structure
 
-After generating your command, define the `signature` and `description` properties.
-These are displayed when listing available commands.
+Each musket command must define the `signature` and `description` properties, these are displayed when listing available commands.
+
 The `signature` property also specifies the [expected input](#command-signature) for the command.
 
 The `handle()` method contains the logic that runs when your command is executed.
