@@ -50,16 +50,26 @@ export default defineConfig({
             ]
           },
           {
+            text: 'Musket CLI',
+            collapsed: true,
+            items: [
+              { text: 'Introduction', link: '/musket/' },
+              { text: 'Configuration', link: '/musket/config' },
+              { text: 'Usage', link: '/musket/usage' },
+              { text: 'Writting Commands', link: '/musket/commands' },
+              { text: 'Availability', link: '/musket/availability' },
+            ]
+          },
+          {
             text: 'Advanced',
             collapsed: true,
             items: [
               { text: 'Mail', link: '/guide/deeper/mail' },
               { text: 'Storage', link: '/guide/deeper/filesystem' },
-              { text: 'Musket CLI', link: '/guide/deeper/musket' },
-              { text: 'Helpers', link: '/guide/helpers' },
-              { text: 'Strings', link: '/guide/strings' },
-              { text: 'Debug', link: '/guide/debug' },
-              { text: 'Deployment', link: '/guide/deployment' },
+              { text: 'Helpers', link: '/guide/deeper/helpers' },
+              { text: 'Strings', link: '/guide/deeper/strings' },
+              { text: 'Debug', link: '/guide/deeper/debug' },
+              { text: 'Deployment', link: '/guide/deeper/deployment' },
             ]
           },
           {

@@ -1,67 +1,9 @@
-# Musket CLI
-
-## Introduction
-
-**Musket CLI** is a lightweight, framework-agnostic command-line framework for building **Artisan-style CLI applications**. It powers the command-line interface included with **H3ravel** and provides a collection of useful commands to streamline development.
-
-By default, Musket CLI is installed with every H3ravel application. To see a list of all available commands, run:
-
-::: code-group
-
-```sh [npx]
-$ npx musket list
-```
-
-```sh [npm]
-$ npm musket list
-```
-
-```sh [yarn]
-$ yarn musket list
-```
-
-```sh [pnpm]
-$ pnpm musket list
-```
-
-```sh [bun]
-$ bun musket list
-```
-
-:::
-
-Each command also includes a detailed **help screen** describing its available arguments and options. You can access it by prefixing the command name with `help`:
-
-::: code-group
-
-```sh [npx]
-$ npx musket migrate
-```
-
-```sh [npm]
-$ npm musket migrate
-```
-
-```sh [yarn]
-$ yarn musket migrate
-```
-
-```sh [pnpm]
-$ pnpm musket migrate
-```
-
-```sh [bun]
-$ bun musket migrate
-```
-
-:::
-
-## Writing Commands
+# Writing Commands
 
 Beyond the built-in commands, Musket lets you define your own custom commands.
 By convention, commands are stored in `src/app/Console/Commands`, though you can choose a different directory and configure H3ravel to scan it for commands (**WIP**).
 
-### Generating Commands [WIP]
+## Generating Commands [WIP]
 
 To generate a new command, use the `make:command` command. This creates a new command class in `src/app/Console/Commands`.
 If the directory doesn’t exist, it will be created automatically:
@@ -90,7 +32,7 @@ $ bun musket make:command SendEmails
 
 :::
 
-### Command Structure
+## Command Structure
 
 After generating your command, define the `signature` and `description` properties.
 These are displayed when listing available commands.
@@ -130,7 +72,7 @@ export class SendEmails extends Command {
 
 > 💡 **Tip:** Keep commands lightweight — delegate complex logic to dedicated service classes or modules. In the example above, the heavy lifting of sending emails is handled by a separate mail service.
 
-### Exit Codes
+## Exit Codes
 
 When the `handle()` method completes successfully without returning anything, Musket exits with code **0** (success).
 
@@ -147,11 +89,11 @@ Alternatively, use the `fail()` method to stop execution and exit with code **1*
 this.fail('Something went wrong.');
 ```
 
-### Closure Commands [WIP]
+## Closure Commands [WIP]
 
 Musket will soon support closure-based commands, allowing quick command definitions without creating full class files.
 
-### Command Signature
+## Command Signature
 
 Commands often need input from the user — either through **arguments** or **options**.
 You can define these expectations directly in the command’s `signature` property using an expressive, route-like syntax.
@@ -164,7 +106,7 @@ protected signature = 'user:create {name} {--admin}';
 
 This defines a command named `user:create` that accepts a `name` argument and an optional `--admin` flag.
 
-### Basic Examples
+## Basic Examples
 
 | Type                    | Example                                                      | Description                 |
 | ----------------------- | ------------------------------------------------------------ | --------------------------- |
@@ -176,7 +118,7 @@ This defines a command named `user:create` that accepts a `name` argument and an
 | **Options with Values** | `'backup:create {--format=zip : Backup format}'`             | Option that expects a value |
 | **Shortcuts**           | `'serve:start {--p\|port=3000 : Port number}'`               | Option aliases              |
 
-### Complex Signature Example
+## Complex Signature Example
 
 ```ts
 protected signature = `user:create
@@ -187,7 +129,7 @@ protected signature = `user:create
   {--f|force : Skip confirmation}`;
 ```
 
-### Namespaced Commands
+## Namespaced Commands
 
 Namespaced commands can be created by adding a colon (`:`) after the command name (namespace) and proceeding to define the rest commands with `{` and `}`. Namespaced commands allow you to define multiple commands in one class and is usefull for creating commands that share a common source of truth.
 
@@ -242,7 +184,7 @@ export class CacheCommand extends Command {
 }
 ```
 
-#### Sub Command Signature
+### Sub Command Signature
 
 When you define a namespaced command, you may use a pipe character (`|`) to separate all of the sub commands signature
 
@@ -460,7 +402,7 @@ You can also combine the optional (`?`) and array (`*`) markers to allow zero or
 'mail:send {user?*}';
 ```
 
-#### Option Arrays
+### Option Arrays
 
 Options can also accept multiple values using the same pattern:
 
