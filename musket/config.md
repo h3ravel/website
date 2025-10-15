@@ -26,3 +26,61 @@ await Kernel.init(app, {
 | **hideMusketInfo** | `boolean`                                             | `false`     | If `true`, suppresses automatic Musket name and version info in console output.                                                                                       |
 | **baseCommands**   | `typeof Command[]`                                    | `[]`        | A list of command classes to preload into the CLI without discovery.                                                                                                  |
 | **discoveryPaths** | `string\|string[]`                                    | `[]`        | One or more glob paths where Musket should search and automatically register command files (e.g. `'src/Console/Commands/*.ts'`).                                      |
+| **allowRebuilds**  | `boolean`                                             | `false`     | If `true`, commands and CLI structures will rebuild automatically when code changes are detected.                                                                     |
+| **rootCommand**    | `typeof Command`                                      | `undefined` | The command to run when the CLI is executed without any arguments                                                                                                     |
+
+### Examples: `allowRebuilds` and `rootCommand`
+
+#### Automatic Rebuilds on Code Changes
+
+Enabling `allowRebuilds` lets Musket automatically reload commands or rebuild internal structures whenever code changes. This is useful during development:
+
+```ts
+import { Kernel } from '@h3ravel/musket';
+import { Application } from './Application';
+
+const app = new Application();
+
+await Kernel.init(app, {
+  allowRebuilds: true,
+  discoveryPaths: ['src/Commands/*.ts'],
+});
+```
+
+With this enabled, Musket will detect changes in your command files and reload them without restarting the CLI manually.
+
+#### Default Root Command
+
+The `rootCommand` option lets you define a command that runs when the CLI is executed without arguments:
+
+```ts
+import { Kernel, Command } from '@h3ravel/musket';
+import { Application } from './Application';
+
+class DefaultCommand extends Command {
+  protected signature = 'default';
+  protected description = 'Runs when no arguments are provided';
+
+  async handle() {
+    this.info('Welcome to Musket CLI! No arguments were passed.');
+  }
+}
+
+const app = new Application();
+
+await Kernel.init(app, {
+  rootCommand: DefaultCommand,
+});
+```
+
+Now, running the CLI with no arguments:
+
+```sh
+node dist/cli.js
+```
+
+Output:
+
+```
+Welcome to Musket CLI! No arguments were passed.
+```
