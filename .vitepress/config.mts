@@ -54,7 +54,7 @@ export default defineConfig({
             collapsed: true,
             items: [
               { text: 'Introduction', link: '/musket/' },
-              { text: 'Configuration', link: '/musket/config' },
+              { text: 'Config And Registration', link: '/musket/config' },
               { text: 'Usage', link: '/musket/usage' },
               { text: 'Writting Commands', link: '/musket/commands' },
               { text: 'Availability', link: '/musket/availability' },

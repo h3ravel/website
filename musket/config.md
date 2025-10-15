@@ -1,4 +1,6 @@
-# Configuration
+# Config And Registration
+
+## Configuration
 
 You can customize Musket’s behavior by passing a configuration object to `Kernel.init()`:
 
@@ -29,27 +31,40 @@ await Kernel.init(app, {
 | **allowRebuilds**  | `boolean`                                             | `false`     | If `true`, commands and CLI structures will rebuild automatically when code changes are detected.                                                                     |
 | **rootCommand**    | `typeof Command`                                      | `undefined` | The command to run when the CLI is executed without any arguments                                                                                                     |
 
-### Examples: `allowRebuilds` and `rootCommand`
+## Command Registration
 
-#### Automatic Rebuilds on Code Changes
+### Base Command List
 
-Enabling `allowRebuilds` lets Musket automatically reload commands or rebuild internal structures whenever code changes. This is useful during development:
+Besides registering commands via auto discovery, you can also provide a list of commands that will be registered with your `musket` instance via the `baseCommands` option or the `registeredCommands` property of your `app` instance.
 
 ```ts
 import { Kernel } from '@h3ravel/musket';
 import { Application } from './Application';
+import { BuildCommand } from './Commands';
 
 const app = new Application();
 
 await Kernel.init(app, {
-  allowRebuilds: true,
-  discoveryPaths: ['src/Commands/*.ts'],
+  baseCommands: [BuildCommand],
 });
 ```
 
-With this enabled, Musket will detect changes in your command files and reload them without restarting the CLI manually.
+Or
 
-#### Default Root Command
+```ts
+import { Kernel } from '@h3ravel/musket';
+import { BuildCommand } from './Commands';
+
+class Application {
+  registeredCommands = [GreetCommand];
+}
+
+const app = new Application();
+
+await Kernel.init(app);
+```
+
+### Default Root Command
 
 The `rootCommand` option lets you define a command that runs when the CLI is executed without arguments:
 
@@ -84,3 +99,21 @@ Output:
 ```
 Welcome to Musket CLI! No arguments were passed.
 ```
+
+## Automatic Rebuilds on Code Changes
+
+Enabling `allowRebuilds` lets Musket automatically reload commands or rebuild internal structures whenever code changes. This is useful during development:
+
+```ts
+import { Kernel } from '@h3ravel/musket';
+import { Application } from './Application';
+
+const app = new Application();
+
+await Kernel.init(app, {
+  allowRebuilds: true,
+  discoveryPaths: ['src/Commands/*.ts'],
+});
+```
+
+With this enabled, Musket will detect changes in your command files and reload them without restarting the CLI manually.
