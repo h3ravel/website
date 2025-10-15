@@ -37,17 +37,12 @@ $ bun musket make:command SendEmails
 Each musket command must define the `signature` and `description` properties, these are displayed when listing available commands.
 
 The `signature` property also specifies the [expected input](#command-signature) for the command.
-
-The `handle()` method contains the logic that runs when your command is executed.
-Dependencies declared in this method are automatically injected by H3ravel’s [Service Container](/guide/architecture/container).
+Tthe `handle()` method contains the logic that runs when your command is executed.
 
 **Example:**
 
 ```ts
-import { Command } from '@h3ravel/console';
-import { Injectable } from '@h3ravel/core';
-import { User } from 'App/Models/User';
-import { ExampleMail } from 'App/Mail/ExampleMail';
+import { Command } from '@h3ravel/musket';
 
 export class SendEmails extends Command {
   /**
@@ -63,14 +58,29 @@ export class SendEmails extends Command {
   /**
    * Execute the console command.
    */
+  public handle() {
+    console.log('Mail Sent');
+  }
+}
+```
+
+> 💡 **Tip:** Keep commands lightweight — delegate complex logic to dedicated service classes or modules. In the example above, the heavy lifting of sending emails is handled by a separate mail service.
+
+In H3ravel, dependencies declared in the `handle` method can be automatically injected by H3ravel’s [Service Container](/guide/architecture/container).
+
+```ts
+import { Command } from '@h3ravel/musket';
+import { Injectable } from '@h3ravel/core';
+import { User } from 'App/Models/User';
+import { ExampleMail } from 'App/Mail/ExampleMail';
+
+export class SendEmails extends Command {
   @Injectable()
   public async handle(mail: ExampleMail): Promise<void> {
     await mail.send(User.query().find(this.argument('user')));
   }
 }
 ```
-
-> 💡 **Tip:** Keep commands lightweight — delegate complex logic to dedicated service classes or modules. In the example above, the heavy lifting of sending emails is handled by a separate mail service.
 
 ## Exit Codes
 
@@ -156,7 +166,7 @@ protected signature = `#cache:
 The example below demostrates how to handle namespaced commands.
 
 ```ts
-import { Command } from '@h3ravel/console';
+import { Command } from '@h3ravel/musket';
 
 export class CacheCommand extends Command {
   protected signature = `cache:
