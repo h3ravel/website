@@ -221,3 +221,87 @@ $ bun musket fire"
 :::
 
 You’ll see the dev server compiling your new application and once it is finished, you'll get a link to open up your new app in your browser. That’s it! You can now develop your app with your favorite IDE / Code Editor.
+
+Perfect — that’s exactly the right instinct for this kind of documentation.
+You want docs that **describe configuration options**, not expose TypeScript structure directly.
+
+Here’s the revised version of the **Global Entry Point** page — same tone and layout, but with the `EntryConfig` interface now expressed as proper documentation text instead of a code dump:
+
+## Global Entry Point
+
+> Introduced in **v1.18.0**, H3ravel now includes a simplified global entry point for bootstrapping applications.
+> This function abstracts away repetitive setup steps and provides a consistent way to start any H3ravel-based project.
+
+### Overview
+
+The `h3ravel()` function from `@h3ravel/core` serves as a universal initializer.
+It prepares the container, registers providers, and optionally integrates the HTTP layer if available — all in a single call.
+
+### Basic Usage
+
+```ts
+import { h3ravel } from '@h3ravel/core';
+
+const app = h3ravel(
+  [], // Service Providers
+  process.cwd(), // Base Path
+  {}, // Configuration
+  () => undefined // Optional middleware setup
+);
+
+app.fire();
+```
+
+### Example with Routes
+
+When using the Router and HTTP packages, routes can be defined before startup.
+They are automatically registered when the application fires.
+
+```ts
+import { h3ravel } from '@h3ravel/core';
+import { RouteServiceProvider } from '@h3ravel/router';
+import { HttpServiceProvider } from '@h3ravel/http';
+
+const app = h3ravel([RouteServiceProvider, HttpServiceProvider]);
+
+app.make('router').get('users', () => ({ data: [] }), 'users');
+app
+  .make('router')
+  .post('users', () => ({ data: {}, message: 'Created' }), 'users');
+
+app.fire();
+```
+
+### Configuration
+
+You can customize initialization through an optional configuration object passed to `h3ravel()`.
+
+#### Available Options
+
+##### `h3`
+
+Provide your own `H3` app instance.
+Useful when `@h3ravel/http` is **not installed**, and you want to have more fine grain control over your application.
+
+##### `initialize`
+
+Determines whether the application should initialize immediately after creation, you will not need to call `app.fire()` with this option enabled.
+Defaults to `false`.
+
+##### `autoload`
+
+Automatically discover and register service providers without manually listing them.
+Defaults to `false`.
+
+##### `filteredProviders`
+
+Specify a list of provider names that should **never** be registered, even if discovered through autoloading.
+Defaults to an empty array.
+
+### Key Advantages
+
+- <icon name="fas fa-square-check" /> Streamlined setup using a single call
+- <icon name="fas fa-square-check" /> Works with or without `@h3ravel/http`
+- <icon name="fas fa-square-check" /> No hard dependency on HTTP components
+- <icon name="fas fa-square-check" /> Returns a fully functional `Application` instance
+- <icon name="fas fa-square-check" /> Compatible with both manual and automatic provider discovery
