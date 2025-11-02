@@ -1216,6 +1216,10 @@ Str.of('  test  ').trim().upper().append('!').toString();
 .vp-doc thead {
   display: none;
 }
+.vp-doc tbody {
+  display: table;
+  width: 100%;
+}
 .vp-doc td {
   border: none;
 }

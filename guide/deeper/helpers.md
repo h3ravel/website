@@ -32,7 +32,440 @@ The `@h3ravel/support` is installed by default when using H3ravel
 
 ## Available Methods
 
-### Arrays & Objects [DOCS WIP]
+### Array Helpers
+
+The `Arr` class from `@h3ravel/support` provides a rich set of framework-agnostic utilities for working with JavaScript arrays and objects.
+Many of these methods mirror Laravel’s `Illuminate\Support\Arr`, offering familiar behavior with a TypeScript-friendly API.
+
+| [Accessors](#accessors)         | [Transformers](#transformers)     | [Utilities](#utilities)             |
+| ------------------------------- | --------------------------------- | ----------------------------------- |
+| [`dot`](#arr-dot)               | [`array`](#arr-array)             | [`boolean`](#arr-boolean)           |
+| [`map`](#arr-map)               | [`chunk`](#arr-chunk)             | [`collapse`](#arr-collapse)         |
+| [`except`](#arr-except)         | [`sortDesc`](#arr-sortdesc)       | [`isEmpty`](#arr-isempty)           |
+| [`isNotEmpty`](#arr-isnotempty) | [`range`](#arr-range)             | [`reverse`](#arr-reverse)           |
+| [`wrap`](#arr-integer)          | [`float`](#arr-float)             | [`float`](#arr-from)                |
+| [`combine`](#arr-combine)       | [`has`](#arr-has)                 | [`only`](#arr-only)                 |
+| [`crossJoin`](#arr-crossjoin)   | [`first`](#arr-first)             | [`prepend`](#arr-prepend)           |
+| [`divide`](#arr-divide)         | [`flatten`](#arr-flatten)         | [`pull`](#arr-pull)                 |
+| [`random`](#arr-random)         | [`last`](#arr-last)               | [`shuffle`](#arr-shuffle)           |
+| [`hasAny`](#arr-hasany)         | [`sort`](#arr-sort)               | [`hasAll`](#arr-hasall)             |
+| [`pluck`](#arr-pluck)           | [`forget`](#arr-forget)           | [`unique`](#arr-unique)             |
+| [`join`](#arr-join)             | [`where`](#arr-where)             | [`whereNotNull`](#arr-wherenotnull) |
+| [`wrap`](#arr-wrap)             | [`mapWithKeys`](#arr-mapwithkeys) | [`push`](#arr-push)                 |
+| [`keyBy`](#arr-keyby)           | [`string`](#arr-string)           | [`take`](#arr-take)                 |
+
+#### `Arr.array`
+
+The `Arr.array` method retrieves a value using dot notation, throws if value is not an array
+
+```ts
+const data = { user: { emails: ['dj@example.com', 'xr@example.com'] } };
+
+Arr.array(data, 'user.emails');
+// ['dj@example.com', 'xr@example.com']
+```
+
+#### `Arr.boolean`
+
+The `Arr.boolean` method retrieves a value using dot notation, throws if value is not a boolean
+
+```ts
+const data = { user: { name: 'join', verified: true } };
+
+Arr.boolean(data, 'user.verified');
+// true
+```
+
+#### `Arr.has`
+
+The `Arr.has` method determines whether a given key exists within an array or object using “dot” notation.
+
+```ts
+Arr.has({ user: { profile: { name: 'Legacy' } } }, 'user.profile.name');
+// true
+```
+
+#### `Arr.first`
+
+The `Arr.first` method returns the first element in an array that passes a given truth test. If no callback is provided, the first element in the array is returned.
+
+```ts
+Arr.first([1, 2, 3, 4], (n) => n > 2);
+// 3
+
+Arr.first([], null, 'none');
+// 'none'
+```
+
+#### `Arr.float`
+
+The `Arr.float` method retrieves a value from an array/object using dot notation, throws if value is not a float
+
+```ts
+const data = { user: { name: 'join', balance: 1.5 } };
+
+Arr.float(data, 'user.balance');
+// 1.5
+```
+
+#### `Arr.from`
+
+The `Arr.from` method converts various input types into a plain array
+Supports `Arrays`, `Objects`, `Iterables`, `Map`, `WeakMap`, and custom toArray/toJSON/jsonSerialize methods
+
+```ts
+const data = { name: 'John', plan: 'Delux' };
+
+Arr.from(data);
+// 1[ 'John', 'Delux' ]
+```
+
+#### `Arr.last`
+
+The `Arr.last` method returns the last element in an array that passes a given truth test. If no callback is provided, the last element is returned.
+
+```ts
+Arr.last([1, 2, 3, 4], (n) => n < 3);
+// 2
+```
+
+#### `Arr.pluck`
+
+The `Arr.pluck` method retrieves all of the values for a given key from an array of objects.
+
+```ts
+const users = [
+  { name: 'Legacy', email: 'legacy@example.com' },
+  { name: 'Adajie', email: 'adajie@example.com' },
+];
+
+Arr.pluck(users, 'email');
+// ['legacy@example.com', 'adajie@example.com']
+```
+
+#### `Arr.only`
+
+The `Arr.only` method returns a new object containing only the specified keys from the original array or object.
+
+```ts
+Arr.only({ name: 'Legacy', age: 25, role: 'Dev' }, ['name', 'role']);
+// { name: 'Legacy', role: 'Dev' }
+```
+
+#### `Arr.except`
+
+The `Arr.except` method removes the specified keys from the given object or array.
+
+```ts
+Arr.except({ name: 'Legacy', age: 25, role: 'Dev' }, ['role']);
+// { name: 'Legacy', age: 25 }
+```
+
+#### `Arr.isEmpty`
+
+The `Arr.isEmpty` method determines if the given array has no elements or properties.
+
+```ts
+Arr.isEmpty([]);
+// true
+```
+
+#### `Arr.isEmpty`
+
+The `Arr.isNotEmpty` method determines if the given array has at least one element or property (not empty).
+
+```ts
+Arr.isNotEmpty([1, 2, 3]);
+// true
+```
+
+#### `Arr.hasAll`
+
+The `Arr.hasAll` Checks if an array or object has all the specified keys.
+
+```ts
+Arr.hasAll({ name: 'Legacy', age: 25 }, ['email', 'name']);
+// false
+```
+
+#### `Arr.hasAny`
+
+The `Arr.hasAny` method checks if at least one of the specified keys exists in the array or object.
+
+```ts
+Arr.hasAny({ name: 'Legacy', age: 25 }, ['email', 'name']);
+// true
+```
+
+#### `Arr.integer`
+
+The `Arr.integer` method retrieves a value from an array/object using dot notation, throws if value is not an integer
+
+```ts
+const data = { user: { name: 'join', id: 22 } };
+
+Arr.integer(data, 'user.id');
+// 1.5
+```
+
+#### `Arr.where`
+
+The `Arr.where` method filters the array using the given callback, returning all elements that pass the test.
+
+```ts
+Arr.where([1, 2, 3, 4], (n) => n > 2);
+// [3, 4]
+```
+
+#### `Arr.whereNotNull`
+
+The `Arr.whereNotNull` method removes all `null` and `undefined` values from an array.
+
+```ts
+Arr.whereNotNull([1, null, 2, undefined, 3]);
+// [1, 2, 3]
+```
+
+#### `Arr.unique`
+
+The `Arr.unique` method returns all unique items from an array, preserving order.
+
+```ts
+Arr.unique([1, 1, 2, 3, 3]);
+// [1, 2, 3]
+```
+
+#### `Arr.map`
+
+The `Arr.map` method applies a given callback to each item in the array and returns a new array of results.
+
+```ts
+Arr.map([1, 2, 3], (n) => n * 2);
+// [2, 4, 6]
+```
+
+#### `Arr.mapWithKeys`
+
+The `Arr.mapWithKeys` method maps each element to a key-value pair.
+
+```ts
+Arr.mapWithKeys([{ id: 1, name: 'A' }], (x) => [x.id, x.name]);
+// { '1': 'A' }
+```
+
+#### `Arr.flatten`
+
+The `Arr.flatten` method flattens a multi-dimensional array into a single level.
+You may specify a depth to control how deep the flattening should go.
+
+```ts
+Arr.flatten([1, [2, [3, [4]]]], 2);
+// [1, 2, 3, [4]]
+```
+
+#### `Arr.collapse`
+
+The `Arr.collapse` method flattens an array of arrays into a single array.
+
+```ts
+Arr.collapse([
+  [1, 2],
+  [3, 4],
+]);
+// [1, 2, 3, 4]
+```
+
+#### `Arr.combine`
+
+The `Arr.combine` Combine arrays and sum their values element by element.
+
+```ts
+Arr.combine([10, 1], [5, 25]);
+// 41
+```
+
+#### `Arr.divide`
+
+The `Arr.divide` method returns two arrays — one containing the keys and the other containing the values.
+
+```ts
+Arr.divide({ name: 'Legacy', age: 25 });
+// [['name', 'age'], ['Legacy', 25]]
+```
+
+#### `Arr.dot`
+
+The `Arr.dot` method flattens a multi-dimensional array or object into a single-level object using “dot” notation.
+
+```ts
+Arr.dot({ user: { profile: { name: 'Legacy' } } });
+// { 'user.profile.name': 'Legacy' }
+```
+
+#### `Arr.keyby`
+
+The `Arr.keyby` method creates an object indexed by a key or callback function.
+
+```ts
+Arr.keyBy([{ id: 1 }, { id: 2 }], 'id');
+// { '1': {id:1}, '2': {id:2} }
+```
+
+#### `Arr.sort`
+
+The `Arr.sort` method sorts an array by its values. If a callback is provided, the callback’s return value determines the sort order.
+
+```ts
+Arr.sort([3, 1, 2]);
+// [1, 2, 3]
+```
+
+#### `Arr.sortDesc`
+
+The `Arr.sortDesc` method sorts an array in descending order. Like `Arr.sort`, you may provide a callback to customize sorting.
+
+```ts
+Arr.sortDesc([1, 2, 3]);
+// [3, 2, 1]
+```
+
+#### `Arr.shuffle`
+
+The `Arr.shuffle` method randomly shuffles the items in an array.
+
+```ts
+Arr.shuffle([1, 2, 3, 4]);
+// [3, 1, 4, 2] // random order
+```
+
+#### `Arr.chunk`
+
+The `Arr.chunk` method breaks an array into smaller arrays of a given size.
+
+```ts
+Arr.chunk([1, 2, 3, 4, 5], 2);
+// [[1, 2], [3, 4], [5]]
+```
+
+#### `Arr.wrap`
+
+The `Arr.wrap` method wraps the given value in an array. If the value is already an array, it is returned unchanged.
+
+```ts
+Arr.wrap('Legacy');
+// ['Legacy']
+```
+
+#### `Arr.random`
+
+The `Arr.random` method returns one or more random elements from an array.
+
+```ts
+Arr.random([1, 2, 3, 4]);
+// 3
+
+Arr.random([1, 2, 3, 4], 2);
+// [2, 4]
+```
+
+#### `Arr.forget`
+
+The `Arr.forget` method removes one or more items from a deeply nested array or object using “dot” notation.
+
+```ts
+const data = { user: { profile: { name: 'Legacy', age: 25 } } };
+
+Arr.forget(data, 'user.profile.age');
+// { user: { profile: { name: 'Legacy' } } }
+```
+
+#### `Arr.pull`
+
+The `Arr.pull` method retrieves a value from a given key and then removes it from the array or object.
+
+```ts
+const data = { name: 'Legacy', age: 25 };
+
+Arr.pull(data, 'age');
+// 25
+// data => { name: 'Legacy' }
+```
+
+#### `Arr.add`
+
+The `Arr.add` method adds a key-value pair to the array if the specified key does not already exist.
+
+```ts
+Arr.add({ name: 'Legacy' }, 'age', 25);
+// { name: 'Legacy', age: 25 }
+```
+
+#### `Arr.prepend`
+
+The `Arr.prepend` method adds an item to the beginning of an array, optionally using a key.
+
+```ts
+Arr.prepend([2, 3], 1);
+// [1, 2, 3]
+```
+
+#### `Arr.push`
+
+The `Arr.push` method appends a value to the end of the array.
+
+```ts
+Arr.push([1, 2], 3);
+// [1, 2, 3]
+```
+
+#### `Arr.crossJoin`
+
+The `Arr.crossJoin` method performs a cross join across multiple arrays, returning all possible combinations.
+
+```ts
+Arr.crossJoin([1, 2], ['a', 'b']);
+// [[1, 'a'], [1, 'b'], [2, 'a'], [2, 'b']]
+```
+
+#### `Arr.range`
+
+The `Arr.range` method creates an array containing a range of numbers.
+
+```ts
+Arr.range(1, 5);
+// [1, 2, 3, 4, 5]
+```
+
+#### `Arr.reverse`
+
+The `Arr.reverse` method creates a new array in reverse order.
+
+```ts
+Arr.reverse([1, 2, 3, 4, 5]);
+// [5, 4, 3, 1, 1]
+```
+
+#### `Arr.string`
+
+The `Arr.string` method retrieves a value using dot notation, throws if value is not a string
+
+```ts
+const data = { user: { name: 'John', verified: true } };
+
+Arr.string(data, 'user.name');
+// 'John'
+```
+
+#### `Arr.take`
+
+The `Arr.take` method returns the first `N` elements of an array
+
+```ts
+const data = [22, 19, 33, 6, 44];
+
+Arr.take(data, 3);
+// [22, 19, 33]
+```
 
 ### Numbers [DOCS WIP]
 
@@ -605,6 +1038,10 @@ toHumanTime(60, true); // Valid
 <style>
 .vp-doc thead {
   display: none;
+}
+.vp-doc tbody {
+  display: table;
+  width: 100%;
 }
 .vp-doc td {
   border: none;
