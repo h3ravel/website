@@ -212,8 +212,6 @@ This outputs headers, content, and status information.
 | `withException(e)`                      | Attach an exception to this response                             |
 | `throwResponse()`                       | Throw the current response as an exception                       |
 
-Excellent. Here’s the **“Quick Examples”** appendix in our H3ravel documentation tone — clean, practical, and aligned with how we format `Request` and `Router` examples.
-
 ## Quick Examples
 
 Here are a few real-world examples of working with the `Response` class in H3ravel applications.
