@@ -1,4 +1,6 @@
-# Creating Commands
+# Basic Usage
+
+## Creating Commands
 
 Commands in Musket extend the base `Command` class and define a **signature** and **handle()** method.
 

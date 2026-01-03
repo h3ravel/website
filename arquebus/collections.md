@@ -4,7 +4,7 @@ outline: [2, 4]
 
 # Collections
 
-All Arquebus ORM methods that return more than one model result will return instances of the `Collection` class, including results retrieved via the `get` method or accessed via a relationship. The Arquebus ORM collection object extends [collect.js](https://collect.js.org/) collection, so it naturally inherits dozens of methods used to fluently work with the underlying array of Arquebus ORM models. Be sure to review the Laravel collection documentation to learn all about these helpful methods!
+All Arquebus ORM methods that return more than one model result will return instances of the `Collection` class, including results retrieved via the `get` method or accessed via a relationship. The Arquebus ORM collection object extends [collect.js](https://collect.js.toneflix.net) collection, so it naturally inherits dozens of methods used to fluently work with the underlying array of Arquebus ORM models. Be sure to review the Laravel collection documentation to learn all about these helpful methods!
 
 All collections also serve as iterators, allowing you to loop over them as if they were arrays:
 

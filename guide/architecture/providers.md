@@ -39,7 +39,7 @@ Service Providers are loaded in `bootstrap/providers.ts`
 
 ```ts
 import { Application } from "@h3ravel/core";
-import { IServiceProvider } from "@h3ravel/shared";
+import { IServiceProvider } from "@h3ravel/contracts";
 import { MyServiceProvider } from "App/Providers/MyServiceProvider";
 
 export default <Array<new (_app: Application) => IServiceProvider>>[

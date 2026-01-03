@@ -229,7 +229,7 @@ flight.number; // "FR 900"
 
 As we have seen, Arquebus ORM methods like `all` and `get` retrieve multiple records from the database. However, these methods don't return a plain array. Instead, an instance of [Collection](collections) is returned.
 
-The Arquebus ORM Collection class extends [`collect.js`](https://collect.js.org/) class, which provides a [variety of helpful methods](collections#available-methods) for interacting with data collections. For example, the reject method may be used to remove models from a collection based on the results of an invoked closure:
+The Arquebus ORM Collection class extends [`collect.js`](https://collect.js.toneflix.net) class, which provides a [variety of helpful methods](collections#available-methods) for interacting with data collections. For example, the reject method may be used to remove models from a collection based on the results of an invoked closure:
 
 ```ts
 const flights = await Flight.query().where('destination', 'Paris').get();

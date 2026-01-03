@@ -31,7 +31,7 @@ $ bun install @h3ravel/mail
 
 ```ts
 import { Application } from '@h3ravel/core';
-import { IServiceProvider } from '@h3ravel/shared';
+import { IServiceProvider } from '@h3ravel/contracts';
 import { MailServiceProvider } from '@h3ravel/mail';
 
 export default <Array<new (_app: Application) => IServiceProvider>>[

@@ -55,8 +55,9 @@ export default defineConfig({
             collapsed: true,
             items: [
               { text: 'Introduction', link: '/musket/' },
-              { text: 'Config And Registration', link: '/musket/config' },
-              { text: 'Usage', link: '/musket/usage' },
+              { text: 'Get Started', link: '/musket/get-started' },
+              { text: 'Basic Usage', link: '/musket/usage' },
+              { text: 'Methods', link: '/musket/methods' },
               { text: 'Writting Commands', link: '/musket/commands' },
               { text: 'Availability', link: '/musket/availability' },
             ]
@@ -129,12 +130,12 @@ export default defineConfig({
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
     ['meta', { property: 'og:type', content: 'website' }],
-    ['meta', { property: 'og:url', content: 'https://h3ravel.toneflix.com' }],
+    ['meta', { property: 'og:url', content: 'https://h3ravel.toneflix.net' }],
     ['meta', { property: 'og:title', content: 'The web framework that masks your fears' }],
     ['meta', { property: 'og:image', content: 'https://h3ravel.toneflix.net/banner.png' }],
     ['meta', { property: 'og:description', content: 'Modern TypeScript runtime-agnostic web framework built on top of H3 with Laravel\'s Elegance and TypeScript\'s Power' }],
     ['meta', { property: 'twitter:card', content: 'summary_large_image' }],
-    ['meta', { property: 'twitter:url', content: 'https://h3ravel.toneflix.com' }],
+    ['meta', { property: 'twitter:url', content: 'https://h3ravel.toneflix.net' }],
     ['meta', { property: 'twitter:title', content: 'The web framework that masks your fears' }],
     ['meta', { property: 'twitter:image', content: 'https://h3ravel.toneflix.net/banner.png' }],
     ['meta', { property: 'twitter:description', content: 'Modern TypeScript runtime-agnostic web framework built on top of H3 with Laravel\'s Elegance and TypeScript\'s Power' }],

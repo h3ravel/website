@@ -1,8 +1,11 @@
-# Config And Registration
+# Get Started
 
 ## Configuration
 
-You can customize Musket’s behavior by passing a configuration object to `Kernel.init()`:
+Musket is configured at startup through the `Kernel.init()` method.
+The configuration object controls how the CLI is identified, what it exposes, and how commands are discovered and registered.
+
+Most applications will define this once at boot and let Musket handle the rest.
 
 ```ts
 import path from 'path';
@@ -14,6 +17,26 @@ await Kernel.init(app, {
   discoveryPaths: [path.join(process.cwd(), 'src/Commands/*.ts')],
 });
 ```
+
+### What this does
+
+- Sets the CLI name used in help output and usage instructions
+- Defines which npm packages are shown when `-V` / `--version` is passed
+- Enables automatic command discovery from the specified paths
+
+### When to use configuration
+
+Use the configuration object to:
+
+- Brand your CLI (name, version, description)
+- Control version output
+- Register commands automatically
+- Tune Musket’s startup behavior without manual wiring
+
+From here, you can either:
+
+- Rely on **automatic discovery**, or
+- Register commands **manually** using the [`Kernel`](#fluent-initialization-kernel-api) API
 
 ### Available Configuration Options
 
@@ -100,9 +123,10 @@ Output:
 Welcome to Musket CLI! No arguments were passed.
 ```
 
-## Automatic Rebuilds on Code Changes
+## Automatic Rebuilds
 
-Enabling `allowRebuilds` lets Musket automatically reload commands or rebuild internal structures whenever code changes. This is useful during development:
+During development, restarting the CLI after every change gets old fast.
+Setting `allowRebuilds` to `true` tells Musket to watch your command sources and automatically rebuild its internal command registry when changes are detected.
 
 ```ts
 import { Kernel } from '@h3ravel/musket';
@@ -116,4 +140,88 @@ await Kernel.init(app, {
 });
 ```
 
-With this enabled, Musket will detect changes in your command files and reload them without restarting the CLI manually.
+### What happens when this is enabled
+
+- Command files are watched for changes
+- Modified commands are reloaded automatically
+- The CLI updates without a manual restart
+
+### When to use it
+
+- Local development
+- Building or iterating on commands
+- Debugging command behavior
+
+### When **not** to use it
+
+- Production environments
+- One-off CLI executions
+- Performance-sensitive workflows
+
+> `allowRebuilds` is a development convenience, not a runtime feature.
+> Disable it in production to avoid unnecessary filesystem watchers.
+
+## Fluent Initialization (Kernel API)
+
+Musket CLI supports a fluent, programmatic initialization flow for cases where the default config-based bootstrap isn’t flexible enough. This approach gives you full control over the Kernel lifecycle, allowing you to configure discovery, packages, and commands explicitly at runtime.
+
+This mode is ideal for advanced use cases such as embedded CLIs, test environments, monorepos, or dynamic command registration.
+
+### Package configuration behavior
+
+::: warning Package configuration
+When the `Kernel` is initialized programmatically, the `packages` property defined in your config file is **ignored**.
+This is intentional. Once you opt into manual kernel control, Musket assumes you want **explicit ownership** of package registration.
+To register packages in this mode, you **must** use `setPackages()`.
+:::
+
+### Example: Fluent kernel bootstrap
+
+```ts
+import { Kernel } from 'h3ravel/musket';
+import { TestCommand, Application } from './Example';
+
+const app = new Application();
+
+const instance = new Kernel(app)
+  .setCwd(process.cwd())
+  .setConfig({
+    cliName: 'musket-cli',
+    discoveryPaths: [path.join(process.cwd(), 'tests/Commands/*.ts')],
+  })
+  .setPackages([
+    { name: '@h3ravel/shared', alias: 'Shared PKG' },
+    '@h3ravel/support',
+  ])
+  .registerCommands([TestCommand])
+  .bootstrap();
+
+return await instance.run();
+```
+
+### API breakdown
+
+- **`setCwd(cwd: string)`**
+  Sets the working directory used by the CLI runtime.
+
+- **`setConfig(config: KernelConfig)`**
+  Provides runtime configuration directly, bypassing file-based resolution.
+
+- **`setPackages(packages: (string | { name: string, alias: string })[])`**
+  Registers packages explicitly.
+  **Required** when using fluent initialization.
+
+- **`registerCommands(commands: Command[])`**
+  Registers command classes directly on the kernel.
+
+- **`bootstrap()`**
+  Finalizes kernel setup. Must be called before `run()`.
+
+- **`run()`**
+  Executes the CLI.
+
+### Notes
+
+- Fluent initialization bypasses config file `package` loading.
+- Call `bootstrap()` before `run()`.
+- Prefer config-based initialization for standard setups.
