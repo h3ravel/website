@@ -48,7 +48,7 @@ import { Kernel } from 'h3ravel/musket';
 import { Application } from './app';
 
 await Kernel.init(new Application(), {
-  cliName: 'Musket CLI',
+  name: 'Musket CLI',
 });
 ```
 
@@ -97,9 +97,7 @@ console.log(cwd);
 ## `setPackages(packages)`
 
 ```ts
-setPackages(
-  packages: (string | { name: string; alias: string })[]
-): this
+setPackages(packages: PackageMeta): this
 ```
 
 Defines the npm packages that should be displayed when the `-V` / `--version` flag is passed to the CLI.
@@ -157,7 +155,7 @@ node       v20.10.0
 ## `getPackages()`
 
 ```ts
-getPackages(): NonNullable<KernelConfig['packages']>
+getPackages(): PackageMeta[]
 ```
 
 Returns the currently configured packages that will be displayed with the `-V` flag.

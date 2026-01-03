@@ -12,7 +12,7 @@ import path from 'path';
 import { Kernel } from '@h3ravel/musket';
 
 await Kernel.init(app, {
-  cliName: 'mycli',
+  name: 'mycli',
   packages: ['@h3ravel/support', '@h3ravel/shared'],
   discoveryPaths: [path.join(process.cwd(), 'src/Commands/*.ts')],
 });
@@ -43,7 +43,8 @@ From here, you can either:
 | Option             | Type                                                  | Default     | Description                                                                                                                                                           |
 | ------------------ | ----------------------------------------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **logo**           | `string`                                              | `undefined` | ASCII art-style logo to display at startup.                                                                                                                           |
-| **cliName**        | `string`                                              | `'musket'`  | The name of the CLI application, used in help text and display.                                                                                                       |
+| **name**           | `string`                                              | `'musket'`  | The name of the CLI application, used in help text and display.                                                                                                       |
+| **version**        | `string`                                              | `undefined` | The version of the CLI app we're running (if provided, this will overwrite the value of resolved version from packages config marked as base).                        |
 | **skipParsing**    | `boolean`                                             | `false`     | If `true`, Musket will not automatically parse command-line input. This is required if you want to manually control or hook into the underlying `commander` instance. |
 | **resolver**       | `<X extends Command>(cmd: X, met: any) => Promise<X>` | `undefined` | A callback that resolves the `handle` method for commands dynamically. Useful for dependency injection or lazy loading of commands.                                   |
 | **tsDownConfig**   | `Options`                                             | `undefined` | Configuration for Musket’s internal TypeScript compilation process, used when invoking programmatic builds.                                                           |
@@ -186,7 +187,7 @@ const app = new Application();
 const instance = new Kernel(app)
   .setCwd(process.cwd())
   .setConfig({
-    cliName: 'musket-cli',
+    name: 'musket-cli',
     discoveryPaths: [path.join(process.cwd(), 'tests/Commands/*.ts')],
   })
   .setPackages([
