@@ -249,6 +249,39 @@ Useful for introspection, debugging, or custom help output.
 const commands = kernel.getRegisteredCommands();
 ```
 
+## `registerDiscoveryPath(paths)`
+
+```ts
+registerDiscoveryPath(paths: string[]): this
+```
+
+Adds one or more filesystem paths to Musket’s command discovery configuration.
+
+This method appends new paths to the existing `discoveryPaths` config, allowing Musket to automatically locate and register command classes without manual wiring.
+
+### Behavior
+
+- Accepts an array of glob or directory paths
+- Preserves previously defined discovery paths
+- Normalizes single or multiple existing values into an array
+- Updates `config.discoveryPaths` in place
+- Chainable
+
+### When to use it
+
+- Extending discovery paths from plugins or providers
+- Registering commands conditionally
+- Avoiding hard-coded discovery paths in the initial config
+
+### Example
+
+```ts
+kernel.registerDiscoveryPath(['src/Commands/*.ts', 'packages/*/Commands/*.ts']);
+```
+
+> Discovery paths are consumed during bootstrapping.
+> Call this method **before** `bootstrap()` or `run()` for it to take effect.
+
 ## `bootstrap()`
 
 ```ts
