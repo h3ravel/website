@@ -282,6 +282,41 @@ kernel.registerDiscoveryPath(['src/Commands/*.ts', 'packages/*/Commands/*.ts']);
 > Discovery paths are consumed during bootstrapping.
 > Call this method **before** `bootstrap()` or `run()` for it to take effect.
 
+## `getDiscoveryPaths()`
+
+```ts
+getDiscoveryPaths(): string[]
+```
+
+Returns all currently registered command discovery paths.
+
+This method normalizes the internal `discoveryPaths` configuration and always returns an array, regardless of whether the value was originally defined as a single path or multiple paths.
+
+### Behavior
+
+- Returns an empty array when no discovery paths are configured
+- Converts a single path value into an array
+- Does **not** mutate the configuration
+
+### Use cases
+
+- Debugging command discovery
+- Inspecting active discovery paths at runtime
+- Building tooling or plugins that depend on Musket’s discovery system
+
+### Example
+
+```ts
+const paths = kernel.getDiscoveryPaths();
+
+paths.forEach((path) => {
+  console.log(path);
+});
+```
+
+> This method is read-only.
+> To add new paths, use `registerDiscovereryPath()` before bootstrapping.
+
 ## `bootstrap()`
 
 ```ts
