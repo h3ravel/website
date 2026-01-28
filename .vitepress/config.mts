@@ -129,6 +129,7 @@ export default defineConfig({
 
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
+    ['meta', { name: 'algolia-site-verification', content: 'A1F116418AECD35C' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:url', content: 'https://h3ravel.toneflix.net' }],
     ['meta', { property: 'og:title', content: 'The web framework that masks your fears' }],
