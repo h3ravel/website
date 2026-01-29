@@ -1,6 +1,8 @@
 /.vitepress/dist
 /.vitepress/cache
 .DS_Store
+.env*
+!.env.example
 
 # Dependency directories
 node_modules/

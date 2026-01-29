@@ -18,6 +18,9 @@ concurrency:
 jobs:
   # Build job
   build:
+    env:
+      ANGOLIA_API_KEY: ${{secrets.ANGOLIA_API_KEY}}
+      ANGOLIA_APP_ID: ${{secrets.ANGOLIA_APP_ID}}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

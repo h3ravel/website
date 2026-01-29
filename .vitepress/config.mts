@@ -12,7 +12,16 @@ export default defineConfig({
     nav: [
       { text: 'Get Started', link: '/guide/get-started' }
     ],
-
+    search: {
+      provider: 'algolia',
+      options: {
+        // @ts-expect-error process is not defined
+        appId: import.meta.env.ANGOLIA_APP_ID,
+        // @ts-expect-error process is not defined
+        apiKey: import.meta.env.ANGOLIA_API_KEY,
+        indexName: 'H3ravel Framework',
+      }
+    },
     sidebar: [
       {
         text: 'Documentation',
