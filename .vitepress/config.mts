@@ -2,8 +2,10 @@ import { defineConfig, loadEnv } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default async ({ mode }: { mode: any }) => {
+
   // @ts-expect-error process is not defined
   const env = loadEnv(mode || '', process.cwd())
+
   return defineConfig({
     title: "H3ravel",
     cleanUrls: true,
@@ -18,10 +20,8 @@ export default async ({ mode }: { mode: any }) => {
       search: {
         provider: 'algolia',
         options: {
-          // @ts-expect-error process is not defined
-          appId: import.meta.env.ANGOLIA_APP_ID,
-          // @ts-expect-error process is not defined
-          apiKey: import.meta.env.ANGOLIA_API_KEY,
+          appId: env.ANGOLIA_APP_ID,
+          apiKey: env.ANGOLIA_API_KEY,
           indexName: 'H3ravel Framework',
         }
       },

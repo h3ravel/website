@@ -6,7 +6,8 @@
   },
   "scripts": {
     "docs:dev": "vitepress dev",
-    "docs:build": "vitepress build",
+    "build:stg": "ENVIRONMENT=staging vitepress build",
+    "docs:build": "ENVIRONMENT=production vitepress build",
     "docs:preview": "vitepress preview"
   },
   "packageManager": "pnpm@10.14.0"
