@@ -44,6 +44,7 @@ export default defineConfig({
               { text: 'Middleware', link: '/guide/middleware' },
               { text: 'Requests', link: '/guide/requests' },
               { text: 'Responses', link: '/guide/responses' },
+              { text: 'Testing', link: '/guide/testing' },
               { text: 'API Resource & Collections', link: '/guide/api-resources' },
               { text: 'Views', link: '/guide/views' },
               { text: 'Url Generation', link: '/guide/urls' },
