@@ -2,6 +2,32 @@
 
 All changes and features will be documented here.
 
+## H3ravel Framework - 2.1.2
+
+Released June 12, 2026.
+
+### Foundation
+
+- Fixed the Foundation TypeScript configuration leaking into production builds.
+
+## H3ravel Framework - 2.1.1
+
+Released June 12, 2026.
+
+### Stable Release
+
+- Promoted the testing, TypeScript development runtime, canonical container token, console, build, and postinstall improvements introduced in `1.29.0-alpha-17` to a stable release.
+
+### Breaking Change: ESM Only
+
+- H3ravel packages, builds, development artifacts, and runtime entry points are now ESM-only.
+- Removed CommonJS exports and `.cjs` build artifacts; consumers must use ESM `import` syntax instead of `require()`.
+
+### HTTP
+
+- Removed PHP-style front-controller assumptions from request base URL handling.
+- Node requests now use an empty real base URL while retaining trusted `X-Forwarded-Prefix` support for proxy deployment prefixes.
+
 ## H3ravel Framework - 1.29.0-alpha-17
 
 Released June 12, 2026.
