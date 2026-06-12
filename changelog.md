@@ -2,6 +2,47 @@
 
 All changes and features will be documented here.
 
+## H3ravel Framework - 1.29.0-alpha-17
+
+Released June 12, 2026.
+
+### Testing
+
+- Added a framework testing wrapper backed by Parasito for fluent HTTP assertions.
+- Added application bootstrapping helpers for tests, including request clients and normalized response handling.
+- Added route-level integration tests against the basic application without modifying its application routes.
+- Improved router test isolation and corrected route registration behavior required by the testing client.
+
+### Development Runtime
+
+- Added the shared `importFile()` utility with Jiti-powered TypeScript transpilation, TypeScript path support, conventional application aliases, and native-first dependency loading.
+- Replaced development-time `import()` and `createRequire()` usage across configuration, provider discovery, console bootstrapping, migrations, seeders, hashing, routing, and testing.
+- Development commands can now load application TypeScript directly without first replacing source paths with `DIST_DIR`; production continues to load compiled JavaScript artifacts.
+- JavaScript artifacts use their native module graph to preserve constructor identity across dynamic imports.
+- Dropped CommonJS support across H3ravel packages. Builds, package exports, development artifacts, and runtime entry points are now ESM-only; consumers must use `import` instead of `require()`.
+
+### Container And Contracts
+
+- Added canonical process-wide container tokens for framework contracts using `Symbol.for()`.
+- Normalized container bindings, aliases, resolution callbacks, extenders, and instances against canonical contract tokens.
+- Prevented duplicated contract constructors from Jiti, ESM/CJS boundaries, workspace links, or multiple package copies from losing their service bindings.
+- Preserved constructor identity for concrete implementations and added regression coverage for duplicated contract modules.
+
+### Console And Builds
+
+- Removed the global `tsx/esm` loader from the Musket executable; application TypeScript is now loaded through `importFile()`.
+- Replaced package development entry-point runners with `tsdown --watch`.
+- Removed unused package-level `tsx` and `cross-env` dependencies and retired stale development scripts.
+- Switched application-facing tsdown commands to the native config loader, fixing basic-app postinstall resolution from temporary unrun cache directories.
+- Fixed basic-app postinstall generation of `.h3ravel/serve`, including server, bootstrap, routes, configuration, resources, and public assets.
+- Added container and module-loading contribution rules covering canonical tokens, native imports, and required regression tests.
+
+### Reliability
+
+- Added module identity tests proving JavaScript imports reuse the native module cache.
+- Added container tests for equivalent contract constructors and concrete subclass isolation.
+- Verified the basic application HTTP suite independently to prevent test-order masking.
+
 ## H3ravel Framework - 1.29.0-alpha-16
 
 Released June 12, 2026.
