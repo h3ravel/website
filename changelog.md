@@ -2,6 +2,62 @@
 
 All changes and features will be documented here.
 
+## H3ravel Framework - 1.29.0-alpha-16
+
+Released June 12, 2026.
+
+### Filesystem
+
+- Rebuilt filesystem storage around Flydrive with a unified `FilesystemManager`.
+- Added local, public, S3, FTP/SFTP, Google Cloud Storage, and custom driver support.
+- Added the `Storage` facade, disk switching, file metadata, visibility, streaming, signed URL, upload, copy, move, and deletion APIs.
+- Added GCS configuration types and support for either client options or an injected Google Storage client.
+- Removed the filesystem manager's application constructor dependency and aligned all Flydrive driver type versions.
+- Renamed the previous `Storage` implementation and contract to `FilesystemManager` and `IFilesystemManager`.
+- Fixed public path resolution and normalized local filesystem driver paths.
+- Added deterministic filesystem, storage, FTP, and GCS tests.
+
+### Database
+
+- Added native support for SQLite's `:memory:` database configuration without resolving it through `database_path()`.
+- Updated database-backed session and validation tests to use in-memory SQLite instead of requiring MySQL.
+
+### Core And HTTP
+
+- Fixed request lifecycle isolation so response bindings resolve the current request's response.
+- Prevented redirect status and headers from leaking into subsequent requests.
+- Added request lifecycle regression coverage for response rebinding.
+- Updated application bootstrapping, provider setup, and HTTP test fixtures to match the current framework lifecycle.
+
+### URL And Routing
+
+- Updated action URL generation to support the current router collection while retaining legacy route compatibility.
+- Updated route tests and provider imports for the current routing architecture.
+- Fixed public asset path resolution.
+
+### Testing
+
+- Audited and repaired the framework test suites after the architecture overhaul.
+- Replaced disabled FTP checks with deterministic mocked tests.
+- Updated hashing configuration tests to work from temporary directories without unresolved workspace imports.
+- Corrected mixin and trait constructor assertions and improved test isolation.
+- Added testing application helpers and refreshed package test configuration.
+
+### Releases And Tooling
+
+- Added a custom synchronized package versioning system with `major`, `minor`, `patch`, and alpha release support.
+- Added versioning tests for package lanes, staged major catch-up, shared alpha counters, and workspace dependency ranges.
+- Updated package build, TypeScript, barrel, lint, and workspace configuration.
+- Added missing runtime dependencies and refreshed package dependency ranges.
+- Updated GitHub Actions versions and Codecov to v7.
+- Added explicit SQLite native binding rebuild and verification steps to test, review, and release workflows.
+- Updated mail dependencies to address the reported `fast-xml-parser` vulnerability.
+
+### Queue
+
+- Explored a BullMQ queue driver and queue manager implementation.
+- Reverted the experimental BullMQ integration before release; it is not included in `1.29.0-alpha-16`.
+
 ## @h3ravel/core - 1.16.2
 
 - fix(core): assign default verbose flag value
