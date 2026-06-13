@@ -45,7 +45,8 @@ export default defineConfig({
               { text: 'Requests', link: '/guide/requests' },
               { text: 'Responses', link: '/guide/responses' },
               { text: 'Testing', link: '/guide/testing' },
-              { text: 'API Resource & Collections', link: '/guide/api-resources' },
+              { text: 'API Resources', link: '/guide/api-resources' },
+              { text: 'API Collections', link: '/guide/api-collections' },
               { text: 'Views', link: '/guide/views' },
               { text: 'Url Generation', link: '/guide/urls' },
             ]

@@ -1,97 +1,232 @@
-# API Resources & Collections
+# API Resources
 
-H3ravel provides an API Resource system for transforming and formatting data before sending it as an API response. This feature allows you to create structured responses and include additional metadata (like pagination).
+API resources transform domain objects into stable JSON response shapes.
+H3ravel's resource API is integrated with the HTTP
+response lifecycle, so a resource can be returned directly from a controller.
 
-## Overview
+## Defining A Resource
 
-- Transform and standardize API responses
-- Support for pagination metadata
-- Send responses automatically or manually
-- Add extra contextual data to responses
-- Works for single resources or collections
-
-## JsonResource Class
-
-The `JsonResource` class wraps your data and provides helper methods to shape and send JSON responses consistently.
-
-### Basic Example
+Extend `Resource` and implement `data()` to define the public representation:
 
 ```ts
-import { BaseResource } from "@h3ravel/http";
-import { HttpContext } from "@h3ravel/core";
+import { Resource } from '@h3ravel/http';
 
-export async function showUser({ request }: HttpContext) {
-  const user = { id: 1, name: "John Doe" };
-
-  return BaseResource(request, user).json();
-}
-```
-
-### Adding Metadata
-
-You can include additional metadata to your resource:
-
-```ts
-return BaseResource(request, user).json().additional({
-  message: "User retrieved successfully",
-});
-```
-
-### Pagination
-
-To automatically include pagination data, add a pagination property to your resource:
-
-```ts
-const users = {
-  data: [
-    { id: 1, name: "John" },
-    { id: 2, name: "Jane" },
-  ],
-  pagination: {
-    from: 1,
-    to: 2,
-    perPage: 10,
-    total: 50,
-  },
-};
-
-return BaseResource(request, user).json();
-```
-
-This will produce
-
-```json
-{
-  "data": [
-    { "id": 1, "name": "John" },
-    { "id": 2, "name": "Jane" }
-  ],
-  "meta": {
-    "pagination": {
-      "from": 1,
-      "to": 2,
-      "perPage": 10,
-      "total": 50
-    }
+export class UserResource extends Resource {
+  data() {
+    return {
+      id: this.id,
+      name: this.name,
+      email: this.email,
+    };
   }
 }
 ```
 
-### Setting the Status Code
+Properties of the wrapped object are proxied onto the resource. Use
+`toObject()` when the original serializable value is already the desired shape:
 
 ```ts
-return BaseResource(request, user).status(201).json();
+export class UserResource extends Resource {
+  data() {
+    return this.toObject();
+  }
+}
 ```
 
-## API Collections
+## Returning Resources
 
-H3ravel’s resource system automatically handles arrays and collections of data.
+Return the resource itself. Calling `json()`, `response()`, or `getBody()` is not
+required for a normal controller response:
 
 ```ts
-const users = [
-  { id: 1, name: "John" },
-  { id: 2, name: "Jane" },
-];
-
-return BaseResource(request, user).json();
+export class UserController {
+  async show(user: User) {
+    return new UserResource(user);
+  }
+}
 ```
+
+With the default response configuration, H3ravel returns:
+
+```json
+{
+  "data": {
+    "id": 1,
+    "name": "Ada Lovelace",
+    "email": "ada@example.com"
+  }
+}
+```
+
+Resources are also awaitable. Awaiting one resolves its serialized body, though
+controllers can normally return the resource directly.
+
+## Additional Data And Metadata
+
+Use `additional()` for top-level response values:
+
+```ts
+return new UserResource(user).additional({
+  message: 'User retrieved successfully',
+});
+```
+
+```json
+{
+  "data": {
+    "id": 1,
+    "name": "Ada Lovelace"
+  },
+  "message": "User retrieved successfully"
+}
+```
+
+Use `withMeta()` for fluent response metadata:
+
+```ts
+return new UserResource(user).withMeta({
+  requestId: request.id,
+});
+```
+
+A resource class can also override `with()` when metadata should be attached to
+every instance of that resource.
+
+## Conditional Attributes
+
+Conditional helpers omit values from the final serialized payload
+rather than returning placeholder values.
+
+### `when()`
+
+Include a value only when its condition is truthy:
+
+```ts
+email: this.when(this.canViewEmail, this.email);
+```
+
+Pass a callback to defer expensive work until the condition succeeds:
+
+```ts
+statistics: this.when(this.canViewStatistics, () => this.buildStatistics());
+```
+
+### `whenNotNull()`
+
+Include a value unless it is `null` or `undefined`:
+
+```ts
+avatar: this.whenNotNull(this.avatarUrl);
+```
+
+Values such as `false`, `0`, and an empty string are preserved.
+
+### `mergeWhen()`
+
+Conditionally merge several attributes:
+
+```ts
+export class UserResource extends Resource {
+  data() {
+    return {
+      id: this.id,
+      name: this.name,
+      ...this.mergeWhen(this.isAdmin, {
+        permissions: this.permissions,
+        scope: 'admin',
+      }),
+    };
+  }
+}
+```
+
+`mergeWhen()` also accepts a callback:
+
+```ts
+...this.mergeWhen(this.includeProfile, () => ({
+  profile: this.buildProfile(),
+}))
+```
+
+These helpers work inside item resources used by collections as well.
+
+## Nested Resources And Collections
+
+Return nested resource or collection instances from `data()`:
+
+```ts
+import { Collection, Resource } from '@h3ravel/http';
+
+export class CommentResource extends Resource {
+  data() {
+    return {
+      id: this.id,
+      body: this.body,
+    };
+  }
+}
+
+export class CommentCollection extends Collection {
+  collects = CommentResource;
+
+  data() {
+    return this.toObject();
+  }
+}
+
+export class PostResource extends Resource {
+  data() {
+    return {
+      id: this.id,
+      title: this.title,
+      author: new UserResource(this.author),
+      comments: new CommentCollection(this.comments ?? []),
+    };
+  }
+}
+```
+
+Calling `toObject()` on the nested collection is also supported when the
+transformed array is needed immediately for further composition.
+
+## Status And Headers
+
+Use `response()` only when the resource needs to customize transport details:
+
+```ts
+return new UserResource(user)
+  .additional({ message: 'User created' })
+  .response()
+  .setStatusCode(201)
+  .setHeaders({
+    'X-Resource': 'user',
+  });
+```
+
+H3ravel preserves the resource body, status code, and headers. Returning
+`new UserResource(user)` remains the preferred form when no transport
+customization is needed.
+
+## Resource Configuration
+
+Configure resource serialization in `src/config/resources.ts`:
+
+```ts
+import type { ResourceConfig } from '@h3ravel/http';
+
+export default (): ResourceConfig => ({
+  preferredCase: 'camel',
+  responseStructure: {
+    wrap: true,
+    rootKey: 'data',
+  },
+  paginatedExtras: ['meta', 'links'],
+  pageName: 'page',
+});
+```
+
+The configuration controls key casing, response wrapping, pagination extras,
+link and metadata names, cursor names, base URLs, and the page query parameter.
+
+See [API Collections](./api-collections.md) for list transformation and
+pagination.
