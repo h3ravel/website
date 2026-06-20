@@ -482,6 +482,85 @@ protected signature = `mail:send
 
 For clarity, you may also define your choices using the array syntax `{--driver : : [smtp,sendgrid,ses,mailhog]}`.
 
+## Building Signatures Programmatically
+
+While the [signature](#command-signature) string is concise, you may prefer to define a command’s inputs in code — with autocompletion, types, and no string syntax to memorize. Override the `buildSignature()` method and configure the provided `SignatureBuilder` instead of (or alongside) the `signature` property.
+
+```ts
+import { Command, SignatureBuilder } from '@h3ravel/musket';
+
+export class QueueWork extends Command {
+  protected buildSignature(sig: SignatureBuilder) {
+    return sig
+      .command('queue:work')
+      .describe('Process jobs on the queue')
+      .argument('connection', {
+        description: 'The connection to work',
+        required: false,
+      })
+      .option('queue', {
+        short: 'Q',
+        description: 'The queue to process',
+        default: 'default',
+      })
+      .option('once', { description: 'Process a single job and exit' });
+  }
+
+  public async handle(): Promise<void> {
+    const connection = this.argument('connection');
+    const queue = this.option('queue');
+    // ...
+  }
+}
+```
+
+This is exactly equivalent to the string signature below — pick whichever style you prefer:
+
+```ts
+protected signature = `queue:work
+  {connection? : The connection to work}
+  {--Q|queue=default : The queue to process}
+  {--once : Process a single job and exit}`;
+```
+
+> 💡 **Tip:** The string `signature` always takes precedence. If a command defines both, `buildSignature()` is ignored — convenient for migrating a command incrementally.
+
+### Builder reference
+
+| Method                                 | Description                                                                          |
+| -------------------------------------- | ------------------------------------------------------------------------------------ |
+| `command(name)` / `name(name)`         | Set the command name. End with `:` for a [namespaced command](#namespaced-commands). |
+| `describe(text)` / `description(text)` | Set the command description.                                                         |
+| `hide()`                               | Hide the command from `list` output.                                                 |
+| `argument(name, options?)`             | Add a positional argument.                                                           |
+| `option(name, options?)`               | Add an option/flag.                                                                  |
+
+**Argument options:**
+
+| Option        | Type       | Description                                                                |
+| ------------- | ---------- | -------------------------------------------------------------------------- |
+| `description` | `string`   | Inline help text.                                                          |
+| `required`    | `boolean`  | Defaults to `true`. Set `false` (or pass a `default`) to make it optional. |
+| `default`     | value      | A default value; implies the argument is optional.                         |
+| `multiple`    | `boolean`  | Accept multiple (variadic) values.                                         |
+| `choices`     | `string[]` | Restrict the accepted values.                                              |
+
+**Option options:**
+
+| Option          | Type       | Description                                             |
+| --------------- | ---------- | ------------------------------------------------------- |
+| `description`   | `string`   | Inline help text.                                       |
+| `short`         | `string`   | A single-character alias, e.g. `Q` → `-Q`.              |
+| `default`       | value      | A default value; implies the option takes a value.      |
+| `requiresValue` | `boolean`  | The option requires a value (`--queue <value>`).        |
+| `optionalValue` | `boolean`  | The option takes an optional value (`--queue [value]`). |
+| `choices`       | `string[]` | Restrict the accepted values.                           |
+| `hidden`        | `boolean`  | Hide the option from help.                              |
+
+By default an option is a boolean switch. Giving it a `default`, `requiresValue`, `optionalValue`, or `choices` turns it into an option that expects a value.
+
+> Need the raw string? `command.getSignature()` reconstructs the equivalent DSL string from the builder, so anything that still expects a signature string keeps working unchanged.
+
 ## Command Input & Output
 
 ### Retrieving Input
@@ -582,7 +661,7 @@ const address = await this.anticipate(
       .whereLike('name', `${input}%`)
       .limit(5)
       .pluck('name');
-  }
+  },
 );
 ```
 
@@ -605,7 +684,7 @@ const selected = await this.choice(
   ['JavaScript', 'TypeScript', 'Go', 'Rust'],
   0,
   3,
-  true
+  true,
 );
 ```
 
@@ -797,6 +876,13 @@ await Kernel.init(app, {
   ],
 });
 ```
+
+Musket is resilient about what it loads from these paths:
+
+- **Non-command modules are ignored.** A file that doesn’t export a command class — for example, a shared chunk a bundler emits alongside your built commands — is skipped with a warning instead of crashing the CLI.
+- **Commands are de-duplicated.** The same command resolved from more than one path (say a built `dist/*.js` and its `src/*.ts` source) is registered only once, keyed by its signature. Explicitly registered commands take precedence over discovered ones.
+
+By default, TypeScript sources are loaded on the fly via jiti, so `.ts` commands are discovered without a prior build. You can override how a file is imported with the `importModule` option.
 
 ### Built-In Commands (H3ravel)
 
