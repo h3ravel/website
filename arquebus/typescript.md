@@ -1,10 +1,10 @@
 # TypeScript Support
 
-Despite the fact that Arquebus ORM is billed as a TypesScript rewrite (which it is), Arquebus ORM is not type safe, although, we do try to provide TypeScript support with a pragmatic approach by balancing usability and type safety. We have chosen to prioritize intuitive and easy-to-use APIs over complete type safety due to the resources at our disposal and our goals. However, we might invest some time in making certain parts of the ORM type safe in the nearest future.
+Arquebus ORM is a TypeScript rewrite, and as of `3.x` it offers real, opt-in type safety. You can describe a model's attributes, relations and table name once and have the model instance, its query builder and its serialized output all become type-aware, while still keeping the loose, dynamic APIs available whenever you want them. Typing is progressive: adopt it where it helps and stay untyped everywhere else.
 
-## Basic Usage
+## Basic Usage (Untyped)
 
-Here are some basic examples:
+The classic form still works exactly as before. Declaring property types with `declare` gives you editor completion without changing runtime behaviour:
 
 ```typescript
 import { Model } from '@h3ravel/arquebus';
@@ -37,30 +37,83 @@ class Post extends Model {
 }
 ```
 
-## Type Safety Notes
+## Fully Typed Models
 
-While Arquebus ORM provides TypeScript support, we don't aim for complete type safety. This means:
-
-1. Some dynamic features may not have complete type inference
-2. Certain query builder operations might return `any` type
-3. Relationship type inference may be incomplete
-
-For example:
+For end-to-end type safety, define your model with `Model.define<Attributes, Relations, Table>()`. The attribute interface flows through the constructor, the accessors (`getAttribute`, `setAttribute`, `fill`, `update`, `toData`) and the query builder:
 
 ```typescript
-// Dynamic queries may not have accurate type inference
-const result = await User.query()
-  .select(['name', 'email'])
-  .where('age', '>', 18)
-  .first();
+import { Model, arquebus, type Collection } from '@h3ravel/arquebus';
 
-// Relationship query type inference might be incomplete
-const userWithPosts = await User.query().with('posts').first();
+interface PostAttributes {
+  id: number;
+  title: string;
+  published: boolean;
+}
+
+class Post extends Model.define<PostAttributes, {}, 'posts'>() {}
+
+interface UserAttributes {
+  id: number;
+  email: string;
+  age: number | null;
+  active: boolean;
+}
+
+interface UserRelations {
+  posts: Collection<Post>;
+}
+
+class User extends Model.define<UserAttributes, UserRelations, 'users'>() {
+  relationPosts() {
+    return this.hasMany(Post);
+  }
+}
+
+const user = new User({ id: 1, email: 'ada@example.com', age: null, active: true });
+
+user.email;                       // string
+user.setAttribute('email', 'grace@example.com');
+user.fill({ age: 37 });
+const data = user.toData();       // UserAttributes & Partial<UserRelations>
+
+// Model.query() returns a typed ModelBuilder
+await User.query()
+  .where('email', 'ada@example.com')
+  .where('age', '>=', 18)
+  .whereIn('id', [1, 2, 3])
+  .with('posts')
+  .get(); // Promise<Collection<User>>
+```
+
+The compiler now rejects mistakes that used to slip through at runtime:
+
+```typescript
+new User({ email: 42 });                 // ❌ wrong attribute type
+user.setAttribute('age', 'old');         // ❌ wrong value type
+User.query().where('missing', 'value');  // ❌ unknown column
+User.query().where('active', 'yes');     // ❌ wrong value type
+User.query().with('comments');           // ❌ unknown relation
+```
+
+### Typed Raw Queries
+
+The raw/table query builder can be typed the same way via `arquebus.withSchema<Database>()`. See the [query builder guide](./query-builder#typed-queries) for the full example:
+
+```typescript
+interface Database {
+  users: UserAttributes;
+  posts: PostAttributes;
+}
+
+const db = arquebus.withSchema<Database>();
+
+const rows = await db.table('users').where('active', true).get(); // UserAttributes[]
+db.table('posts').insert({ title: 'Typed ORM', published: true });
 ```
 
 ## Enhancing Type Safety with Generics
 
-To address the above type inference limitations, Arquebus ORM's query methods support generic types, allowing you to:
+Whether or not you use `Model.define()`, Arquebus ORM's query methods also accept a generic type argument. This is handy for shaping one-off results (computed columns, raw aggregates or eager-loaded relations) without adding them to the model's attribute interface:
 
 1. Extend model type definitions
 2. Specify relationship data types
@@ -106,9 +159,9 @@ const userWithPosts = await User.query().with('posts').first<
 
 Our design philosophy is:
 
-1. **Prioritize Developer Experience**: We want our API to remain simple and intuitive, rather than being bogged down by complex type definitions
-2. **Practicality First**: In certain scenarios, we choose to sacrifice some type safety for more flexible APIs
-3. **Progressive Type Support**: You can gradually add more type definitions as needed
+1. **Prioritize Developer Experience**: The API stays simple and intuitive; full typing is available through `Model.define()` when you want it, never mandatory
+2. **Practicality First**: In some scenarios you may prefer the looser, dynamic APIs for flexibility, and you can
+3. **Progressive Type Support**: You can gradually add more type definitions as needed, from `declare` fields to fully typed models and schemas
 
 ## Best Practices
 

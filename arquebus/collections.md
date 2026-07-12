@@ -4,7 +4,7 @@ outline: [2, 4]
 
 # Collections
 
-All Arquebus ORM methods that return more than one model result will return instances of the `Collection` class, including results retrieved via the `get` method or accessed via a relationship. The Arquebus ORM collection object extends [collect.js](https://collect.js.toneflix.net) collection, so it naturally inherits dozens of methods used to fluently work with the underlying array of Arquebus ORM models. Be sure to review the Laravel collection documentation to learn all about these helpful methods!
+All Arquebus ORM methods that return more than one model result will return instances of the `Collection` class, including results retrieved via the `get` method or accessed via a relationship. The Arquebus ORM collection object extends the [@h3ravel/collect.js](https://collect.js.toneflix.net) collection, so it naturally inherits dozens of methods used to fluently work with the underlying array of Arquebus ORM models. Be sure to review the [@h3ravel/collect.js](https://collect.js.toneflix.net) documentation to learn all about these helpful methods!
 
 All collections also serve as iterators, allowing you to loop over them as if they were arrays:
 
@@ -36,9 +36,9 @@ const names = (await User.query().all())
 
 ## Available Methods
 
-All Arquebus ORM collections extend the base `collect.js` object; therefore, they inherit all of the powerful methods provided by the base collection class.
+All Arquebus ORM collections extend the base `@h3ravel/collect.js` object; therefore, they inherit all of the powerful methods provided by the base collection class.
 
-In addition, the `Collection` class provides a superset of methods to aid with managing your model collections. Most methods return `Collection` instances; however, some methods, like `modelKeys`, return an `collect.js` instance.
+In addition, the `Collection` class provides a superset of methods to aid with managing your model collections. Most methods return `Collection` instances; however, some methods, like `modelKeys`, return an `@h3ravel/collect.js` instance.
 
 - [contains](#contains-key-operator-null-value-null)
 - [diff](#diff-items)
@@ -79,9 +79,11 @@ const diffUsers = users.diff(otherUsers);
 
 #### except(keys)
 
-The `except` method returns all of the models that do not have the given primary keys:
+The `except` method returns all of the models that do not have the given primary keys. Keys may be passed as individual arguments or as a single array:
 
 ```ts
+const exceptUsers = users.except(1, 2, 3);
+// A single array is still accepted:
 const exceptUsers = users.except([1, 2, 3]);
 ```
 
@@ -166,9 +168,11 @@ const newUsers = users.makeHidden(['address', 'phone_number']);
 
 #### only(keys)
 
-The `only` method returns all of the models that have the given primary keys:
+The `only` method returns all of the models that have the given primary keys. Keys may be passed as individual arguments or as a single array:
 
 ```ts
+const newUsers = users.only(1, 2, 3);
+// A single array is still accepted:
 const newUsers = users.only([1, 2, 3]);
 ```
 

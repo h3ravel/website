@@ -22,6 +22,67 @@ class Flight extends Model {
 }
 ```
 
+### Typed Models
+
+Starting with Arquebus ORM `3.x`, you can define a fully typed model with `Model.define<Attributes, Relations, Table>()`. Pass an interface describing the table columns (and, optionally, the relations and the table name) and the model's attributes, query builder, and serialized output all become type-aware:
+
+```ts
+import { Model, type Collection } from '@h3ravel/arquebus';
+
+interface FlightAttributes {
+  id: number;
+  name: string;
+  active: boolean;
+}
+
+class Flight extends Model.define<FlightAttributes, {}, 'flights'>() {
+  //
+}
+
+const flight = new Flight({ id: 1, name: 'London to Paris', active: true });
+
+flight.name;                 // string
+flight.setAttribute('active', false);
+flight.fill({ name: 'Paris to London' });
+const data = flight.toData(); // FlightAttributes & Partial<Relations>
+```
+
+To type relations as well, pass a second interface mapping relation names to their result types:
+
+```ts
+interface UserAttributes {
+  id: number;
+  email: string;
+  age: number | null;
+}
+
+interface UserRelations {
+  flights: Collection<Flight>;
+}
+
+class User extends Model.define<UserAttributes, UserRelations, 'users'>() {
+  relationFlights() {
+    return this.hasMany(Flight);
+  }
+}
+```
+
+With a typed model, `User.query()` returns a typed [`ModelBuilder`](./query-builder#typed-queries) where columns, values, and eager-loaded relations are checked at compile time:
+
+```ts
+User.query()
+  .where('email', 'ada@example.com')
+  .where('age', '>=', 18)
+  .whereIn('id', [1, 2, 3])
+  .with('flights');
+
+User.query().where('missing', 'value'); // ❌ unknown column
+User.query().where('age', 'old');       // ❌ wrong value type
+User.query().with('comments');          // ❌ unknown relation
+```
+
+Defining attributes remains optional; plain `class Flight extends Model {}` still works exactly as before, so you can adopt typed models incrementally.
+
 ### Table Names
 
 After glancing at the example above, you may have noticed that we did not tell Arquebus ORM which database table corresponds to our `Flight` model. By convention, the "snake case", plural name of the class will be used as the table name unless another name is explicitly specified. So, in this case, Arquebus ORM will assume the `Flight` model stores records in the `flights` table, while an `AirTrafficController` model would store records in an `air_traffic_controllers` table.
@@ -229,7 +290,7 @@ flight.number; // "FR 900"
 
 As we have seen, Arquebus ORM methods like `all` and `get` retrieve multiple records from the database. However, these methods don't return a plain array. Instead, an instance of [Collection](collections) is returned.
 
-The Arquebus ORM Collection class extends [`collect.js`](https://collect.js.toneflix.net) class, which provides a [variety of helpful methods](collections#available-methods) for interacting with data collections. For example, the reject method may be used to remove models from a collection based on the results of an invoked closure:
+The Arquebus ORM Collection class extends [`@h3ravel/collect.js`](https://collect.js.toneflix.net) class, which provides a [variety of helpful methods](collections#available-methods) for interacting with data collections. For example, the reject method may be used to remove models from a collection based on the results of an invoked closure:
 
 ```ts
 const flights = await Flight.query().where('destination', 'Paris').get();
@@ -239,7 +300,7 @@ const newFlights = flights.reject((flight) => {
 });
 ```
 
-In addition to the methods provided by `collect.js`'s base collection class, the Arquebus ORM collection class provides [a few extra methods](collections#available-methods) that are specifically intended for interacting with collections of Arquebus ORM models.
+In addition to the methods provided by `@h3ravel/collect.js`'s base collection class, the Arquebus ORM collection class provides [a few extra methods](collections#available-methods) that are specifically intended for interacting with collections of Arquebus ORM models.
 
 Since all of Arquebus ORM collections implement Javascript's iterable interfaces, you may loop over collections as if they were an array:
 

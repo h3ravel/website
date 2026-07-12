@@ -14,6 +14,62 @@ We have divided the query builders into following categories
 - The insert query builder allows you to construct SQL queries for the insert operations.
 - The raw query builder let you write and execute queries from a raw SQL string.
 
+## Typed Queries
+
+Since Arquebus ORM `3.x`, both the model and the raw query builders can be made type-aware.
+
+When you use a [typed model](./models#typed-models), `Model.query()` returns a `ModelBuilder` whose columns, values and eager-loaded relations are checked at compile time:
+
+```ts
+import { Model } from '@h3ravel/arquebus';
+
+interface UserAttributes {
+  id: number;
+  email: string;
+  age: number | null;
+  active: boolean;
+}
+
+class User extends Model.define<UserAttributes, {}, 'users'>() {}
+
+await User.query()
+  .where('email', 'ada@example.com')
+  .where('age', '>=', 18)
+  .whereIn('id', [1, 2, 3])
+  .whereNull('age')
+  .orderBy('email')
+  .get(); // Promise<Collection<User>>
+
+await User.query().where('missing', 'value'); // ❌ unknown column
+await User.query().where('active', 'yes');     // ❌ wrong value type
+```
+
+For the raw (table) query builder, call `arquebus.withSchema<Database>()` with an interface mapping table names to their row shapes. The returned instance constrains `table()` to known tables and types every column and value:
+
+```ts
+import { arquebus } from '@h3ravel/arquebus';
+
+interface Database {
+  users: UserAttributes;
+  posts: { id: number; title: string; published: boolean };
+}
+
+const db = arquebus.withSchema<Database>();
+
+const users = await db
+  .table('users')
+  .where('active', true)
+  .whereIn('id', [1, 2])
+  .get(); // Promise<UserAttributes[]>
+
+db.table('posts').insert({ title: 'Typed ORM', published: true });
+
+db.table('comments');                     // ❌ unknown table
+db.table('users').where('title', 'nope'); // ❌ unknown column
+```
+
+Typing is entirely opt-in: the untyped `arquebus.fire().table('users')` and `class User extends Model {}` forms below continue to work unchanged.
+
 ## Running Database Queries
 
 ### Running SQL Queries

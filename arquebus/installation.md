@@ -8,6 +8,10 @@ Arquebus ORM comes pre-installed with [H3ravel Framework](/), enabling developer
 
 The primary target environment for Arquebus ORM is Node.js, you will need to install the arquebus library, and then install the appropriate database library: `pg` for PostgreSQL, CockroachDB and Amazon Redshift, `pg-native` for PostgreSQL with native C++ `libpq` bindings (requires PostgresSQL installed to link against), `mysql` for MySQL or MariaDB, `sqlite3` for SQLite3, or `tedious` for MSSQL.
 
+::: warning Requirements
+Arquebus ORM `3.x` requires **Node.js `^20.19.0 || >=22.12.0`** and, when installing with pnpm, **pnpm `>=10`**.
+:::
+
 ## Installing
 
 Arquebus ORM is available via npm (or yarn/pnpm).
