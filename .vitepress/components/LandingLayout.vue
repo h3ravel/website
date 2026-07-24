@@ -62,6 +62,18 @@
         >
           View on GitHub
         </a>
+
+        <a
+          href="https://www.producthunt.com/products/h3ravel-framework?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-h3ravel-framework"
+          target="_blank"
+          class="btn btn-ad"
+          rel="noopener noreferrer"
+          ><img
+            alt="H3ravel Framework - The web framework that masks your fears | Product Hunt"
+            width="250"
+            height="auto"
+            src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1069355&amp;theme=light&amp;t=1784873697773"
+        /></a>
       </div>
     </div>
   </section>
