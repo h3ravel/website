@@ -1,15 +1,40 @@
 # Get Started
 
-## Configuration
+## Initialization
 
-Musket is configured at startup through the `Kernel.init()` method.
-The configuration object controls how the CLI is identified, what it exposes, and how commands are discovered and registered.
-
-Most applications will define this once at boot and let Musket handle the rest.
+Musket requires an application instance that extends its base `Application` class.
 
 ```ts
-import path from 'path';
-import { Kernel } from '@h3ravel/musket';
+import { Application as BaseApplication, Kernel } from '@h3ravel/musket';
+
+class Application extends BaseApplication {}
+
+const app = new Application();
+
+await Kernel.init(app);
+```
+
+`Kernel.init()` is the recommended way to start Musket. It binds the Musket instance to the application, registers available commands, bootstraps the CLI, and handles command-line input.
+
+After initialization, the Musket instance is available through `app.musket`:
+
+```ts
+await Kernel.init(app);
+
+console.log(app.musket);
+```
+
+### Initializing with configuration
+
+Pass a configuration object as the second argument to customize the CLI:
+
+```ts
+import path from 'node:path';
+import { Application as BaseApplication, Kernel } from '@h3ravel/musket';
+
+class Application extends BaseApplication {}
+
+const app = new Application();
 
 await Kernel.init(app, {
   name: 'mycli',
@@ -18,54 +43,101 @@ await Kernel.init(app, {
 });
 ```
 
-### What this does
+This configuration:
 
 - Sets the CLI name used in help output and usage instructions
-- Defines which npm packages are shown when `-V` / `--version` is passed
-- Enables automatic command discovery from the specified paths
+- Defines the packages shown when `-V` or `--version` is passed
+- Automatically discovers and registers commands from the configured paths
 
-### When to use configuration
+For most applications, this is all the initialization Musket needs.
 
-Use the configuration object to:
+## Application Lifecycle
 
-- Brand your CLI (name, version, description)
-- Control version output
-- Register commands automatically
-- Tune Musket’s startup behavior without manual wiring
+The application constructor runs before Musket is attached, so `this.musket` should not be accessed from the constructor.
 
-From here, you can either:
+Use `registerMusketListeners()` when you need access to the Musket instance during application startup:
 
-- Rely on **automatic discovery**, or
-- Register commands **manually** using the [`Kernel`](#fluent-initialization-kernel-api) API
+```ts
+import { Application as BaseApplication, Musket } from '@h3ravel/musket';
+
+export class Application extends BaseApplication {
+  protected registerMusketListeners(musket: Musket<this>): void {
+    console.log('Musket has been attached', musket);
+  }
+}
+```
+
+This method is called after Musket has been attached to the application. Application properties and services are also available inside the method:
+
+```ts
+export class Application extends BaseApplication {
+  logger = console;
+
+  protected registerMusketListeners(musket: Musket<this>): void {
+    musket.listen('handling', ({ command }) => {
+      this.logger.log(`Handling ${command.constructor.name}`);
+    });
+  }
+}
+```
+
+See the [events guide](./events.md) for command lifecycle events and listener registration.
+
+## Configuration
+
+The configuration object controls how the CLI is identified, which commands it registers, and how it behaves at startup.
+
+Use it to:
+
+- Set the CLI name, version, and logo
+- Configure package version output
+- Register commands directly or through automatic discovery
+- Customize command resolution and exception handling
+- Control parsing and development rebuilds
 
 ### Available Configuration Options
 
-| Option               | Type                                                  | Default     | Description                                                                                                                                                           |
-| -------------------- | ----------------------------------------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **logo**             | `string`                                              | `undefined` | ASCII art-style logo to display at startup.                                                                                                                           |
-| **name**             | `string`                                              | `'musket'`  | The name of the CLI application, used in help text and display.                                                                                                       |
-| **version**          | `string`                                              | `undefined` | The version of the CLI app we're running (if provided, this will overwrite the value of resolved version from packages config marked as base).                        |
-| **skipParsing**      | `boolean`                                             | `false`     | If `true`, Musket will not automatically parse command-line input. This is required if you want to manually control or hook into the underlying `commander` instance. |
-| **resolver**         | `<X extends Command>(cmd: X, met: any) => Promise<X>` | `undefined` | A callback that resolves the `handle` method for commands dynamically. Useful for dependency injection or lazy loading of commands.                                   |
-| **tsDownConfig**     | `Options`                                             | `undefined` | Configuration for Musket’s internal TypeScript compilation process, used when invoking programmatic builds.                                                           |
-| **packages**         | `(string\|{ name: string; alias: string })[]`         | `[]`        | Packages to display when the `-V` flag is used.                                                                                                                       |
-| **hideMusketInfo**   | `boolean`                                             | `false`     | If `true`, suppresses automatic Musket name and version info in console output.                                                                                       |
-| **baseCommands**     | `typeof Command[]`                                    | `[]`        | A list of command classes to preload into the CLI without discovery.                                                                                                  |
-| **discoveryPaths**   | `string\|string[]`                                    | `[]`        | One or more glob paths where Musket should search and automatically register command files (e.g. `'src/Console/Commands/*.ts'`).                                      |
-| **allowRebuilds**    | `boolean`                                             | `false`     | If `true`, commands and CLI structures will rebuild automatically when code changes are detected.                                                                     |
-| **rootCommand**      | `typeof Command`                                      | `undefined` | The command to run when the CLI is executed without any arguments                                                                                                     |
-| **exceptionHandler** | `(exception: Error) => void`                          | `undefined` | A callback function that will recieve and proccess any caught exceptions                                                                                              |
+| Option               | Type                                                                                                               | Default     | Description                                                                                                                                     |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------ | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| **logo**             | `string`                                                                                                           | `undefined` | An ASCII-style logo displayed at startup.                                                                                                       |
+| **name**             | `string`                                                                                                           | `'musket'`  | The CLI application name used in help text and other output.                                                                                    |
+| **version**          | `string`                                                                                                           | `undefined` | The CLI version. When provided, it overrides the version resolved from the package configuration marked as the base package.                    |
+| **skipParsing**      | `boolean`                                                                                                          | `false`     | Prevents Musket from automatically parsing command-line input. Use this when you need direct control over the underlying Commander.js instance. |
+| **resolver**         | `<X extends Command>(cmd: X, met: any) => Promise<X>`                                                              | `undefined` | Resolves command methods dynamically. This is useful for dependency injection or custom command resolution.                                     |
+| **tsDownConfig**     | `Options`                                                                                                          | `undefined` | Configuration passed to Musket's internal TypeScript build process during programmatic builds.                                                  |
+| **packages**         | `(string \| { name?: string; alias?: string; label?: string; path?: string; version?: string; base?: boolean })[]` | `[]`        | Packages included in the output produced by the `-V` or `--version` option.                                                                     |
+| **hideMusketInfo**   | `boolean`                                                                                                          | `false`     | Suppresses Musket's automatic name and version output when enabled.                                                                             |
+| **baseCommands**     | `typeof Command[]`                                                                                                 | `[]`        | Command classes registered directly without automatic discovery.                                                                                |
+| **discoveryPaths**   | `string \| string[]`                                                                                               | `[]`        | One or more glob paths Musket searches for command files, such as `'src/Console/Commands/*.ts'`.                                                |
+| **allowRebuilds**    | `boolean`                                                                                                          | `false`     | Watches command sources and rebuilds the internal command registry when changes are detected.                                                   |
+| **rootCommand**      | `typeof Command`                                                                                                   | `undefined` | The command executed when the CLI is run without command arguments.                                                                             |
+| **exceptionHandler** | `(exception: Error) => void`                                                                                       | `undefined` | Receives caught exceptions and allows the application to handle or report them.                                                                 |
 
 ## Command Registration
 
+Musket supports automatic command discovery and manual command registration.
+
+### Automatic Discovery
+
+Add one or more glob paths to `discoveryPaths` to let Musket discover command files automatically:
+
+```ts
+import path from 'node:path';
+import { Kernel } from '@h3ravel/musket';
+
+await Kernel.init(app, {
+  discoveryPaths: [path.join(process.cwd(), 'src/Commands/*.ts')],
+});
+```
+
 ### Base Command List
 
-Besides registering commands via auto discovery, you can also provide a list of commands that will be registered with your `musket` instance via the `baseCommands` option or the `registeredCommands` property of your `app` instance.
+Use `baseCommands` to register command classes directly during initialization:
 
 ```ts
 import { Kernel } from '@h3ravel/musket';
 import { Application } from './Application';
-import { BuildCommand } from './Commands';
+import { BuildCommand } from './Commands/BuildCommand';
 
 const app = new Application();
 
@@ -74,13 +146,13 @@ await Kernel.init(app, {
 });
 ```
 
-Or
+You can also define commands through the application's `registeredCommands` property:
 
 ```ts
-import { Kernel } from '@h3ravel/musket';
-import { BuildCommand } from './Commands';
+import { Application as BaseApplication, Kernel } from '@h3ravel/musket';
+import { GreetCommand } from './Commands/GreetCommand';
 
-class Application {
+class Application extends BaseApplication {
   registeredCommands = [GreetCommand];
 }
 
@@ -89,19 +161,26 @@ const app = new Application();
 await Kernel.init(app);
 ```
 
-### Default Root Command
+Use automatic discovery when commands follow a predictable directory structure. Use `baseCommands` or `registeredCommands` when you need explicit control over the registered command classes.
 
-The `rootCommand` option lets you define a command that runs when the CLI is executed without arguments:
+## Default Root Command
+
+The `rootCommand` option defines the command executed when the CLI is run without command arguments:
 
 ```ts
-import { Kernel, Command } from '@h3ravel/musket';
-import { Application } from './Application';
+import {
+  Application as BaseApplication,
+  Command,
+  Kernel,
+} from '@h3ravel/musket';
 
-class DefaultCommand extends Command {
+class Application extends BaseApplication {}
+
+class DefaultCommand extends Command<Application> {
   protected signature = 'default';
   protected description = 'Runs when no arguments are provided';
 
-  async handle() {
+  async handle(): Promise<void> {
     this.info('Welcome to Musket CLI! No arguments were passed.');
   }
 }
@@ -113,22 +192,21 @@ await Kernel.init(app, {
 });
 ```
 
-Now, running the CLI with no arguments:
+Running the CLI without arguments:
 
 ```sh
 node dist/cli.js
 ```
 
-Output:
+Produces:
 
-```
+```text
 Welcome to Musket CLI! No arguments were passed.
 ```
 
 ## Automatic Rebuilds
 
-During development, restarting the CLI after every change gets old fast.
-Setting `allowRebuilds` to `true` tells Musket to watch your command sources and automatically rebuild its internal command registry when changes are detected.
+During development, set `allowRebuilds` to `true` to watch command sources and rebuild Musket's internal command registry when files change:
 
 ```ts
 import { Kernel } from '@h3ravel/musket';
@@ -142,88 +220,83 @@ await Kernel.init(app, {
 });
 ```
 
-### What happens when this is enabled
+When enabled:
 
 - Command files are watched for changes
 - Modified commands are reloaded automatically
-- The CLI updates without a manual restart
+- The command registry is updated without manually restarting the CLI
 
-### When to use it
+Use this option for local development, command iteration, and debugging.
 
-- Local development
-- Building or iterating on commands
-- Debugging command behavior
+> `allowRebuilds` is a development convenience. Disable it in production and other performance-sensitive environments to avoid unnecessary filesystem watchers.
 
-### When **not** to use it
+## Fluent Initialization
 
-- Production environments
-- One-off CLI executions
-- Performance-sensitive workflows
+For most applications, `Kernel.init()` is the preferred initialization method. Use the fluent Kernel API when you need direct control over discovery, package registration, command registration, or the bootstrap lifecycle.
 
-> `allowRebuilds` is a development convenience, not a runtime feature.
-> Disable it in production to avoid unnecessary filesystem watchers.
-
-## Fluent Initialization (Kernel API)
-
-Musket CLI supports a fluent, programmatic initialization flow for cases where the default config-based bootstrap isn’t flexible enough. This approach gives you full control over the Kernel lifecycle, allowing you to configure discovery, packages, and commands explicitly at runtime.
-
-This mode is ideal for advanced use cases such as embedded CLIs, test environments, monorepos, or dynamic command registration.
-
-### Package configuration behavior
-
-::: warning Package configuration
-When the `Kernel` is initialized programmatically, the `packages` property defined in your config file is **ignored**.
-This is intentional. Once you opt into manual kernel control, Musket assumes you want **explicit ownership** of package registration.
-To register packages in this mode, you **must** use `setPackages()`.
-:::
-
-### Example: Fluent kernel bootstrap
+This approach is useful for embedded CLIs, test environments, monorepos, and applications that register commands dynamically.
 
 ```ts
-import { Kernel } from 'h3ravel/musket';
-import { TestCommand, Application } from './Example';
+import path from 'node:path';
+import { Kernel } from '@h3ravel/musket';
+import { Application } from './Application';
+import { TestCommand } from './TestCommand';
 
 const app = new Application();
 
-const instance = new Kernel(app)
+const kernel = new Kernel(app)
   .setCwd(process.cwd())
   .setConfig({
     name: 'musket-cli',
     discoveryPaths: [path.join(process.cwd(), 'tests/Commands/*.ts')],
   })
   .setPackages([
-    { name: '@h3ravel/shared', alias: 'Shared PKG' },
+    {
+      name: '@h3ravel/shared',
+      alias: 'Shared Package',
+    },
     '@h3ravel/support',
   ])
   .registerCommands([TestCommand])
   .bootstrap();
 
-return await instance.run();
+await kernel.run();
 ```
 
-### API breakdown
+### Package Configuration
 
-- **`setCwd(cwd: string)`**
+::: warning Package configuration
+When using fluent initialization, the `packages` property passed through `setConfig()` is ignored.
+
+Register packages explicitly with `setPackages()` instead.
+:::
+
+```ts
+kernel.setPackages(['@h3ravel/shared', '@h3ravel/support']);
+```
+
+### Kernel API
+
+- **`setCwd(cwd: string)`**  
   Sets the working directory used by the CLI runtime.
 
-- **`setConfig(config: KernelConfig)`**
-  Provides runtime configuration directly, bypassing file-based resolution.
+- **`setConfig(config: KernelConfig)`**  
+  Provides the runtime configuration directly.
 
-- **`setPackages(packages: (string | { name: string, alias: string })[])`**
-  Registers packages explicitly.
-  **Required** when using fluent initialization.
+- **`setPackages(packages: (string | { name: string; alias: string })[])`**  
+  Registers packages explicitly. Use this instead of the `packages` configuration option during fluent initialization.
 
-- **`registerCommands(commands: Command[])`**
-  Registers command classes directly on the kernel.
+- **`registerCommands(commands: typeof Command[])`**  
+  Registers command classes directly on the Kernel.
 
-- **`bootstrap()`**
-  Finalizes kernel setup. Must be called before `run()`.
+- **`bootstrap()`**  
+  Finalizes the Kernel setup. Call this before `run()`.
 
-- **`run()`**
+- **`run()`**  
   Executes the CLI.
 
 ### Notes
 
-- Fluent initialization bypasses config file `package` loading.
+- Prefer `Kernel.init()` for standard application setup.
+- Use `setPackages()` to register packages during fluent initialization.
 - Call `bootstrap()` before `run()`.
-- Prefer config-based initialization for standard setups.

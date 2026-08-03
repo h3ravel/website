@@ -8,7 +8,7 @@ The available events are:
 - `afterHandle`
 - `handleFailed`
 
-### Before Handle
+## Before Handle
 
 The `beforeHandle` event is emitted immediately before the command's `handle()` method or custom resolver is called:
 
@@ -43,7 +43,7 @@ musket.beforeHandle.on(async ({ command }) => {
 });
 ```
 
-### After Handle
+## After Handle
 
 The `afterHandle` event is emitted after a command has completed successfully:
 
@@ -75,7 +75,7 @@ The listener receives:
 
 The `result` property contains the value returned by the command's `handle()` method or custom resolver.
 
-### Handle Failed
+## Handle Failed
 
 The `handleFailed` event is emitted when the command's `handle()` method or custom resolver throws an error:
 
@@ -117,7 +117,7 @@ beforeHandle
 
 Errors thrown by a `beforeHandle` listener are not considered command handling failures and therefore do not emit `handleFailed`.
 
-### Removing Listeners
+## Removing Listeners
 
 The `on()` method returns a function that can be used to remove the listener:
 
@@ -137,7 +137,7 @@ musket.beforeHandle.once(({ command }) => {
 });
 ```
 
-### Event Listener Shortcut
+## Event Listener Shortcut
 
 Musket provides a `listen()` method as a convenient alternative to accessing its lifecycle event properties directly.
 
@@ -190,7 +190,7 @@ const removeListener = musket.listen('handled', ({ command }) => {
 removeListener();
 ```
 
-### Listening from Commands
+## Listening from Commands
 
 The base `Command` class also exposes a `listen()` method. It delegates listener registration to the current Musket instance:
 
