@@ -68,6 +68,7 @@ export default defineConfig({
               { text: 'Basic Usage', link: '/musket/usage' },
               { text: 'Methods', link: '/musket/methods' },
               { text: 'Writting Commands', link: '/musket/commands' },
+              { text: 'Lifecycle Events', link: '/musket/events' },
               { text: 'Availability', link: '/musket/availability' },
             ]
           },
